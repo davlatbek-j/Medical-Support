@@ -1,1 +1,1 @@
-Contact : Telegram:+998-90-161-140-76
+Contact : Telegram:+998-90-161-14-76
