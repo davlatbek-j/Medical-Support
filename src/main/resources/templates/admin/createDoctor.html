@@ -91,14 +91,13 @@
 <!--    <input type="text" id="specialty" name="specialty"><br><br>-->
 
                 <div id="specialty"></div>
-                   <button type="button" onclick="addSection('specialty')">Add Specialty</button>
+                   <button class="btn btn-primary" type="button" onclick="addSection('specialty')">Add Specialty</button>
                     <template id="specialty-template">
                     <div class="row mb-3">
-
                         <label class="col-sm-4  col-form-label" >Speciality</label>
                         <div class="col-sm-8">
-                            <input class="form-control" th:field="${doctorDto.specialty}">
-                            <button type="button" onclick="removeSection(event)">Remove</button>
+                            <input class="form-control" th:field="${doctorDto.specialty}" name="specialty" >
+                            <button class="btn btn-primary" type="button" onclick="removeSection(event)">Remove</button>
                         </div>
                     </div>
                  </template>
@@ -107,41 +106,45 @@
                 <br>
 
                 <div id="language"></div>
-                <button type="button" onclick="addSection('language')">Add Language</button>
-                <template id="language-template">
                     <div class="row mb-3">
                         <label class="col-sm-4  col-form-label" >Language</label>
                         <div class="col-sm-8">
-                            <select class="form-select" th:field="${doctorDto.language}">
+                            <select class="form-select" th:field="${doctorDto.language}" multiple >
                                 <option value='uzb'>Uzb</option>
                                 <option value='rus'>Rus</option>
                                 <option value='eng'>Eng</option>
                             </select>
-                            <button type="button" onclick="removeSection(event)">Remove</button>
+                        </div>
+                    </div>
+                <br>
+                <br>
+
+
+                <div id="achievement"></div>
+                <button class="btn btn-primary" type="button" onclick="addSection('achievement')">Add achievement</button>
+                <template id="achievement-template">
+                    <div class="row mb-3">
+                        <label class="col-sm-4  col-form-label">Achievement</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" th:field="${doctorDto.achievement}">
+                            <button class="btn btn-primary" type="button" onclick="removeSection(event)">Remove</button>
                         </div>
                     </div>
                 </template>
 
-                <br>
-                <br>
 
-
-                <label for="achievement">Achievements (comma-separated):</label>
-    <input type="text" id="achievement" name="achievement"><br><br>
-
-
-    <h3>Experience</h3>
-    <div id="experience"></div>
-    <button type="button" onclick="addSection('experience')">Add Experience</button>
-    <template id="experience-template">
-        <div>
-            <label>Workplace: <input type="text" name="experienceWorkplace[]"></label>
-            <label>Begin Date: <input type="date" name="experienceBeginDate[]"></label>
-            <label>End Date: <input type="date" name="experienceEndDate[]"></label>
-            <label>Position: <input type="text" name="experiencePosition[]"></label>
-            <button type="button" onclick="removeSection(event)">Remove</button>
-        </div>
-    </template>
+            <h3>Experience</h3>
+            <div id="experience"></div>
+            <button  class="btn btn-primary" type="button" onclick="addSection('experience')">Add Experience</button>
+            <template id="experience-template">
+                <div class="row mb-3">
+                    <label>Workplace: <input type="text"  th:field="${doctorDto.experience}" name="experienceWorkplace[]"></label>
+                    <label>Begin Date: <input type="date" name="experienceBeginDate[]"></label>
+                    <label>End Date: <input type="date" name="experienceEndDate[]"></label>
+                    <label>Position: <input type="text" name="experiencePosition[]"></label>
+                    <button type="button" onclick="removeSection(event)">Remove</button>
+                </div>
+            </template>
 
     <br>
     <br>
@@ -197,14 +200,20 @@
         <div>
             <label>Contact Type: <input type="text" name="contactType[]"></label>
             <label>Value: <input type="text" name="contactValue[]"></label>
-            <button type="button" onclick="removeSection(event)">Remove</button>
+            <button  type="button" onclick="removeSection(event)">Remove</button>
         </div>
     </template>
 
     <br>
     <br>
-
-    <button type="submit">Submit Profile</button>
+        <div class="row">
+            <div class="offset-sm-4 col-sm-4  d-grid" >
+                <button type="submit">Submit Profile</button>
+            </div>
+            <div class="col-sm-4 d-grid">
+                <a class="btn btn-outline-primary" href="/admin/" role="button">Cancel</a>
+            </div>
+        </div>
 
 </form>
                 </div>

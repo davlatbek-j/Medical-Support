@@ -6,7 +6,6 @@ import med.support.service.DoctorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -32,6 +31,8 @@ public class AdminController {
 
     @PostMapping("/create")
     public String saveDoctor(@ModelAttribute("doctorDto") DoctorDTO doctorDto){
+
+        System.err.println("doctorDto " + doctorDto);
 
         return "admin/dashboard";
     }
