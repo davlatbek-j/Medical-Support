@@ -1,10 +1,12 @@
 package med.support.controller;
 
 import lombok.RequiredArgsConstructor;
-import med.support.model.ApiResponse;
+import med.support.entity.Doctor;
+import med.support.mapper.DoctorMapper;
 import med.support.model.DoctorDTO;
+import med.support.model.LoginDTO;
+import med.support.repository.DoctorRepository;
 import med.support.service.DoctorService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,8 @@ import java.util.List;
 public class AdminController {
 
     private final DoctorService doctorService;
+    private final DoctorRepository doctorRepository;
+    private final DoctorMapper doctorMapper;
 
     @GetMapping({"","/"})
     public String showDoctorList(Model model){
@@ -26,19 +30,19 @@ public class AdminController {
     }
 
     @GetMapping("/create")
-    public String showCreateDoctorForm(Model model){
-        model.addAttribute("doctorDto", new DoctorDTO());
-        return "admin/createDoctor";
+    public String showCreateLogin(Model model){
+        model.addAttribute("loginDto", new LoginDTO());
+        return "createLogin";
     }
 
     @PostMapping("/create")
-    public String saveDoctor(@ModelAttribute("doctorDto") DoctorDTO doctorDto){
-
-        System.err.println("doctorDto " + doctorDto);
-
+    public String saveLogin(@ModelAttribute("loginDto") LoginDTO loginDTO){
+        doctorService.createLogin(loginDTO);
         return "admin/dashboard";
     }
 
+
+//TODO DELETE
 
 
     @GetMapping("/delete/{login}")
@@ -47,12 +51,26 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
+//TODO EDIT
 
     @GetMapping("/edit/{login}")
-    public String editDoctor(@PathVariable(name = "login") String login , Model model) {
-        DoctorDTO doctor = (DoctorDTO) doctorService.findByLogin(login).getBody().getData();
+    public String editDoctorPage(@PathVariable(name = "login") String login , Model model) {
+
+        Doctor doctor = doctorRepository.findByLogin(login);
         model.addAttribute("doctor", doctor);
+        DoctorDTO doctorDto = doctorMapper.toDTO(doctor);
+        model.addAttribute("doctorDto", doctorDto);
         return "admin/editDoctor";
+
+    }
+
+    @PostMapping("/edit/{login}")
+    public String editDoctor(@PathVariable(name = "login") String login , Model model ,
+                             @ModelAttribute DoctorDTO doctorDto) {
+
+        System.err.println(doctorDto);
+
+        return "redirect:/admin/";
     }
 
 }

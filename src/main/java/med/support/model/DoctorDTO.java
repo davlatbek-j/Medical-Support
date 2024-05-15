@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Set;
 
@@ -32,4 +33,5 @@ public class DoctorDTO {
     Set<ReceptionAddressDTO> receptionAddress;
     Set<ServiceDTO> service;
     Set<ContactDTO> contact;
+    MultipartFile photoFile;
 }

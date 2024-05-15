@@ -10,7 +10,7 @@
 <div class="container" >
   <h1 class="text-center my-4"> Doctor list </h1>
 
-  <a class="btn btn-primary" href="/admin/create"> Create doctor </a>
+  <a class="btn btn-primary" href="/admin/create"> Create Login </a>
 
   <table class="table" >
     <thead>
@@ -58,7 +58,7 @@
 <!--      <td th:text="${#strings.listJoin(doctor.contact.toArray(), ', ')}"></td>-->
       <td style="white-space: nowrap">
         <a class="btn btn-primary btn-sm"
-                th:href="@{/admin/doctor/edit/}" >Edit</a>
+                th:href="@{/admin/edit/{login}(login=${doctor.login})}" >Edit</a>
       </td>
 
       <td style="white-space: nowrap">
