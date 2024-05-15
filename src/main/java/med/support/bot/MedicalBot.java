@@ -2,6 +2,7 @@ package med.support.bot;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import med.support.constants.RestConstants;
 import med.support.entity.Doctor;
 import med.support.enums.UserState;
 import med.support.model.ApiResponse;
@@ -29,6 +30,8 @@ public class MedicalBot extends TelegramLongPollingBot {
     private final ValidationService validationService;
 
     private final BotService botService;
+    private final WebhookService webhookService;
+
 
     private UserState userState = null;
 
@@ -45,18 +48,23 @@ public class MedicalBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "6571991445:AAF2d7a4-xislEw44BCclTiQXrxgks2tSbA";
+        return RestConstants.BOT_TOKEN;
     }
 
     @Override
     public String getBotUsername() {
-        return "t.me/medi_register_bot";
+        return RestConstants.BOT_USERNAME;
     }
 
     @SneakyThrows
 
     @Override
     public void onUpdateReceived(Update update) {
+
+        //-------------------------------------------
+
+        webhookService.getUpdate(update);
+       /* //-------------------------------------------
         if (update.hasMessage()) {
             Message message = update.getMessage();
             String text = message.getText();
@@ -207,6 +215,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                 execute(botService.sendStart(chatId.toString()));
             }
 
+
             switch (userState) {
                 case START -> {
                     if (!text.equals("/start")) {
@@ -222,7 +231,12 @@ public class MedicalBot extends TelegramLongPollingBot {
                         return;
                     }
                     execute(botService.enterLogin(chatId.toString()));
-                }
+                }*/
+
+//-----------------------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------------------
+
 //                case LOGIN -> {
 //                    String userPassword = text;
 //                    String login = doctorService.findByChatId(chatId).get().getLogin();
@@ -333,7 +347,8 @@ public class MedicalBot extends TelegramLongPollingBot {
 //                    }
 //                    execute(botService.sendPhoto(chatId.toString()));
 //                }
-            }
-        }
+
+
+
     }
 }
