@@ -93,7 +93,7 @@ public class DoctorMapper {
         dto.setPhone(entity.getPhone());
         dto.setLogin(entity.getLogin());
         //TODO PASSWORD
-//        dto.setPassword(entity.getPassword());
+        dto.setPassword(entity.getPassword());
         dto.setOutline(entity.getOutline());
         dto.setMotto(entity.getMotto());
 

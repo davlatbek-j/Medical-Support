@@ -22,8 +22,6 @@ public class DoctorController {
     @PostMapping("/create")
     public ResponseEntity<ApiResponse> addDoctor(@RequestParam(name = "json") String stringDTO,
                                                  @RequestParam(name = "photo") MultipartFile photo) {
-        System.out.println("stringDTO = " + stringDTO);
-
         return doctorService.save(stringDTO,photo);
     }
 

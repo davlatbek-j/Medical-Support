@@ -27,7 +27,7 @@
                 <div class="col-md-8 mx auto rounded border p-4 m-4">
                     <h2 class="text-center mb-5">New doctor</h2>
 
-            <form action="/admin/create" method="POST">
+            <form method="POST" enctype="multipart/form-data" th:object="${doctorDto}"  action="/admin/create" >
 
                 <div class="row mb-3">
                     <label class="col-sm-4  col-form-label" >First Name</label>

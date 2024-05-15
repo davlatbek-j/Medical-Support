@@ -19,20 +19,21 @@
       <th>photo</th>
       <th>firstname</th>
       <th>lastname</th>
-      <th>surname</th>
+<!--      <th>surname</th>-->
       <th>phone</th>
       <th>login</th>
       <th>password</th>
-      <th>outline</th>
-      <th>motto</th>
+<!--      <th>outline</th>-->
+<!--      <th>motto</th>-->
       <th>specialty</th>
-      <th>language</th>
-      <th>achievement</th>
-      <th>experience</th>
-      <th>education</th>
-      <th>receptionAddress</th>
-      <th>service</th>
-      <th>contact</th>
+      <th>action</th>
+<!--      <th>language</th>-->
+<!--      <th>achievement</th>-->
+<!--      <th>experience</th>-->
+<!--      <th>education</th>-->
+<!--      <th>receptionAddress</th>-->
+<!--      <th>service</th>-->
+<!--      <th>contact</th>-->
     </tr>
     </thead>
     <tbody>
@@ -41,20 +42,30 @@
       <td><img th:src="@{${doctor.photoUrl}}" alt="Doctor Photo" style="width:100px; height:auto;"/></td>
       <td th:text="${doctor.firstname}"></td>
       <td th:text="${doctor.lastname}"></td>
-      <td th:text="${doctor.surname}"></td>
+<!--      <td th:text="${doctor.surname}"></td>-->
       <td th:text="${doctor.phone}"></td>
       <td th:text="${doctor.login}"></td>
       <td th:text="${doctor.password}"></td>
-      <td th:text="${doctor.outline}"></td>
-      <td th:text="${doctor.motto}"></td>
+<!--      <td th:text="${doctor.outline}"></td>-->
+<!--      <td th:text="${doctor.motto}"></td>-->
       <td th:text="${#strings.listJoin(doctor.specialty, ', ')}"></td>
-      <td th:text="${#strings.listJoin(doctor.language, ', ')}"></td>
-      <td th:text="${#strings.listJoin(doctor.achievement, ', ')}"></td>
-      <td th:text="${#strings.listJoin(doctor.experience.toArray(), ', ')}"></td>
-      <td th:text="${#strings.listJoin(doctor.education.toArray(), ', ')}"></td>
-      <td th:text="${#strings.listJoin(doctor.receptionAddress.toArray(), ', ')}"></td>
-      <td th:text="${#strings.listJoin(doctor.service.toArray(), ', ')}"></td>
-      <td th:text="${#strings.listJoin(doctor.contact.toArray(), ', ')}"></td>
+<!--      <td th:text="${#strings.listJoin(doctor.language, ', ')}"></td>-->
+<!--      <td th:text="${#strings.listJoin(doctor.achievement, ', ')}"></td>-->
+<!--      <td th:text="${#strings.listJoin(doctor.experience.toArray(), ', ')}"></td>-->
+<!--      <td th:text="${#strings.listJoin(doctor.education.toArray(), ', ')}"></td>-->
+<!--      <td th:text="${#strings.listJoin(doctor.receptionAddress.toArray(), ', ')}"></td>-->
+<!--      <td th:text="${#strings.listJoin(doctor.service.toArray(), ', ')}"></td>-->
+<!--      <td th:text="${#strings.listJoin(doctor.contact.toArray(), ', ')}"></td>-->
+      <td style="white-space: nowrap">
+        <a class="btn btn-primary btn-sm"
+                th:href="@{/admin/doctor/edit/}" >Edit</a>
+      </td>
+
+      <td style="white-space: nowrap">
+        <a class="btn btn-danger btn-sm"
+                th:href="@{/admin/delete/{login}(login=${doctor.login})}"
+                 onclick="return confirm('Are you sure?')">Delete</a>
+      </td>
 
     </tr>
     </tbody>
