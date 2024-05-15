@@ -32,13 +32,13 @@ public class AdminController {
     @GetMapping("/create")
     public String showCreateLogin(Model model){
         model.addAttribute("loginDto", new LoginDTO());
-        return "createLogin";
+        return "admin/createLogin";
     }
 
     @PostMapping("/create")
     public String saveLogin(@ModelAttribute("loginDto") LoginDTO loginDTO){
         doctorService.createLogin(loginDTO);
-        return "admin/dashboard";
+        return "redirect:/admin";
     }
 
 
@@ -48,7 +48,7 @@ public class AdminController {
     @GetMapping("/delete/{login}")
     public String deleteDoctorGetMethod(@PathVariable(name = "login") String login) {
         doctorService.deleteByLogin(login);
-        return "redirect:/admin/";
+        return "redirect:/admin";
     }
 
 //TODO EDIT

@@ -108,13 +108,14 @@
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <label class="col-sm-4  col-form-label">Experience</label>
-                    <div class="col-sm-8">
-                        <input class="form-control" th:field="${doctorDto.experience}">
+                    <div th:each="experience, iterStat : *{experience}">
+                        <input type="text" th:field="*{experience[__${iterStat.index}__].workplace}" placeholder="Workplace"/>
+                        <input type="text" th:field="*{experience[__${iterStat.index}__].beginDate}" placeholder="Begin Date"/>
+                        <input type="text" th:field="*{experience[__${iterStat.index}__].endDate}" placeholder="End Date"/>
+                        <input type="text" th:field="*{experience[__${iterStat.index}__].position}" placeholder="Position"/>
                     </div>
-                </div>
 
+<!--
                 <div class="row mb-3">
                     <label class="col-sm-4  col-form-label">Service</label>
                     <div class="col-sm-8">
@@ -128,6 +129,7 @@
                         <input class="form-control"  th:field="${doctorDto.contact}">
                     </div>
                 </div>
+-->
 
 
                 <div class="row">
