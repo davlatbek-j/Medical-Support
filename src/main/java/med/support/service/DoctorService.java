@@ -5,6 +5,7 @@ import med.support.entity.Doctor;
 import med.support.entity.Language;
 import med.support.entity.Photo;
 import med.support.entity.Speciality;
+import med.support.enums.UserState;
 import med.support.mapper.DoctorMapper;
 import med.support.model.ApiResponse;
 import med.support.model.DoctorDTO;
@@ -20,9 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +42,7 @@ public class DoctorService {
 //            doctor.setPhoto(save);
             Doctor saved = doctorRepository.save(doctor);
             return ResponseEntity.ok().body(new ApiResponse(201, "Doctor Saved", doctorMapper.toDTO(saved)));
-        }catch(Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -75,13 +74,13 @@ public class DoctorService {
     //logini berilgan doctorni photosini qaytarish
     public ResponseEntity<byte[]> getPhoto(String login) {
         try {
-            Photo photo=doctorRepository.findByLogin(login).getPhoto();
+            Photo photo = doctorRepository.findByLogin(login).getPhoto();
 
             Path imagePath = Paths.get(photo.getSystemPath());
             byte[] imageBytes = Files.readAllBytes(imagePath);
 
             if (photo.getType().equals("image/png"))
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(imageBytes);
+                return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(imageBytes);
             else if (photo.getType().equals("image/jpeg"))
                 return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
 
@@ -99,15 +98,15 @@ public class DoctorService {
     public ResponseEntity<ApiResponse> findByLogin(String login) {
         Doctor byLogin = doctorRepository.findByLogin(login);
         if (byLogin != null) {
-            return  ResponseEntity.ok().body(new ApiResponse(200, "Doctor Found", doctorMapper.toDTO(byLogin)));
+            return ResponseEntity.ok().body(new ApiResponse(200, "Doctor Found", doctorMapper.toDTO(byLogin)));
         }
-        return  ResponseEntity.notFound().build();
+        return ResponseEntity.notFound().build();
     }
 
     public ResponseEntity<ApiResponse> update(String login, DoctorDTO doctorDTO) {
         Doctor byLogin = doctorRepository.findByLogin(login);
-        if (byLogin==null)
-            return  ResponseEntity.notFound().build();
+        if (byLogin == null)
+            return ResponseEntity.notFound().build();
 
         Doctor entity = doctorMapper.toEntity(doctorDTO);
         entity.setId(byLogin.getId());
@@ -124,14 +123,55 @@ public class DoctorService {
             doctorRepository.deleteByLogin(login);
             return ResponseEntity.ok().body(new ApiResponse(200, "Doctor Deleted", null));
         }
-        return  ResponseEntity.notFound().build();
+        return ResponseEntity.notFound().build();
     }
 
     public ResponseEntity<ApiResponse> createLogin(LoginDTO loginDTO) {
-        Doctor doctor=new Doctor();
+        Doctor doctor = new Doctor();
         doctor.setLogin(loginDTO.getLogin());
         doctor.setPassword(loginDTO.getPassword());
         doctorRepository.save(doctor);
         return ResponseEntity.ok().body(new ApiResponse(200, "Login Created", "id:" + doctor.getId()));
+    }
+
+    public Optional<Doctor> findByChatId(Long chatId) {
+        return doctorRepository.findByChatId(chatId);
+    }
+
+    public ResponseEntity<ApiResponse> signIn(LoginDTO loginDTO) {
+        Doctor doctor = doctorRepository.findByLogin(loginDTO.getLogin());
+        if (doctor != null) {
+            if (Objects.equals(doctor.getPassword(), loginDTO.getPassword())) {
+                return ResponseEntity.ok().body(new ApiResponse(200, "Success", doctor.getId()));
+            }
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    public ResponseEntity<ApiResponse> updateState(Long chatId, UserState userState) {
+        Optional<Doctor> optionalDoctor = doctorRepository.findByChatId(chatId);
+        if (optionalDoctor.isPresent()) {
+            Doctor doctor = optionalDoctor.get();
+            doctor.setState(userState);
+            doctorRepository.save(doctor);
+            return ResponseEntity.ok().body(new ApiResponse(200, "Success", "state: " + doctor.getState()));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    public void saveChatId(String login, Long chatId) {
+        doctorRepository.saveChatId(login, chatId);
+    }
+
+    public Set<String> parseSpecialities(String input) {
+        String[] parts = input.split(",");
+        Set<String> specialities = new HashSet<>();
+        Arrays.stream(parts).forEach(part -> {
+            String trim = part.trim();
+            if (!trim.isEmpty()) {
+                specialities.add(trim);
+            }
+        });
+        return specialities;
     }
 }

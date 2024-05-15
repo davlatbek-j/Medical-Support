@@ -1,20 +1,19 @@
 package med.support.model;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+import med.support.enums.UserState;
 
 import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DoctorDTO {
     Long id;
+    Long chatId;
     String firstname;
     String lastname;
     String surname;
@@ -23,6 +22,7 @@ public class DoctorDTO {
     String password;
     String outline;
     String motto;
+    UserState userState;
     String photoUrl;
     Set<String> specialty;
     Set<String> language;
