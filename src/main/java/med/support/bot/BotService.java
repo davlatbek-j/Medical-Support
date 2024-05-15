@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.Serializable;
 
@@ -73,4 +74,29 @@ public class BotService {
     public SendMessage enterLanguage(String chatId) {
         return new SendMessage(chatId,"Tilni kirit ovsar");
     }
+
+
+    //--------------------------------------------------------------------------------------------------
+
+
+    //STRING CHATID NI OLIB OLISH UCHUN
+    public static String getChatId(Update update) {
+        if (update.hasMessage()) {
+            return update.getMessage().getChatId().toString();
+        } else if (update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getFrom().getId().toString();
+        }
+        return "";
+    }
+
+    // LONG CHATID NI OLISH UCHUN
+    public static Long longChatId(Update update) {
+        if (update.hasMessage()) {
+            return update.getMessage().getChatId();
+        } else if (update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getMessage().getChatId();
+        }
+        return null;
+    }
+    //--------------------------------------------------------------------------------------------------
 }

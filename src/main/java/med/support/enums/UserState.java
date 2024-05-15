@@ -3,6 +3,7 @@ package med.support.enums;
 public enum UserState {
 
     START,
+    SWITCH_LANGUAGE,
 
     LOGIN,
 
