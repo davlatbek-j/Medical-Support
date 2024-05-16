@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>About</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+</head>
+<body>
+
+<h1>About Doctor</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx auto rounded border p-4 m-4">
+            <h2 class="text-center mb-5">About</h2>
+
+            <form th:object="${doctorDto}" >
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label" >Id</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control-plaintext" th:value="${doctorDto.id}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label" >First Name</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control" th:value="${doctorDto.firstname}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label" >Last name</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control" th:value="${doctorDto.lastname}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label" >Surname</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control" th:value="${doctorDto.surname}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label" >Phone</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control" th:value="${doctorDto.phone}">
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label" >Login</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control" th:value="${doctorDto.login}">
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label" >Password</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control" th:value="${doctorDto.password}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="offset-sm-4 col-sm-8" >
+                        <input readonly class="form-control" placeholder="photo">
+                        <img  th:src="@{${doctorDto.photoUrl}}" alt="..." width="150">
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label">Outline</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control" th:value="${doctorDto.outline}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label">Motto</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control" th:value="${doctorDto.motto}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label">Language</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control" th:value="${doctorDto.language}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label">Speciality</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control"  th:value="${doctorDto.specialty}">
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label">Achievement</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control"  th:value="${doctorDto.achievement}">
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label">Experience</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control"  th:value="${doctorDto.experience}">
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label">Education</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control"  th:value="${doctorDto.education}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label">Service</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:value="${doctorDto.service}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label">Contact</label>
+                    <div class="col-sm-8">
+                        <input class="form-control"  th:value="${doctorDto.contact}">
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-4 d-grid">
+                        <a class="btn btn-outline-primary" href="/admin/" role="button">Ok</a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

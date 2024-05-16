@@ -67,6 +67,11 @@
                  onclick="return confirm('Are you sure?')">Delete</a>
       </td>
 
+      <td style="white-space: nowrap">
+        <a class="btn btn-primary btn-sm"
+           th:href="@{/admin/about/{login}(login=${doctor.login})}" >...</a>
+      </td>
+
     </tr>
     </tbody>
   </table>

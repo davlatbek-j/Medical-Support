@@ -73,4 +73,11 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
+    @GetMapping("/about/{login}")
+    public String aboutDoctor(@PathVariable(name = "login") String login ,Model model){
+        Doctor byLogin = doctorRepository.findByLogin(login);
+        model.addAttribute("doctorDto", doctorMapper.toDTO(byLogin));
+        return "admin/about";
+    }
+
 }
