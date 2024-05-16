@@ -17,6 +17,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -25,17 +26,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MedicalBot extends TelegramLongPollingBot {
 
-    private final DoctorService doctorService;
+   // private final DoctorService doctorService;
 
     private final ValidationService validationService;
 
-    private final BotService botService;
+    //private final BotService botService;
     private final WebhookService webhookService;
 
 
-    private UserState userState = null;
+   // private UserState userState = null;
 
-    private HashMap<Long, DoctorDTO> doctorsList = new HashMap<>();
+   // private HashMap<Long, DoctorDTO> doctorsList = new HashMap<>();
+   // private HashMap<Long, User> doctorsList = new HashMap<>();
 
 //    private String login = "";
 //    private String userPassword = "";
@@ -88,7 +90,8 @@ public class MedicalBot extends TelegramLongPollingBot {
                             doctorService.updateState(chatId, UserState.FIRSTNAME);
                             DoctorDTO doctorDTO = doctorsList.get(chatId);
                             if (doctorDTO == null) {
-                                doctorsList.put(chatId, DoctorDTO.builder().chatId(chatId).login(login).password(userPassword).build());
+                                doctorsList.put(chatId, DoctorDTO.builder()
+                                .chatId(chatId).login(login).password(userPassword).build());
                             } else {
                                 doctorDTO.setLogin(login);
                                 doctorDTO.setPassword(userPassword);
@@ -238,7 +241,7 @@ public class MedicalBot extends TelegramLongPollingBot {
 //-----------------------------------------------------------------------------------------------
 
 //                case LOGIN -> {
-//                    String userPassword = text;
+//                String userPassword = text;
 //                    String login = doctorService.findByChatId(chatId).get().getLogin();
 //                    ResponseEntity<ApiResponse> result =
 //                            doctorService.signIn(LoginDTO.builder().login(login).password(userPassword).build());

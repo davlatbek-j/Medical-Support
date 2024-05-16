@@ -12,7 +12,12 @@ import java.util.Optional;
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     Optional<Doctor> findById(Long id);
 
-    Optional<Doctor> findByChatId(Long chatId);
+
+   // Optional<Doctor> findByChatId(String chatId);
+    Doctor findByChatId(String chatId);
+
+
+
 
     void deleteById(Long id);
 
@@ -28,6 +33,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     @Transactional
     @Modifying
     @Query("update doctor d set d.chatId=:chatId where d.login=:login")
-    void saveChatId(@Param("login") String login, @Param("chatId") Long chatId);
+    void saveChatId(@Param("login") String login, @Param("chatId") String chatId);
+
+    boolean existsByChatId(String chatId);
 
 }
