@@ -1,15 +1,18 @@
 package med.support.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import med.support.enums.UserState;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.util.Set;
 
 @Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
@@ -19,7 +22,7 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Long chatId;
+    String chatId;
 
     @Column(length = 50)
     String firstname;
@@ -33,10 +36,10 @@ public class Doctor {
     @Column(length = 20)
     String phone;
 
-    @Column(nullable = false)
+  //  @Column(nullable = false)
     String login;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     String password;
 
     @Column(length = 300)
@@ -74,4 +77,6 @@ public class Doctor {
 
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     Set<Contact> contact;
+
+
 }
