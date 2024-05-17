@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import med.support.entity.Doctor;
 import med.support.enums.UserState;
-import med.support.model.ApiResponse;
-import med.support.model.DoctorDTO;
-import med.support.model.ExperienceDTO;
-import med.support.model.LoginDTO;
+import med.support.model.*;
 import med.support.service.DoctorService;
 import med.support.service.ValidationService;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +30,13 @@ public class MedicalBot extends TelegramLongPollingBot {
 
     private HashMap<Long, DoctorDTO> doctorsList = new HashMap<>();
 
+//    private void start() {
+//        DoctorDTO put = doctorsList.put(5269233777L, new DoctorDTO());
+//    }
+
     private HashMap<Long, ExperienceDTO> experienceList = new HashMap<>();
+
+    private HashMap<Long, EducationDTO> educationList = new HashMap<>();
 
     private Set<String> languages = new HashSet<>();
     public static HashMap<Long, Set<String>> userSelections = new HashMap<>();
@@ -59,7 +62,7 @@ public class MedicalBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-
+//        start();
         if (update.hasMessage()) {
             Message message = update.getMessage();
             String text = message.getText();
@@ -200,7 +203,8 @@ public class MedicalBot extends TelegramLongPollingBot {
                         doctorsList.put(chatId, doctorDTO);
                     }
                     case EXPERIENCE -> {
-                        execute(botService.enterExperience(chatId.toString()));
+//                        execute(botService.enterExperience(chatId.toString()));
+//
                         userState = UserState.EXPERIENCE;
                     }
                     case EXPERIENCE_WORKPLACE -> {
@@ -218,16 +222,24 @@ public class MedicalBot extends TelegramLongPollingBot {
                     case EXPERIENCE_BEGIN_DATE -> {
                         String beginDate = text;
                         ExperienceDTO experienceDTO = experienceList.get(chatId);
-                        experienceDTO.setBeginDate(beginDate);
-                        experienceList.put(chatId, experienceDTO);
+                        if (experienceDTO == null) {
+                            experienceList.put(chatId, ExperienceDTO.builder().beginDate(beginDate).build());
+                        } else {
+                            experienceDTO.setBeginDate(beginDate);
+                            experienceList.put(chatId, experienceDTO);
+                        }
                         userState = UserState.EXPERIENCE_END_DATE;
                         execute(botService.enterExperience(chatId.toString()));
                     }
                     case EXPERIENCE_END_DATE -> {
                         String endDate = text;
                         ExperienceDTO experienceDTO = experienceList.get(chatId);
-                        experienceDTO.setEndDate(endDate);
-                        experienceList.put(chatId, experienceDTO);
+                        if (experienceDTO == null) {
+                            experienceList.put(chatId, ExperienceDTO.builder().endDate(endDate).build());
+                        } else {
+                            experienceDTO.setEndDate(endDate);
+                            experienceList.put(chatId, experienceDTO);
+                        }
                         userState = UserState.EXPERIENCE_POSITION;
                         execute(botService.enterExperience(chatId.toString()));
                         System.out.println(experienceDTO);
@@ -235,11 +247,94 @@ public class MedicalBot extends TelegramLongPollingBot {
                     case EXPERIENCE_POSITION -> {
                         String position = text;
                         ExperienceDTO experienceDTO = experienceList.get(chatId);
-                        experienceDTO.setWorkplace(position);
-                        experienceList.put(chatId, experienceDTO);
-                        userState = UserState.ACHIEVEMENT;
-                        doctorService.updateState(chatId, UserState.ACHIEVEMENT);
-                        execute(botService.enterExperience(chatId.toString()));
+                        if (experienceDTO == null) {
+                            experienceList.put(chatId, ExperienceDTO.builder().position(position).build());
+                        } else {
+                            experienceDTO.setPosition(position);
+                            experienceList.put(chatId, experienceDTO);
+                        }
+                        userState = UserState.EXPERIENCE_FINISHED;
+                        doctorService.updateState(chatId, UserState.EXPERIENCE_FINISHED);
+                        DoctorDTO doctorDTO = doctorsList.get(chatId);
+                        if (doctorDTO.getExperience() == null) {
+                            doctorDTO.setExperience(new HashSet<>());
+                        }
+                        doctorDTO.getExperience().add(experienceDTO);
+                        doctorsList.put(chatId,doctorDTO);
+                        execute(botService.isSaveExperience(chatId.toString()));
+                    }
+                    case ACHIEVEMENT -> {
+                        String achievement = text;
+                        execute(botService.enterEducation(chatId.toString()));
+                        doctorService.updateState(chatId, UserState.EDUCATION);
+                        userState = UserState.EDUCATION;
+                        DoctorDTO doctorDTO = doctorsList.get(chatId);
+                        doctorDTO.setAchievement(doctorService.parseSpecialities(achievement));
+                        doctorsList.put(chatId, doctorDTO);
+                    }
+                    case EDUCATION -> {
+                        userState = UserState.EDUCATION;
+                    }
+
+                    case EDUCATION_NAME -> {
+                        String name = text;
+                        EducationDTO educationDTO = educationList.get(chatId);
+                        if (educationDTO == null) {
+                            educationList.put(chatId, EducationDTO.builder().name(name).build());
+                        } else {
+                            educationDTO.setName(name);
+                            educationList.put(chatId, educationDTO);
+                        }
+                        userState = UserState.EDUCATION_START_YEAR;
+                        execute(botService.enterEducation(chatId.toString()));
+                    }
+                    case EDUCATION_START_YEAR -> {
+                        String startYear = text;
+                        EducationDTO educationDTO = educationList.get(chatId);
+                        if (educationDTO == null) {
+                            educationList.put(chatId, EducationDTO.builder().startYear(Integer.valueOf(startYear)).build());
+                        } else {
+                            educationDTO.setStartYear(Integer.valueOf(startYear));
+                            educationList.put(chatId, educationDTO);
+                        }
+                        userState = UserState.EDUCATION_END_YEAR;
+                        execute(botService.enterEducation(chatId.toString()));
+                    }
+                    case EDUCATION_END_YEAR -> {
+                        String endYear = text;
+                        EducationDTO educationDTO = educationList.get(chatId);
+                        if (educationDTO == null) {
+                            educationList.put(chatId, EducationDTO.builder().endYear(Integer.valueOf(endYear)).build());
+                        } else {
+                            educationDTO.setEndYear(Integer.valueOf(endYear));
+                            educationList.put(chatId, educationDTO);
+                        }
+                        userState = UserState.EDUCATION_FACULTY;
+                        execute(botService.enterEducation(chatId.toString()));
+                    }
+                    case EDUCATION_FACULTY -> {
+                        String faculty=text;
+                        EducationDTO educationDTO = educationList.get(chatId);
+                        if (educationDTO == null) {
+                            educationList.put(chatId, EducationDTO.builder().faculty(faculty).build());
+                        } else {
+                            educationDTO.setFaculty(faculty);
+                            educationList.put(chatId, educationDTO);
+                        }
+                        userState = UserState.EDUCATION_FINISHED;
+                        doctorService.updateState(chatId,UserState.EDUCATION_FINISHED);
+                        DoctorDTO doctorDTO = doctorsList.get(chatId);
+                        if (doctorDTO.getEducation()==null){
+                            doctorDTO.setEducation(new HashSet<>());
+                        }
+                        doctorDTO.getEducation().add(educationDTO);
+                        doctorsList.put(chatId,doctorDTO);
+                        execute(botService.isSaveEducation(chatId.toString()));
+                    }
+                    case RECEPTION_ADDRESS -> {
+
+                        DoctorDTO doctorDTO = doctorsList.get(chatId);
+                        System.out.println(doctorDTO);
                     }
                 }
             }
@@ -266,8 +361,16 @@ public class MedicalBot extends TelegramLongPollingBot {
                     }
                     execute(botService.enterLogin(chatId.toString()));
                 }
+                case EXPERIENCE_POSITION -> {
+                    doctorService.updateState(chatId, UserState.EXPERIENCE_POSITION);
+                }
+                case EDUCATION_FACULTY -> {
+                    doctorService.updateState(chatId, UserState.EDUCATION_FACULTY);
+                }
             }
-        } else if (update.hasCallbackQuery()) {
+        }
+
+        else if (update.hasCallbackQuery()) {
             Long chatId = update.getCallbackQuery().getMessage().getChatId();
             String data = update.getCallbackQuery().getData();
             System.out.println(data);
@@ -303,7 +406,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                     }
                 }
 
-                case EXPERIENCE,EXPERIENCE_WORKPLACE,EXPERIENCE_BEGIN_DATE,EXPERIENCE_END_DATE,EXPERIENCE_POSITION -> {
+                case EXPERIENCE, EXPERIENCE_WORKPLACE, EXPERIENCE_BEGIN_DATE, EXPERIENCE_END_DATE, EXPERIENCE_POSITION -> {
                     userSelections.putIfAbsent(chatId, new HashSet<>());
                     userSelections.get(chatId).add(data);
 
@@ -327,17 +430,83 @@ public class MedicalBot extends TelegramLongPollingBot {
                         case "position" -> {
                             execute(botService.enterPosition(chatId.toString()));
                             doctorService.updateState(chatId, UserState.EXPERIENCE_POSITION);
+                            System.out.println("keldi");
                         }
 
                     }
 
                 }
 
+                case EXPERIENCE_FINISHED -> {
+                    switch (data) {
+
+                        case "save" -> {
+                            execute(botService.enterAchievement(chatId.toString()));
+                            doctorService.updateState(chatId, UserState.ACHIEVEMENT);
+                            userState = UserState.ACHIEVEMENT;
+                        }
+
+                        case "add" -> {
+                            userSelections.clear();
+                            execute(botService.enterExperience(chatId.toString()));
+                            doctorService.updateState(chatId, UserState.EXPERIENCE);
+                            userState = UserState.EXPERIENCE;
+                        }
+
+                    }
+                }
+
+                case EDUCATION, EDUCATION_NAME, EDUCATION_START_YEAR, EDUCATION_END_YEAR, EDUCATION_FACULTY -> {
+                    userSelections.putIfAbsent(chatId, new HashSet<>());
+                    userSelections.get(chatId).add(data);
+
+                    switch (data) {
+
+                        case "name" -> {
+                            execute(botService.enterEducationName(chatId.toString()));
+                            doctorService.updateState(chatId, UserState.EDUCATION_NAME);
+                        }
+
+                        case "startYear" -> {
+                            execute(botService.enterEducationStartYear(chatId.toString()));
+                            doctorService.updateState(chatId, UserState.EDUCATION_START_YEAR);
+                        }
+
+                        case "endYear" -> {
+                            execute(botService.enterEducationEndYear(chatId.toString()));
+                            doctorService.updateState(chatId, UserState.EDUCATION_END_YEAR);
+                        }
+
+                        case "faculty" -> {
+                            execute(botService.enterEducationFaculty(chatId.toString()));
+                            doctorService.updateState(chatId, UserState.EDUCATION_FACULTY);
+                            System.out.println("keldi");
+                        }
+                    }
+
+                }
+
+                case EDUCATION_FINISHED -> {
+                    switch (data) {
+
+                        case "save" -> {
+                            execute(botService.enterReceptionAddress(chatId.toString()));
+                            doctorService.updateState(chatId, UserState.RECEPTION_ADDRESS);
+                            userState = UserState.RECEPTION_ADDRESS;
+                        }
+
+                        case "add" -> {
+                            userSelections.clear();
+                            execute(botService.enterEducation(chatId.toString()));
+                            doctorService.updateState(chatId, UserState.EDUCATION);
+                            userState = UserState.EDUCATION;
+                        }
+
+                    }
+                }
+
             }
-
-
         }
     }
-
 
 }

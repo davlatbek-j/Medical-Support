@@ -20,6 +20,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
@@ -248,6 +249,89 @@ public class BotService {
 
     public SendMessage enterPosition(String chatId) {
         return new SendMessage(chatId, "Positionni kiriting");
+    }
+
+    public SendMessage isSaveExperience(String chatId) {
+        SendMessage sendMessage=new SendMessage(chatId,"Agarda yana qo'shimcha ishlagan joyingiz bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
+        sendMessage.setReplyMarkup(isSaveExperienceMarkup());
+        return sendMessage;
+    }
+
+    private InlineKeyboardMarkup isSaveExperienceMarkup() {
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<InlineKeyboardButton> actionRow = new ArrayList<>();
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText("Saqlash");
+        button.setCallbackData("save");
+        actionRow.add(button);
+        button = new InlineKeyboardButton();
+        button.setText("Yana➕");
+        button.setCallbackData("add");
+        actionRow.add(button);
+        rowsInline.add(actionRow);
+
+        markupInline.setKeyboard(rowsInline);
+        return markupInline;
+    }
+
+    public SendMessage enterAchievement(String chatId) {
+        return new SendMessage(chatId, "Achievement kiriting");
+    }
+
+    public SendMessage enterEducation(String chatId) {
+        SendMessage sendMessage=new SendMessage(chatId,"Education kiriting");
+        sendMessage.setReplyMarkup(enterEducationMarkup(Long.valueOf(chatId)));
+        return sendMessage;
+    }
+
+    private InlineKeyboardMarkup enterEducationMarkup(Long chatId) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+
+        Set<String> selections = MedicalBot.userSelections.getOrDefault(chatId, Collections.emptySet());
+
+        if (!selections.contains("name")) {
+            rowsInline.add(Collections.singletonList(createButton("Name", "name")));
+        }
+        if (!selections.contains("startYear")) {
+            rowsInline.add(Collections.singletonList(createButton("Start Year", "startYear")));
+        }
+        if (!selections.contains("endYear")) {
+            rowsInline.add(Collections.singletonList(createButton("End Year", "endYear")));
+        }
+        if (!selections.contains("faculty")) {
+            rowsInline.add(Collections.singletonList(createButton("Faculty", "faculty")));
+        }
+
+        inlineKeyboardMarkup.setKeyboard(rowsInline);
+        return inlineKeyboardMarkup;
+    }
+
+    public SendMessage isSaveEducation(String chatId) {
+        SendMessage sendMessage=new SendMessage(chatId,"Agarda yana qo'shimcha o'qigan joyingiz bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
+        sendMessage.setReplyMarkup(isSaveExperienceMarkup());
+        return sendMessage;
+    }
+
+    public SendMessage enterReceptionAddress(String chatId) {
+        return new SendMessage(chatId,"Reception kiriting");
+    }
+
+    public SendMessage enterEducationName(String chatId) {
+        return new SendMessage(chatId,"Education name kiriting");
+    }
+
+    public SendMessage enterEducationStartYear(String chatId) {
+        return new SendMessage(chatId,"U yerda qaysi yili o'qishni boshlagansiz. Faqat yil raqamlarini kiriting. Masalan: 2024");
+    }
+
+    public SendMessage enterEducationEndYear(String chatId) {
+        return new SendMessage(chatId,"U yerda qaysi yili o'qishni Tugatgansiz. Faqat yil raqamlarini kiriting. Masalan: 2024");
+    }
+
+    public SendMessage enterEducationFaculty(String chatId) {
+        return new SendMessage(chatId,"Qaysi fakultetini tamomlagansiz");
     }
 
 //    public SendMessage enterExperienceWithoutWorkplace(String chatId) {
