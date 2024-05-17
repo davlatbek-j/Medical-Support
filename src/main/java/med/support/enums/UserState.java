@@ -5,6 +5,8 @@ public enum UserState {
     START,
     SWITCH_LANGUAGE,
 
+    SELECT_RUS,
+
     LOGIN,
 
     FIRSTNAME,
@@ -24,6 +26,14 @@ public enum UserState {
     SPECIALITY,
 
     EXPERIENCE,
+
+    EXPERIENCE_WORKPLACE,
+
+    EXPERIENCE_BEGIN_DATE,
+
+    EXPERIENCE_END_DATE,
+
+    EXPERIENCE_POSITION,
 
     LANGUAGE,
 

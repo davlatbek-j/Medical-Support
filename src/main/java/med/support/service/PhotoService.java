@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @Service
@@ -48,4 +52,27 @@ public class PhotoService {
             throw new RuntimeException(e);
         }
     }
+
+    public Photo savePhotoFromTelegram(String fileUrl, String doctorLogin) throws IOException {
+        URL url = new URL(fileUrl);
+        String contentType = HttpURLConnection.guessContentTypeFromName(url.getFile());
+        String originalName = Paths.get(url.getPath()).getFileName().toString();
+        Photo photo = new Photo(
+                UUID.randomUUID() + originalName,
+                null,
+                "http://localhost:8080/doctor/image/" + doctorLogin,
+                contentType
+        );
+
+        // Faylni tizimga saqlash
+        String systemPath = photoSystemPath + photo.getName();
+        photo.setSystemPath(systemPath);
+        try (InputStream in = url.openStream()) {
+            Files.copy(in, Paths.get(systemPath), StandardCopyOption.REPLACE_EXISTING);
+        }
+
+        return photoRepository.save(photo);  // Ma'lumotlar bazasida saqlash
+    }
+
+
 }
