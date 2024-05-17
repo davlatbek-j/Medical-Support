@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Edit doctor</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <script>
         function addSection(sectionName) {
@@ -21,90 +22,90 @@
 </head>
 <body>
 
-<h1>Create Doctor Profile</h1>
+<h1>Edit Doctor Profile</h1>
 <div class="container">
     <div class="row">
         <div class="col-md-8 mx auto rounded border p-4 m-4">
             <h2 class="text-center mb-5">Edit doctor</h2>
 
-            <form method="POST" enctype="multipart/form-data" th:object="${doctorDto}"  th:action="@{/admin/edit/{login}(login=${doctorDto.login})}" >
+            <form method="POST" enctype="multipart/form-data" th:object="${doctorDtoAdmin}"
+                  th:action="@{/admin/edit/{login}(login=${doctorDtoAdmin.login})}">
 
 
                 <div class="row mb-3">
-                    <label class="col-sm-4  col-form-label" >Id</label>
+                    <label class="col-sm-4  col-form-label">Id</label>
                     <div class="col-sm-8">
-                        <input readonly class="form-control-plaintext" th:value="${doctor.id}">
+                        <input readonly class="form-control-plaintext" th:field="${doctorDtoAdmin.id}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-sm-4  col-form-label" >First Name</label>
+                    <label class="col-sm-4  col-form-label">Login</label>
                     <div class="col-sm-8">
-                        <input class="form-control" th:field="${doctor.firstname}">
+                        <input readonly class="form-control" th:field="${doctorDtoAdmin.login}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-sm-4  col-form-label" >Last name</label>
+                    <label class="col-sm-4  col-form-label">First Name</label>
                     <div class="col-sm-8">
-                        <input class="form-control" th:field="${doctor.lastname}">
+                        <input class="form-control" th:field="${doctorDtoAdmin.firstname}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-sm-4  col-form-label" >Surname</label>
+                    <label class="col-sm-4  col-form-label">Last name</label>
                     <div class="col-sm-8">
-                        <input class="form-control" th:field="${doctor.surname}">
+                        <input class="form-control" th:field="${doctorDtoAdmin.lastname}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-sm-4  col-form-label" >Phone</label>
+                    <label class="col-sm-4  col-form-label">Surname</label>
                     <div class="col-sm-8">
-                        <input class="form-control" th:field="${doctor.phone}">
+                        <input class="form-control" th:field="${doctorDtoAdmin.surname}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label">Phone</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="${doctorDtoAdmin.phone}">
                     </div>
                 </div>
 
 
                 <div class="row mb-3">
-                    <label class="col-sm-4  col-form-label" >Login</label>
+                    <label class="col-sm-4  col-form-label">Password</label>
                     <div class="col-sm-8">
-                        <input class="form-control" th:field="${doctor.login}">
-                    </div>
-                </div>
-
-
-                <div class="row mb-3">
-                    <label class="col-sm-4  col-form-label" >Password</label>
-                    <div class="col-sm-8">
-                        <input class="form-control" th:field="${doctor.password}">
+                        <input class="form-control" th:field="${doctorDtoAdmin.password}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <div class="offset-sm-4 col-sm-8" >
-                        <img  th:src="@{${doctorDto.photoUrl}}" alt="..." width="150">
+                    <div class="offset-sm-4 col-sm-8">
+                        <img th:src="@{${doctorDtoAdmin.photoUrl}}" alt="..." width="150">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label class="col-sm-4  col-form-label">Image</label>
                     <div class="col-sm-8">
-                        <input class="form-control" type="file" th:field="${doctorDto.photoFile}">
+                        <input class="form-control" type="file" th:field="${doctorDtoAdmin.photoFile}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label class="col-sm-4  col-form-label">Outline</label>
                     <div class="col-sm-8">
-                        <input class="form-control" th:field="${doctorDto.outline}">
+                        <input class="form-control" th:field="${doctorDtoAdmin.outline}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label class="col-sm-4  col-form-label">Motto</label>
                     <div class="col-sm-8">
-                        <input class="form-control" th:field="${doctorDto.motto}">
+                        <input class="form-control" th:field="${doctorDtoAdmin.motto}">
                     </div>
                 </div>
 
@@ -112,48 +113,152 @@
                 <div class="row mb-3">
                     <label class="col-sm-4  col-form-label">Speciality</label>
                     <div class="col-sm-8">
-                        <input class="form-control"  th:field="${doctorDto.specialty}">
+                        <input class="form-control" th:field="${doctorDtoAdmin.specialty}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label class="col-sm-4  col-form-label">Language</label>
                     <div class="col-sm-8">
-                        <input class="form-control" th:field="${doctorDto.language}">
+                        <input class="form-control" th:field="${doctorDtoAdmin.language}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label">Achievement</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" th:field="${doctorDtoAdmin.achievement}">
                     </div>
                 </div>
 
 
+                <!--              ---------------------EXPERIENCE----------------  -->
                 <div id="experience-section">
                     <h3>Experience</h3>
-                    <div th:each="exp, stat : ${doctorDto.experience}" th:id="|'experience-' + ${stat.index}|">
+                    <div th:each="exp, stat : ${doctorDtoAdmin.experience}" th:id="|'experience-' + ${stat.index}|">
                         <div>
                             <label>Workplace:</label>
-                            <input type="text" th:field="*{experience[__${stat.index}__].workplace}" placeholder="Workplace"/>
+                            <input type="text" th:field="*{experience[__${stat.index}__].workplace}"
+                                   placeholder="Workplace"/>
                         </div>
                         <div>
                             <label>Begin Date:</label>
-                            <input type="text" th:field="*{experience[__${stat.index}__].beginDate}" placeholder="Begin Date"/>
+                            <input type="text" th:field="*{experience[__${stat.index}__].beginDate}"
+                                   placeholder="Begin Date"/>
                         </div>
                         <div>
                             <label>End Date:</label>
-                            <input type="text" th:field="*{experience[__${stat.index}__].endDate}" placeholder="End Date"/>
+                            <input type="text" th:field="*{experience[__${stat.index}__].endDate}"
+                                   placeholder="End Date"/>
                         </div>
                         <div>
                             <label>Position:</label>
-                            <input type="text" th:field="*{experience[__${stat.index}__].position}" placeholder="Position"/>
+                            <input type="text" th:field="*{experience[__${stat.index}__].position}"
+                                   placeholder="Position"/>
                         </div>
                         <button type="button" onclick="deleteExperience(this)">Delete Experience</button>
                         <br>
                         <br>
                     </div>
                 </div>
+                <br>
                 <button type="button" onclick="addExperience()">Add Experience</button>
 
 
-<!--              ---------------------SUBMIT----------------  -->
+                <!--              ---------------------Education----------------  -->
+                <div id="education-section">
+                    <h3>Education</h3>
+                    <div th:each="education, stat : ${doctorDtoAdmin.education}" th:id="|'education-' + ${stat.index}|">
+                        <div>
+                            <label>Where:</label>
+                            <input type="text" th:field="*{education[__${stat.index}__].name}" placeholder="Name"/>
+                        </div>
+                        <div>
+                            <label>Start Year:</label>
+                            <input type="number" th:field="*{education[__${stat.index}__].startYear}"
+                                   placeholder="Start Year"/>
+                        </div>
+                        <div>
+                            <label>End Year:</label>
+                            <input type="number" th:field="*{education[__${stat.index}__].endYear}"
+                                   placeholder="End Year"/>
+                        </div>
+                        <div>
+                            <label>Faculty:</label>
+                            <input type="text" th:field="*{education[__${stat.index}__].faculty}"
+                                   placeholder="Faculty"/>
+                        </div>
+                        <button type="button" onclick="deleteEducation(this)">Delete Education</button>
+                    </div>
+                </div>
+                <br>
+                <button type="button" onclick="addEducation()">Add Education</button>
+
+
+                <!--              ---------------------ReceptionAddress----------------  -->
+                <div id="reception-address-section">
+                    <h3>Reception Address</h3>
+                    <div th:each="address, stat : ${doctorDtoAdmin.receptionAddress}"
+                         th:id="|'reception-address-' + ${stat.index}|">
+                        <div>
+                            <label>Address Name:</label>
+                            <input type="text" th:field="*{receptionAddress[__${stat.index}__].addressName}"
+                                   placeholder="Address Name"/>
+                        </div>
+                        <div>
+                            <label>URL:</label>
+                            <input type="text" th:field="*{receptionAddress[__${stat.index}__].httpUrl}"
+                                   placeholder="URL"/>
+                        </div>
+                        <button type="button" onclick="deleteReceptionAddress(this)">Delete Reception Address</button>
+                    </div>
+                </div>
+
+                <button type="button" onclick="addReceptionAddress()">Add Reception Address</button>
+
+
+                <!--              ---------------------Service----------------  -->
+                <div id="service-section">
+                    <h3>Services</h3>
+                    <div th:each="service, stat : ${doctorDtoAdmin.service}" th:id="|'service-' + ${stat.index}|">
+                        <div>
+                            <label>Service Name:</label>
+                            <input type="text" th:field="*{service[__${stat.index}__].name}"
+                                   placeholder="Service Name"/>
+                        </div>
+                        <div>
+                            <label>Price:</label>
+                            <input type="number" th:field="*{service[__${stat.index}__].price}"
+                                   placeholder="Price(justNumbers)"/>
+                        </div>
+                        <button type="button" onclick="deleteService(this)">Delete Service</button>
+                    </div>
+                </div>
+                <button type="button" onclick="addService()">Add Service</button>
+
+
+                <!--              ---------------------Contact----------------  -->
+                <div id="contact-section">
+                    <h3>Contacts</h3>
+                    <div th:each="contact, stat : ${doctorDtoAdmin.contact}" th:id="|'contact-' + ${stat.index}|">
+                        <div>
+                            <label>Contact Type:</label>
+                            <input type="text" th:field="*{contact[__${stat.index}__].contactType}"
+                                   placeholder="Contact Type"/>
+                        </div>
+                        <div>
+                            <label>Value:</label>
+                            <input type="text" th:field="*{contact[__${stat.index}__].value}" placeholder="Value"/>
+                        </div>
+                        <button type="button" onclick="deleteContact(this)">Delete Contact</button>
+                    </div>
+                </div>
+                <button type="button" onclick="addContact()">Add Contact</button>
+
+
+                <!--              ---------------------SUBMIT----------------  -->
                 <div class="row">
-                    <div class="offset-sm-4 col-sm-4  d-grid" >
+                    <div class="offset-sm-4 col-sm-4  d-grid">
                         <button type="submit">Submit Profile</button>
                     </div>
                     <div class="col-sm-4 d-grid">
@@ -164,19 +269,8 @@
             </form>
 
             <script>
-                function recalculateIndexes() {
-                    const experienceSection = document.getElementById('experience-section');
-                    const experiences = experienceSection.children;
-                    for (let i = 0; i < experiences.length; i++) {
-                        const experienceDiv = experiences[i];
-                        experienceDiv.id = 'experience-' + i;
-                        const inputs = experienceDiv.getElementsByTagName('input');
-                        for (let input of inputs) {
-                            const name = input.name.replace(/\[\d+\]/, '[' + i + ']');
-                            input.name = name;
-                        }
-                    }
-                }
+                //     -------------------------------------
+
 
                 function addExperience() {
                     const experienceSection = document.getElementById('experience-section');
@@ -208,8 +302,118 @@
                 function deleteExperience(button) {
                     const experienceDiv = button.parentElement;
                     experienceDiv.remove();
-                    recalculateIndexes();
                 }
+
+                //     -------------------------------------
+                function addEducation() {
+                    const educationSection = document.getElementById('education-section');
+                    const index = educationSection.children.length;
+                    const newEducation = `
+                <div id="education-${index}">
+                    <div>
+                        <label>Name:</label>
+                        <input type="text" name="education[${index}].name" placeholder="Name"/>
+                    </div>
+                    <div>
+                        <label>Start Year:</label>
+                        <input type="number" name="education[${index}].startYear" placeholder="Start Year"/>
+                    </div>
+                    <div>
+                        <label>End Year:</label>
+                        <input type="number" name="education[${index}].endYear" placeholder="End Year"/>
+                    </div>
+                    <div>
+                        <label>Faculty:</label>
+                        <input type="text" name="education[${index}].faculty" placeholder="Faculty"/>
+                    </div>
+                    <button type="button" onclick="deleteEducation(this)">Delete Education</button>
+                </div>
+            `;
+                    educationSection.insertAdjacentHTML('beforeend', newEducation);
+                }
+
+                function deleteEducation(button) {
+                    const educationDiv = button.parentElement;
+                    educationDiv.remove();
+                }
+
+                //     ------------------------------------------
+
+                function addReceptionAddress() {
+                    const receptionAddressSection = document.getElementById('reception-address-section');
+                    const index = receptionAddressSection.children.length;
+                    const newReceptionAddress = `
+                <div id="reception-address-${index}">
+                    <div>
+                        <label>Address Name:</label>
+                        <input type="text" name="receptionAddress[${index}].addressName" placeholder="Address Name"/>
+                    </div>
+                    <div>
+                        <label>URL:</label>
+                        <input type="text" name="receptionAddress[${index}].httpUrl" placeholder="URL"/>
+                    </div>
+                    <button type="button" onclick="deleteReceptionAddress(this)">Delete Reception Address</button>
+                </div>
+            `;
+                    receptionAddressSection.insertAdjacentHTML('beforeend', newReceptionAddress);
+                }
+
+                function deleteReceptionAddress(button) {
+                    const receptionAddressDiv = button.parentElement;
+                    receptionAddressDiv.remove();
+                }
+
+                //     ----------------------------------------------------
+                function addService() {
+                    const serviceSection = document.getElementById('service-section');
+                    const index = serviceSection.children.length;
+                    const newService = `
+                <div id="service-${index}">
+                    <div>
+                        <label>Service Name:</label>
+                        <input type="text" name="service[${index}].name" placeholder="Service Name"/>
+                    </div>
+                    <div>
+                        <label>Price:</label>
+                        <input type="number" name="service[${index}].price" placeholder="Price"/>
+                    </div>
+                    <button type="button" onclick="deleteService(this)">Delete Service</button>
+                </div>
+            `;
+                    serviceSection.insertAdjacentHTML('beforeend', newService);
+                }
+
+                function deleteService(button) {
+                    const serviceDiv = button.parentElement;
+                    serviceDiv.remove();
+                }
+
+                //     ----------------------------------------------------
+
+                function addContact() {
+                    const contactSection = document.getElementById('contact-section');
+                    const index = contactSection.children.length;
+                    const newContact = `
+                <div id="contact-${index}">
+                    <div>
+                        <label>Contact Type:</label>
+                        <input type="text" name="contact[${index}].contactType" placeholder="Contact Type"/>
+                    </div>
+                    <div>
+                        <label>Value:</label>
+                        <input type="text" name="contact[${index}].value" placeholder="Value"/>
+                    </div>
+                    <button type="button" onclick="deleteContact(this)">Delete Contact</button>
+                </div>
+            `;
+                    contactSection.insertAdjacentHTML('beforeend', newContact);
+                }
+
+                function deleteContact(button) {
+                    const contactDiv = button.parentElement;
+                    contactDiv.remove();
+                }
+
             </script>
 
 
@@ -218,6 +422,8 @@
     </div>
 
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 </html>

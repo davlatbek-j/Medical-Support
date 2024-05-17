@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import med.support.entity.Doctor;
 import med.support.mapper.DoctorMapper;
 import med.support.model.DoctorDTO;
+import med.support.model.DoctorDtoAdmin;
 import med.support.model.LoginDTO;
 import med.support.repository.DoctorRepository;
+import med.support.service.AdminService;
 import med.support.service.DoctorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,7 @@ public class AdminController {
     private final DoctorService doctorService;
     private final DoctorRepository doctorRepository;
     private final DoctorMapper doctorMapper;
+    private final AdminService adminService;
 
     @GetMapping({"","/"})
     public String showDoctorList(Model model){
@@ -57,19 +60,20 @@ public class AdminController {
     public String editDoctorPage(@PathVariable(name = "login") String login , Model model) {
 
         Doctor doctor = doctorRepository.findByLogin(login);
-        model.addAttribute("doctor", doctor);
-        DoctorDTO doctorDto = doctorMapper.toDTO(doctor);
-        model.addAttribute("doctorDto", doctorDto);
-        return "admin/editDoctor";
 
+        DoctorDtoAdmin doctorDtoAdmin = new DoctorDtoAdmin();
+        doctorDtoAdmin=adminService.toDoctorDtoAdmin(doctor);
+
+        model.addAttribute("doctorDtoAdmin", doctorDtoAdmin);
+
+        return "admin/editDoctor";
     }
 
     @PostMapping("/edit/{login}")
     public String editDoctor(@PathVariable(name = "login") String login , Model model ,
-                             @ModelAttribute DoctorDTO doctorDto) {
+                             @ModelAttribute DoctorDtoAdmin doctorDtoAdmin) {
 
-        System.err.println(doctorDto);
-
+        adminService.update(login,doctorDtoAdmin);
         return "redirect:/admin/";
     }
 
