@@ -23,11 +23,11 @@ public class MedicalSupportApplication
         return new RestTemplate();
     }
 
-    @Bean
-    public TelegramBotsApi telegramBotsApi(MedicalBot medicalBot) throws TelegramApiException {
-        TelegramBotsApi telegramBotsApi=new TelegramBotsApi(DefaultBotSession.class);
-        telegramBotsApi.registerBot(medicalBot);
-        return telegramBotsApi;
-    }
+//    @Bean
+//    public TelegramBotsApi telegramBotsApi(MedicalBot medicalBot) throws TelegramApiException {
+//        TelegramBotsApi telegramBotsApi=new TelegramBotsApi(DefaultBotSession.class);
+//        telegramBotsApi.registerBot(medicalBot);
+//        return telegramBotsApi;
+//    }
 
 }

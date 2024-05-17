@@ -22,7 +22,7 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String chatId;
+    Long chatId;
 
     @Column(length = 50)
     String firstname;

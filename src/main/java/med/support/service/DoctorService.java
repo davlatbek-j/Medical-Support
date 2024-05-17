@@ -134,7 +134,7 @@ public class DoctorService {
         return ResponseEntity.ok().body(new ApiResponse(200, "Login Created", "id:" + doctor.getId()));
     }
 
-    public Doctor findByChatId(String chatId) {
+    public Optional<Doctor> findByChatId(Long chatId) {
         return doctorRepository.findByChatId(chatId);
     }
 
@@ -148,16 +148,16 @@ public class DoctorService {
         return ResponseEntity.notFound().build();
     }
 
-   /* public ResponseEntity<ApiResponse> updateState(String chatId, UserState userState) {
-        *//*Doctor optionalDoctor = doctorRepository.findByChatId(chatId);
+   public ResponseEntity<ApiResponse> updateState(Long chatId, UserState userState) {
+        Optional<Doctor> optionalDoctor = doctorRepository.findByChatId(chatId);
         if (optionalDoctor.isPresent()) {
             Doctor doctor = optionalDoctor.get();
             doctor.setState(userState);
             doctorRepository.save(doctor);
             return ResponseEntity.ok().body(new ApiResponse(200, "Success", "state: " + doctor.getState()));
         }
-        return ResponseEntity.notFound().build();*//*
-    }*/
+        return ResponseEntity.notFound().build();
+    }
 
     public void saveChatId(String login, String chatId) {
         doctorRepository.saveChatId(login, chatId);

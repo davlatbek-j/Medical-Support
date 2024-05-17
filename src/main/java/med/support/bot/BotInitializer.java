@@ -15,9 +15,7 @@ public class BotInitializer {
 
     private final MedicalBot mediBot;
 
-
-
-  /*  @EventListener({ContextRefreshedEvent.class})
+  @EventListener({ContextRefreshedEvent.class})
     public void init() {
         try {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -25,7 +23,7 @@ public class BotInitializer {
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
-    }*/
+    }
 
 
 }

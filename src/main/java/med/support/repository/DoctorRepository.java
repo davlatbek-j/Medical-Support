@@ -13,8 +13,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     Optional<Doctor> findById(Long id);
 
 
-   // Optional<Doctor> findByChatId(String chatId);
-    Doctor findByChatId(String chatId);
+    Optional<Doctor> findByChatId(Long chatId);
+//    Doctor findByChatId(String chatId);
 
 
 
@@ -35,6 +35,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     @Query("update doctor d set d.chatId=:chatId where d.login=:login")
     void saveChatId(@Param("login") String login, @Param("chatId") String chatId);
 
-    boolean existsByChatId(String chatId);
+//    boolean existsByChatId(String chatId);
 
 }
