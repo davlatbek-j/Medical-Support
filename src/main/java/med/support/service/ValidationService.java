@@ -24,4 +24,17 @@ public class ValidationService {
         return null;
     }
 
+    public boolean isValidYear(String yearStr) {
+        return yearStr.matches("^(19|20)\\d{2}$");
+    }
+
+    public boolean isValidInteger(String numberStr) {
+        return numberStr.matches("\\d+");
+    }
+    public boolean isValidContact(String input) {
+        return input.matches("^@[A-Za-z0-9_]{5,32}$")  // Telegram username
+                || input.matches("^(https?://)?(www.youtube.com/watch\\?v=[\\w-]+|youtu.be/[\\w-]+)$")  // YouTube link
+                || input.matches("^[A-Za-z0-9_.+-]+@[A-Za-z0-9-]+\\.[A-Za-z0-9-.]+$");  // Email address
+    }
+
 }

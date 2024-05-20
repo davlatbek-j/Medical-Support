@@ -2,6 +2,8 @@ package med.support.enums;
 
 public enum UserState {
 
+    DEFAULT,
+
     START,
     SWITCH_LANGUAGE,
 
@@ -55,7 +57,19 @@ public enum UserState {
 
     RECEPTION_ADDRESS,
 
+    ADDRESS_NAME,
+
+    ADDRESS_URL,
+
+    ADDRESS_FINISHED,
+
     SERVICE,
+
+    SERVICE_NAME,
+
+    SERVICE_PRICE,
+
+    SERVICE_FINISHED,
     CHECK_LOGIN,
     INCORRECT_LOGIN,
     CHECK_PASSWORD,
@@ -64,6 +78,10 @@ public enum UserState {
     CHECK_PHONE,
     ALREADY_REGISTRATED,
 
-    CONTACT;
+    CONTACT,
+
+    CONTACT_FINISHED,
+
+    REGISTRATION_FINISHED;
 
 }
