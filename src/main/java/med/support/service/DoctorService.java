@@ -103,7 +103,7 @@ public class DoctorService {
         return ResponseEntity.notFound().build();
     }
 
-    public ResponseEntity<ApiResponse> update(String login, DoctorDTO doctorDTO) {
+    public ResponseEntity<ApiResponse> update(String login,Long chatId, UserState state, DoctorDTO doctorDTO) {
         Doctor byLogin = doctorRepository.findByLogin(login);
         if (byLogin == null)
             return ResponseEntity.notFound().build();
@@ -112,6 +112,8 @@ public class DoctorService {
         entity.setId(byLogin.getId());
         entity.setLogin(byLogin.getLogin());
         entity.setPassword(byLogin.getPassword());
+        entity.setChatId(byLogin.getChatId());
+        entity.setState(byLogin.getState());
 
         saveToDb(entity);
         return ResponseEntity.ok().body(new ApiResponse(200, "Doctor Updated", null));

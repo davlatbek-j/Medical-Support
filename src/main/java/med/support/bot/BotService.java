@@ -20,8 +20,12 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.io.Serializable;
 import java.util.*;
@@ -196,44 +200,6 @@ public class BotService {
     }
 
 
-//    public SendMessage enterExperienxe(String chatId) {
-//        SendMessage sendMessage = new SendMessage(chatId, "Tajribangizni kiriting");
-//        sendMessage.setReplyMarkup(experienceMarkup());
-//        return sendMessage;
-//    }
-//
-//    public InlineKeyboardMarkup experienceMarkup() {
-//        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-//        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-//        List<InlineKeyboardButton> rowInline = new ArrayList<>();
-//
-//        InlineKeyboardButton button = new InlineKeyboardButton();
-//        button.setText("Workplace");
-//        button.setCallbackData("workplace");
-//        rowsInline.add(List.of(button));
-//
-//        button = new InlineKeyboardButton();
-//        button.setText("Begin Date");
-//        button.setCallbackData("beginDate");
-//        rowsInline.add(List.of(button));
-//
-//
-//        button = new InlineKeyboardButton();
-//        button.setText("End Date");
-//        button.setCallbackData("endDate");
-//        rowsInline.add(List.of(button));
-//
-//
-//        button = new InlineKeyboardButton();
-//        button.setText("Position");
-//        button.setCallbackData("position");
-//        rowsInline.add(List.of(button));
-//
-//
-//        inlineKeyboardMarkup.setKeyboard(rowsInline);
-//        return inlineKeyboardMarkup;
-//    }
-
     public SendMessage enterWorkPlace(String chatId) {
         return new SendMessage(chatId, "Workplace kiriting");
     }
@@ -250,42 +216,218 @@ public class BotService {
         return new SendMessage(chatId, "Positionni kiriting");
     }
 
-//    public SendMessage enterExperienceWithoutWorkplace(String chatId) {
-//        SendMessage sendMessage = new SendMessage(chatId, "Tajribangizni kiriting");
-//        sendMessage.setReplyMarkup(experienceMarkup());
-//        return sendMessage;
-//    }
-//    public InlineKeyboardMarkup experienceWithoutWorkplaceMarkup() {
-//        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-//        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-//        List<InlineKeyboardButton> rowInline = new ArrayList<>();
-//
-//        InlineKeyboardButton button = new InlineKeyboardButton();
-//        button.setText("Workplace");
-//        button.setCallbackData("workplace");
-//        rowsInline.add(List.of(button));
-//
-//        button = new InlineKeyboardButton();
-//        button.setText("Begin Date");
-//        button.setCallbackData("beginDate");
-//        rowsInline.add(List.of(button));
-//
-//
-//        button = new InlineKeyboardButton();
-//        button.setText("End Date");
-//        button.setCallbackData("endDate");
-//        rowsInline.add(List.of(button));
-//
-//
-//        button = new InlineKeyboardButton();
-//        button.setText("Position");
-//        button.setCallbackData("position");
-//        rowsInline.add(List.of(button));
-//
-//
-//        inlineKeyboardMarkup.setKeyboard(rowsInline);
-//        return inlineKeyboardMarkup;
-//    }
+    public SendMessage isSaveExperience(String chatId) {
+        SendMessage sendMessage=new SendMessage(chatId,"Agarda yana qo'shimcha ishlagan joyingiz bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
+        sendMessage.setReplyMarkup(isSaveExperienceMarkup());
+        return sendMessage;
+    }
+
+    private InlineKeyboardMarkup isSaveExperienceMarkup() {
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<InlineKeyboardButton> actionRow = new ArrayList<>();
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText("Saqlash");
+        button.setCallbackData("save");
+        actionRow.add(button);
+        button = new InlineKeyboardButton();
+        button.setText("Yana➕");
+        button.setCallbackData("add");
+        actionRow.add(button);
+        rowsInline.add(actionRow);
+
+        markupInline.setKeyboard(rowsInline);
+        return markupInline;
+    }
+
+    public SendMessage enterAchievement(String chatId) {
+        return new SendMessage(chatId, "Achievement kiriting");
+    }
+
+    public SendMessage enterEducation(String chatId) {
+        SendMessage sendMessage=new SendMessage(chatId,"Education kiriting");
+        sendMessage.setReplyMarkup(enterEducationMarkup(Long.valueOf(chatId)));
+        return sendMessage;
+    }
+
+    private InlineKeyboardMarkup enterEducationMarkup(Long chatId) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+
+        Set<String> selections = MedicalBot.userSelections.getOrDefault(chatId, Collections.emptySet());
+
+        if (!selections.contains("name")) {
+            rowsInline.add(Collections.singletonList(createButton("Name", "name")));
+        }
+        if (!selections.contains("startYear")) {
+            rowsInline.add(Collections.singletonList(createButton("Start Year", "startYear")));
+        }
+        if (!selections.contains("endYear")) {
+            rowsInline.add(Collections.singletonList(createButton("End Year", "endYear")));
+        }
+        if (!selections.contains("faculty")) {
+            rowsInline.add(Collections.singletonList(createButton("Faculty", "faculty")));
+        }
+
+        inlineKeyboardMarkup.setKeyboard(rowsInline);
+        return inlineKeyboardMarkup;
+    }
+
+    public SendMessage isSaveEducation(String chatId) {
+        SendMessage sendMessage=new SendMessage(chatId,"Agarda yana qo'shimcha o'qigan joyingiz bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
+        sendMessage.setReplyMarkup(isSaveExperienceMarkup());
+        return sendMessage;
+    }
+
+    public SendMessage enterReceptionAddress(String chatId) {
+        SendMessage sendMessage= new SendMessage(chatId,"Reception address kiriting");
+        sendMessage.setReplyMarkup(receptionMarkum(Long.valueOf(chatId)));
+        return sendMessage;
+    }
+
+    public InlineKeyboardMarkup receptionMarkum(Long chatId){
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+
+        Set<String> selections = MedicalBot.userSelections.getOrDefault(chatId, Collections.emptySet());
+
+        if (!selections.contains("addressName")) {
+            rowsInline.add(Collections.singletonList(createButton("Address name", "addressName")));
+        }
+        if (!selections.contains("addressUrl")) {
+            rowsInline.add(Collections.singletonList(createButton("Address url", "addressUrl")));
+        }
+
+
+        inlineKeyboardMarkup.setKeyboard(rowsInline);
+        return inlineKeyboardMarkup;
+    }
+
+    public SendMessage enterEducationName(String chatId) {
+        return new SendMessage(chatId,"Education name kiriting");
+    }
+
+    public SendMessage enterEducationStartYear(String chatId) {
+        return new SendMessage(chatId,"U yerda qaysi yili o'qishni boshlagansiz. Faqat yil raqamlarini kiriting. Masalan: 2024");
+    }
+
+    public SendMessage enterEducationEndYear(String chatId) {
+        return new SendMessage(chatId,"U yerda qaysi yili o'qishni Tugatgansiz. Faqat yil raqamlarini kiriting. Masalan: 2024");
+    }
+
+    public SendMessage enterEducationFaculty(String chatId) {
+        return new SendMessage(chatId,"Qaysi fakultetini tamomlagansiz");
+    }
+
+
+    public SendMessage enterAddressName(String chatId) {
+        return new SendMessage(chatId,"Addres nomini kiriting");
+    }
+
+    public SendMessage enterAddressUrl(String chatId) {
+        SendMessage sendMessage = new SendMessage(chatId, "Address Locatsiyasini yuboring");
+        return sendMessage;
+    }
+
+    public SendMessage isSaveReceptionAddress(String chatId) {
+        SendMessage sendMessage=new SendMessage(chatId,"Agarda yana qo'shimcha reception address bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
+        sendMessage.setReplyMarkup(isSaveExperienceMarkup());
+        return sendMessage;
+    }
+
+    public SendMessage enterServices(String chatId) {
+        SendMessage sendMessage= new SendMessage(chatId,"Service kiriting");
+        sendMessage.setReplyMarkup(serviceMarkup(Long.valueOf(chatId)));
+        return sendMessage;
+    }
+
+    public InlineKeyboardMarkup serviceMarkup(Long chatId){
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+
+        Set<String> selections = MedicalBot.userSelections.getOrDefault(chatId, Collections.emptySet());
+
+        if (!selections.contains("serviceName")) {
+            rowsInline.add(Collections.singletonList(createButton("Service name", "serviceName")));
+        }
+        if (!selections.contains("servicePrice")) {
+            rowsInline.add(Collections.singletonList(createButton("Service Price", "servicePrice")));
+        }
+
+
+        inlineKeyboardMarkup.setKeyboard(rowsInline);
+        return inlineKeyboardMarkup;
+    }
+
+    public SendMessage isSaveService(String chatId) {
+        SendMessage sendMessage=new SendMessage(chatId,"Agarda yana qo'shimcha service bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
+        sendMessage.setReplyMarkup(isSaveExperienceMarkup());
+        return sendMessage;
+    }
+
+    public SendMessage enterContact(String chatId) {
+        SendMessage sendMessage = new SendMessage(chatId,"contact kiriting");
+        sendMessage.setReplyMarkup(contactMarkup());
+        return sendMessage;
+    }
+
+    public InlineKeyboardMarkup contactMarkup(){
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline = new ArrayList<>();
+
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText("Telegram");
+        button.setCallbackData("telegram");
+        rowInline.add(button);
+        button = new InlineKeyboardButton();
+        button.setText("You tube");
+        button.setCallbackData("youTube");
+        rowInline.add(button);
+        button = new InlineKeyboardButton();
+        button.setText("Mail");
+        button.setCallbackData("mail");
+        rowInline.add(button);
+
+        rowsInline.add(rowInline);
+        markupInline.setKeyboard(rowsInline);
+        return markupInline;
+    }
+
+    public SendMessage enterServiceName(String chatId) {
+        return new SendMessage(chatId,"Service nomini kiriting");
+    }
+
+    public SendMessage enterServicePrice(String chatId) {
+        return new SendMessage(chatId,"Service price kiriting. Price faqat sonlarda iborat bo'lsin.Masalan:100000");
+    }
+
+    public SendMessage enterContactValue(String chatId) {
+        return new SendMessage(chatId,"Tanlagan contactga mos username yoki link kiriting");
+    }
+
+    public SendMessage saveContact(String chatId) {
+        SendMessage sendMessage=new SendMessage(chatId,"Agarda yana qo'shimcha service bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
+        sendMessage.setReplyMarkup(isSaveExperienceMarkup());
+        return sendMessage;
+
+    }
+
+    public SendMessage finished(String chatId) {
+        return new SendMessage(chatId, "Tabriklaymiz muvaffaqqiyatli ro'yxatdan o'tdingiz");
+    }
+
+    public SendMessage enterTrueYear(String chatId) {
+        return new SendMessage(chatId,"Iltimos, to'g'ri yil kiriting (masalan, 1999)");
+    }
+
+    public SendMessage enterTruePrice(String chatId) {
+        return new SendMessage(chatId,"Iltimos, to'g'ri narx kiriting (faqat raqamlar).");
+    }
+
+    public SendMessage enterTrueContact(String chatId) {
+        return new SendMessage(chatId,"Iltimos, to'g'ri aloqa ma'lumotlarini kiriting: Telegram @username, YouTube linki, yoki email manzili.");
+    }
 }
 
 

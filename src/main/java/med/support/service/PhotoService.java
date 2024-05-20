@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -53,25 +54,32 @@ public class PhotoService {
         }
     }
 
-    public Photo savePhotoFromTelegram(String fileUrl, String doctorLogin) throws IOException {
-        URL url = new URL(fileUrl);
-        String contentType = HttpURLConnection.guessContentTypeFromName(url.getFile());
-        String originalName = Paths.get(url.getPath()).getFileName().toString();
-        Photo photo = new Photo(
-                UUID.randomUUID() + originalName,
-                null,
-                "http://localhost:8080/doctor/image/" + doctorLogin,
-                contentType
-        );
+    public Photo savePhotoFromTelegram(String filePath, String doctorLogin)  {
+            File file = new File(filePath);
+            try {
+                // Fayl turi va original nomini aniqlash
+                String contentType = Files.probeContentType(file.toPath());
+                String originalName = file.getName();
 
-        // Faylni tizimga saqlash
-        String systemPath = photoSystemPath + photo.getName();
-        photo.setSystemPath(systemPath);
-        try (InputStream in = url.openStream()) {
-            Files.copy(in, Paths.get(systemPath), StandardCopyOption.REPLACE_EXISTING);
-        }
+                // Content type tekshiruvi
+                if (!contentType.equals("image/jpeg") && !contentType.equals("image/png")) {
+                    System.err.println("Invalid content type: " + contentType);
+                    return null;
+                }
 
-        return photoRepository.save(photo);  // Ma'lumotlar bazasida saqlash
+                // Photo ob'ektini yaratish
+                Photo photo = new Photo(
+                        UUID.randomUUID().toString() + originalName,
+                        filePath,
+                        "http://localhost:8080/doctor/image/" + doctorLogin,
+                        contentType);
+
+                // Foto ma'lumotlarini bazaga saqlash
+                return photoRepository.save(photo);
+            } catch (IOException e) {
+                throw new RuntimeException("Error processing file", e);
+            }
+
     }
 
 

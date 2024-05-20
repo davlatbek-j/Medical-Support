@@ -1,6 +1,7 @@
 package med.support.controller;
 
 import lombok.RequiredArgsConstructor;
+import med.support.enums.UserState;
 import med.support.model.ApiResponse;
 import med.support.model.DoctorDTO;
 import med.support.model.LoginDTO;
@@ -44,9 +45,12 @@ public class DoctorController {
     }
 
     @PutMapping("/update/{login}")
-    public ResponseEntity<ApiResponse> updateDoctor(@PathVariable(name = "login") String login,
-                                                    @RequestBody DoctorDTO doctorDTO){
-        return doctorService.update(login,doctorDTO);
+    public ResponseEntity<ApiResponse> updateDoctor(
+            @PathVariable(name = "login") String login,
+            @RequestBody DoctorDTO doctorDTO,
+            @RequestParam UserState state,
+            @RequestParam Long chatId){
+        return doctorService.update(login,chatId,state,doctorDTO);
     }
 
     @DeleteMapping("/delete/{login}")
