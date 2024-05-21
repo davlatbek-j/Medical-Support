@@ -25,7 +25,8 @@ public class AdminController {
     private final DoctorMapper doctorMapper;
     private final AdminService adminService;
 
-    @GetMapping({"","/"})
+
+    @GetMapping("/dashboard")
     public String showDoctorList(Model model){
         List<DoctorDTO> dtoList = doctorService.getAllDto();
         model.addAttribute("doctors",dtoList);
@@ -41,7 +42,7 @@ public class AdminController {
     @PostMapping("/create")
     public String saveLogin(@ModelAttribute("loginDto") LoginDTO loginDTO){
         doctorService.createLogin(loginDTO);
-        return "redirect:/admin";
+        return "redirect:/admin/dashboard";
     }
 
 
@@ -51,7 +52,7 @@ public class AdminController {
     @GetMapping("/delete/{login}")
     public String deleteDoctorGetMethod(@PathVariable(name = "login") String login) {
         doctorService.deleteByLogin(login);
-        return "redirect:/admin";
+        return "redirect:/admin/dashboard";
     }
 
 //TODO EDIT
@@ -74,7 +75,7 @@ public class AdminController {
                              @ModelAttribute DoctorDtoAdmin doctorDtoAdmin) {
 
         adminService.update(login,doctorDtoAdmin);
-        return "redirect:/admin/";
+        return "redirect:/admin/dashboard";
     }
 
     @GetMapping("/about/{login}")

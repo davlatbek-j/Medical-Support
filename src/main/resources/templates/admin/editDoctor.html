@@ -141,62 +141,76 @@
                             <input type="text" th:field="*{experience[__${stat.index}__].workplace}"
                                    placeholder="Workplace"/>
                         </div>
+                            <br>
                         <div>
                             <label>Begin Date:</label>
                             <input type="text" th:field="*{experience[__${stat.index}__].beginDate}"
                                    placeholder="Begin Date"/>
                         </div>
+                            <br>
                         <div>
                             <label>End Date:</label>
                             <input type="text" th:field="*{experience[__${stat.index}__].endDate}"
                                    placeholder="End Date"/>
                         </div>
+                            <br>
                         <div>
                             <label>Position:</label>
                             <input type="text" th:field="*{experience[__${stat.index}__].position}"
                                    placeholder="Position"/>
                         </div>
-                        <button type="button" onclick="deleteExperience(this)">Delete Experience</button>
-                        <br>
+                            <br>
+                        <button class="btn btn-danger btn-sm"
+                                type="button" onclick="deleteExperience(this)">Delete Experience</button>
                         <br>
                     </div>
                 </div>
                 <br>
-                <button type="button" onclick="addExperience()">Add Experience</button>
+                <button class="btn btn-primary btn-sm"
+                        type="button" onclick="addExperience()">Add Experience</button>
 
 
                 <!--              ---------------------Education----------------  -->
                 <div id="education-section">
+                    <br>
                     <h3>Education</h3>
                     <div th:each="education, stat : ${doctorDtoAdmin.education}" th:id="|'education-' + ${stat.index}|">
                         <div>
                             <label>Where:</label>
                             <input type="text" th:field="*{education[__${stat.index}__].name}" placeholder="Name"/>
                         </div>
+                            <br>
                         <div>
                             <label>Start Year:</label>
                             <input type="number" th:field="*{education[__${stat.index}__].startYear}"
                                    placeholder="Start Year"/>
                         </div>
+                            <br>
                         <div>
                             <label>End Year:</label>
                             <input type="number" th:field="*{education[__${stat.index}__].endYear}"
                                    placeholder="End Year"/>
                         </div>
+                            <br>
                         <div>
                             <label>Faculty:</label>
                             <input type="text" th:field="*{education[__${stat.index}__].faculty}"
                                    placeholder="Faculty"/>
                         </div>
-                        <button type="button" onclick="deleteEducation(this)">Delete Education</button>
+                            <br>
+                        <button class="btn btn-danger btn-sm"
+                                type="button" onclick="deleteEducation(this)">Delete Education</button>
+                        <br>
                     </div>
                 </div>
                 <br>
-                <button type="button" onclick="addEducation()">Add Education</button>
+                <button class="btn btn-primary btn-sm"
+                        type="button" onclick="addEducation()">Add Education</button>
 
 
                 <!--              ---------------------ReceptionAddress----------------  -->
                 <div id="reception-address-section">
+                    <br>
                     <h3>Reception Address</h3>
                     <div th:each="address, stat : ${doctorDtoAdmin.receptionAddress}"
                          th:id="|'reception-address-' + ${stat.index}|">
@@ -205,20 +219,26 @@
                             <input type="text" th:field="*{receptionAddress[__${stat.index}__].addressName}"
                                    placeholder="Address Name"/>
                         </div>
+                            <br>
                         <div>
                             <label>URL:</label>
                             <input type="text" th:field="*{receptionAddress[__${stat.index}__].httpUrl}"
                                    placeholder="URL"/>
                         </div>
-                        <button type="button" onclick="deleteReceptionAddress(this)">Delete Reception Address</button>
+                            <br>
+                        <button class="btn btn-danger btn-sm"
+                                type="button" onclick="deleteReceptionAddress(this)">Delete Reception Address</button>
+                        <br>
                     </div>
                 </div>
-
-                <button type="button" onclick="addReceptionAddress()">Add Reception Address</button>
+                <br>
+                <button class="btn btn-primary btn-sm"
+                        type="button" onclick="addReceptionAddress()">Add Reception Address</button>
 
 
                 <!--              ---------------------Service----------------  -->
                 <div id="service-section">
+                    <br>
                     <h3>Services</h3>
                     <div th:each="service, stat : ${doctorDtoAdmin.service}" th:id="|'service-' + ${stat.index}|">
                         <div>
@@ -226,19 +246,25 @@
                             <input type="text" th:field="*{service[__${stat.index}__].name}"
                                    placeholder="Service Name"/>
                         </div>
+                            <br>
                         <div>
                             <label>Price:</label>
                             <input type="number" th:field="*{service[__${stat.index}__].price}"
                                    placeholder="Price(justNumbers)"/>
                         </div>
-                        <button type="button" onclick="deleteService(this)">Delete Service</button>
+                            <br>
+                        <button class="btn btn-danger btn-sm"
+                                type="button" onclick="deleteService(this)">Delete Service</button>
                     </div>
                 </div>
-                <button type="button" onclick="addService()">Add Service</button>
+                <br>
+                <button class="btn btn-primary btn-sm"
+                        type="button" onclick="addService()">Add Service</button>
 
 
                 <!--              ---------------------Contact----------------  -->
                 <div id="contact-section">
+                    <br>
                     <h3>Contacts</h3>
                     <div th:each="contact, stat : ${doctorDtoAdmin.contact}" th:id="|'contact-' + ${stat.index}|">
                         <div>
@@ -246,14 +272,20 @@
                             <input type="text" th:field="*{contact[__${stat.index}__].contactType}"
                                    placeholder="Contact Type"/>
                         </div>
+                            <br>
                         <div>
                             <label>Value:</label>
                             <input type="text" th:field="*{contact[__${stat.index}__].value}" placeholder="Value"/>
                         </div>
-                        <button type="button" onclick="deleteContact(this)">Delete Contact</button>
+                            <br>
+                        <button class="btn btn-danger btn-sm"
+                                type="button" onclick="deleteContact(this)">Delete Contact</button>
+                        <br>
                     </div>
                 </div>
-                <button type="button" onclick="addContact()">Add Contact</button>
+                <br>
+                <button class="btn btn-primary btn-sm"
+                        type="button" onclick="addContact()">Add Contact</button>
 
 
                 <!--              ---------------------SUBMIT----------------  -->
@@ -262,7 +294,7 @@
                         <button type="submit">Submit Profile</button>
                     </div>
                     <div class="col-sm-4 d-grid">
-                        <a class="btn btn-outline-primary" href="/admin/" role="button">Cancel</a>
+                        <a class="btn btn-outline-primary" href="/admin/dashboard" role="button">Cancel</a>
                     </div>
                 </div>
 
@@ -277,23 +309,28 @@
                     const index = experienceSection.children.length;
                     const newExperience = `
             <div id="experience-${index}">
+            <br>
                 <div>
                     <label>Workplace:</label>
                     <input type="text" name="experience[${index}].workplace" placeholder="Workplace"/>
                 </div>
+                <br>
                 <div>
                     <label>Begin Date:</label>
                     <input type="number" name="experience[${index}].beginDate" placeholder="Begin Date"/>
                 </div>
+                <br>
                 <div>
                     <label>End Date:</label>
                     <input type="number" name="experience[${index}].endDate" placeholder="End Date"/>
                 </div>
+                <br>
                 <div>
                     <label>Position:</label>
                     <input type="text" name="experience[${index}].position" placeholder="Position"/>
                 </div>
-                <button type="button" onclick="deleteExperience(this)">Delete Experience</button>
+                <br>
+                <button class="btn btn-danger btn-sm" type="button" onclick="deleteExperience(this)">Delete Experience</button>
             </div>
         `;
                     experienceSection.insertAdjacentHTML('beforeend', newExperience);
@@ -310,23 +347,28 @@
                     const index = educationSection.children.length;
                     const newEducation = `
                 <div id="education-${index}">
+                <br>
                     <div>
                         <label>Name:</label>
                         <input type="text" name="education[${index}].name" placeholder="Name"/>
                     </div>
+                    <br>
                     <div>
                         <label>Start Year:</label>
                         <input type="number" name="education[${index}].startYear" placeholder="Start Year"/>
                     </div>
+                    <br>
                     <div>
                         <label>End Year:</label>
                         <input type="number" name="education[${index}].endYear" placeholder="End Year"/>
                     </div>
+                    <br>
                     <div>
                         <label>Faculty:</label>
                         <input type="text" name="education[${index}].faculty" placeholder="Faculty"/>
                     </div>
-                    <button type="button" onclick="deleteEducation(this)">Delete Education</button>
+                    <br>
+                    <button class="btn btn-danger btn-sm" type="button" onclick="deleteEducation(this)">Delete Education</button>
                 </div>
             `;
                     educationSection.insertAdjacentHTML('beforeend', newEducation);
@@ -344,15 +386,18 @@
                     const index = receptionAddressSection.children.length;
                     const newReceptionAddress = `
                 <div id="reception-address-${index}">
+                <br>
                     <div>
                         <label>Address Name:</label>
                         <input type="text" name="receptionAddress[${index}].addressName" placeholder="Address Name"/>
                     </div>
+                    <br>
                     <div>
                         <label>URL:</label>
                         <input type="text" name="receptionAddress[${index}].httpUrl" placeholder="URL"/>
                     </div>
-                    <button type="button" onclick="deleteReceptionAddress(this)">Delete Reception Address</button>
+                    <br>
+                    <button class="btn btn-danger btn-sm" type="button" onclick="deleteReceptionAddress(this)">Delete Reception Address</button>
                 </div>
             `;
                     receptionAddressSection.insertAdjacentHTML('beforeend', newReceptionAddress);
@@ -369,15 +414,18 @@
                     const index = serviceSection.children.length;
                     const newService = `
                 <div id="service-${index}">
+                <br>
                     <div>
                         <label>Service Name:</label>
                         <input type="text" name="service[${index}].name" placeholder="Service Name"/>
                     </div>
+                    <br>
                     <div>
                         <label>Price:</label>
                         <input type="number" name="service[${index}].price" placeholder="Price"/>
                     </div>
-                    <button type="button" onclick="deleteService(this)">Delete Service</button>
+                    <br>
+                    <button class="btn btn-danger btn-sm" type="button" onclick="deleteService(this)">Delete Service</button>
                 </div>
             `;
                     serviceSection.insertAdjacentHTML('beforeend', newService);
@@ -395,15 +443,18 @@
                     const index = contactSection.children.length;
                     const newContact = `
                 <div id="contact-${index}">
+                <br>
                     <div>
                         <label>Contact Type:</label>
                         <input type="text" name="contact[${index}].contactType" placeholder="Contact Type"/>
                     </div>
+                    <br>
                     <div>
                         <label>Value:</label>
                         <input type="text" name="contact[${index}].value" placeholder="Value"/>
                     </div>
-                    <button type="button" onclick="deleteContact(this)">Delete Contact</button>
+                    <br>
+                    <button class="btn btn-danger btn-sm" type="button" onclick="deleteContact(this)">Delete Contact</button>
                 </div>
             `;
                     contactSection.insertAdjacentHTML('beforeend', newContact);
