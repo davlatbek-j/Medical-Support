@@ -1,48 +1,20 @@
 package med.support.bot;
 
 import lombok.RequiredArgsConstructor;
-import med.support.constants.RestConstants;
-import med.support.entity.Doctor;
-import med.support.enums.UserState;
-import med.support.model.ApiResponse;
-import med.support.model.DoctorDTO;
-import med.support.model.LoginDTO;
-import med.support.repository.DoctorRepository;
-import med.support.service.DoctorService;
-import med.support.service.ValidationService;
-import org.springframework.http.ResponseEntity;
+import med.support.model.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
-import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class BotService {
-
-
-//    private final DoctorRepository doctorRepository;
-//    private final DoctorService doctorService;
-//
-//    private final RestTemplate restTemplate;
-//    private final ValidationService validationService;
-//
-//    private final Map<Long, UserState> userStates = new HashMap<>();
-//    private HashMap<Long, DoctorDTO> doctorsList = new HashMap<>();
 
     public SendMessage enterLogin(String chatId) {
         return new SendMessage(chatId, "Loginni kiriting: ");
@@ -217,7 +189,7 @@ public class BotService {
     }
 
     public SendMessage isSaveExperience(String chatId) {
-        SendMessage sendMessage=new SendMessage(chatId,"Agarda yana qo'shimcha ishlagan joyingiz bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
+        SendMessage sendMessage = new SendMessage(chatId, "Agarda yana qo'shimcha ishlagan joyingiz bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
         sendMessage.setReplyMarkup(isSaveExperienceMarkup());
         return sendMessage;
     }
@@ -245,7 +217,7 @@ public class BotService {
     }
 
     public SendMessage enterEducation(String chatId) {
-        SendMessage sendMessage=new SendMessage(chatId,"Education kiriting");
+        SendMessage sendMessage = new SendMessage(chatId, "Education kiriting");
         sendMessage.setReplyMarkup(enterEducationMarkup(Long.valueOf(chatId)));
         return sendMessage;
     }
@@ -274,18 +246,18 @@ public class BotService {
     }
 
     public SendMessage isSaveEducation(String chatId) {
-        SendMessage sendMessage=new SendMessage(chatId,"Agarda yana qo'shimcha o'qigan joyingiz bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
+        SendMessage sendMessage = new SendMessage(chatId, "Agarda yana qo'shimcha o'qigan joyingiz bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
         sendMessage.setReplyMarkup(isSaveExperienceMarkup());
         return sendMessage;
     }
 
     public SendMessage enterReceptionAddress(String chatId) {
-        SendMessage sendMessage= new SendMessage(chatId,"Reception address kiriting");
+        SendMessage sendMessage = new SendMessage(chatId, "Reception address kiriting");
         sendMessage.setReplyMarkup(receptionMarkum(Long.valueOf(chatId)));
         return sendMessage;
     }
 
-    public InlineKeyboardMarkup receptionMarkum(Long chatId){
+    public InlineKeyboardMarkup receptionMarkum(Long chatId) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
 
@@ -304,24 +276,24 @@ public class BotService {
     }
 
     public SendMessage enterEducationName(String chatId) {
-        return new SendMessage(chatId,"Education name kiriting");
+        return new SendMessage(chatId, "Education name kiriting");
     }
 
     public SendMessage enterEducationStartYear(String chatId) {
-        return new SendMessage(chatId,"U yerda qaysi yili o'qishni boshlagansiz. Faqat yil raqamlarini kiriting. Masalan: 2024");
+        return new SendMessage(chatId, "U yerda qaysi yili o'qishni boshlagansiz. Faqat yil raqamlarini kiriting. Masalan: 2024");
     }
 
     public SendMessage enterEducationEndYear(String chatId) {
-        return new SendMessage(chatId,"U yerda qaysi yili o'qishni Tugatgansiz. Faqat yil raqamlarini kiriting. Masalan: 2024");
+        return new SendMessage(chatId, "U yerda qaysi yili o'qishni Tugatgansiz. Faqat yil raqamlarini kiriting. Masalan: 2024");
     }
 
     public SendMessage enterEducationFaculty(String chatId) {
-        return new SendMessage(chatId,"Qaysi fakultetini tamomlagansiz");
+        return new SendMessage(chatId, "Qaysi fakultetini tamomlagansiz");
     }
 
 
     public SendMessage enterAddressName(String chatId) {
-        return new SendMessage(chatId,"Addres nomini kiriting");
+        return new SendMessage(chatId, "Addres nomini kiriting");
     }
 
     public SendMessage enterAddressUrl(String chatId) {
@@ -330,18 +302,18 @@ public class BotService {
     }
 
     public SendMessage isSaveReceptionAddress(String chatId) {
-        SendMessage sendMessage=new SendMessage(chatId,"Agarda yana qo'shimcha reception address bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
+        SendMessage sendMessage = new SendMessage(chatId, "Agarda yana qo'shimcha reception address bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
         sendMessage.setReplyMarkup(isSaveExperienceMarkup());
         return sendMessage;
     }
 
     public SendMessage enterServices(String chatId) {
-        SendMessage sendMessage= new SendMessage(chatId,"Service kiriting");
+        SendMessage sendMessage = new SendMessage(chatId, "Service kiriting");
         sendMessage.setReplyMarkup(serviceMarkup(Long.valueOf(chatId)));
         return sendMessage;
     }
 
-    public InlineKeyboardMarkup serviceMarkup(Long chatId){
+    public InlineKeyboardMarkup serviceMarkup(Long chatId) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
 
@@ -360,18 +332,18 @@ public class BotService {
     }
 
     public SendMessage isSaveService(String chatId) {
-        SendMessage sendMessage=new SendMessage(chatId,"Agarda yana qo'shimcha service bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
+        SendMessage sendMessage = new SendMessage(chatId, "Agarda yana qo'shimcha service bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
         sendMessage.setReplyMarkup(isSaveExperienceMarkup());
         return sendMessage;
     }
 
     public SendMessage enterContact(String chatId) {
-        SendMessage sendMessage = new SendMessage(chatId,"contact kiriting");
+        SendMessage sendMessage = new SendMessage(chatId, "contact kiriting");
         sendMessage.setReplyMarkup(contactMarkup());
         return sendMessage;
     }
 
-    public InlineKeyboardMarkup contactMarkup(){
+    public InlineKeyboardMarkup contactMarkup() {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
         List<InlineKeyboardButton> rowInline = new ArrayList<>();
@@ -395,19 +367,19 @@ public class BotService {
     }
 
     public SendMessage enterServiceName(String chatId) {
-        return new SendMessage(chatId,"Service nomini kiriting");
+        return new SendMessage(chatId, "Service nomini kiriting");
     }
 
     public SendMessage enterServicePrice(String chatId) {
-        return new SendMessage(chatId,"Service price kiriting. Price faqat sonlarda iborat bo'lsin.Masalan:100000");
+        return new SendMessage(chatId, "Service price kiriting. Price faqat sonlarda iborat bo'lsin.Masalan:100000");
     }
 
     public SendMessage enterContactValue(String chatId) {
-        return new SendMessage(chatId,"Tanlagan contactga mos username yoki link kiriting");
+        return new SendMessage(chatId, "Tanlagan contactga mos username yoki link kiriting");
     }
 
     public SendMessage saveContact(String chatId) {
-        SendMessage sendMessage=new SendMessage(chatId,"Agarda yana qo'shimcha service bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
+        SendMessage sendMessage = new SendMessage(chatId, "Agarda yana qo'shimcha service bo'lsa kiriting. Yo'q bo'lsa saqlashni bosing");
         sendMessage.setReplyMarkup(isSaveExperienceMarkup());
         return sendMessage;
 
@@ -418,211 +390,83 @@ public class BotService {
     }
 
     public SendMessage enterTrueYear(String chatId) {
-        return new SendMessage(chatId,"Iltimos, to'g'ri yil kiriting (masalan, 1999)");
+        return new SendMessage(chatId, "Iltimos, to'g'ri yil kiriting (masalan, 1999)");
     }
 
     public SendMessage enterTruePrice(String chatId) {
-        return new SendMessage(chatId,"Iltimos, to'g'ri narx kiriting (faqat raqamlar).");
+        return new SendMessage(chatId, "Iltimos, to'g'ri narx kiriting (faqat raqamlar).");
     }
 
     public SendMessage enterTrueContact(String chatId) {
-        return new SendMessage(chatId,"Iltimos, to'g'ri aloqa ma'lumotlarini kiriting: Telegram @username, YouTube linki, yoki email manzili.");
+        return new SendMessage(chatId, "Iltimos, to'g'ri aloqa ma'lumotlarini kiriting: Telegram @username, YouTube linki, yoki email manzili.");
+    }
+
+    public SendPhoto sendAllInformation(String chatId, DoctorDTO doctorDTO, String fileId) {
+        SendPhoto sendPhoto = new SendPhoto();
+        sendPhoto.setChatId(chatId);
+        sendPhoto.setPhoto(new InputFile(fileId));
+        String caption = String.format(
+                "First Name: %s\n" +
+                        "Last Name: %s\n" +
+                        "Surname: %s\n" +
+                        "Phone: %s\n" +
+                        "Outline: %s\n" +
+                        "Motto: %s\n" +
+                        "Specialty: %s\n" +
+                        "Languages: %s\n" +
+                        "Achievements: %s\n" +
+                        "Experience: %s\n" +
+                        "Education: %s\n" +
+                        "Reception Address: %s\n" +
+                        "Services Offered: %s\n" +
+                        "Contact Info: %s",
+                doctorDTO.getFirstname(),
+                doctorDTO.getLastname(),
+                doctorDTO.getSurname(),
+                doctorDTO.getPhone(),
+                doctorDTO.getOutline(),
+                doctorDTO.getMotto(),
+                doctorDTO.getSpecialty(),
+                doctorDTO.getLanguage(),
+                doctorDTO.getAchievement(),
+                formatExperience(doctorDTO.getExperience()),
+                formatEducation(doctorDTO.getEducation()),
+                formatReceptionAddress(doctorDTO.getReceptionAddress()),
+                formatServices(doctorDTO.getService()),
+                formatContactInfo(doctorDTO.getContact())
+        );
+        sendPhoto.setCaption(caption);
+        return sendPhoto;
+    }
+
+    // Bu metodlar DTO ob'ektlarining ma'lumotlarini chiroyli formatga o'tkazadi
+    private String formatExperience(Set<ExperienceDTO> experiences) {
+        return experiences.stream()
+                .map(e -> String.format("%s (%s to %s)", e.getWorkplace(), e.getBeginDate(), e.getEndDate()))
+                .collect(Collectors.joining("\n"));
+    }
+
+    private String formatEducation(Set<EducationDTO> educationList) {
+        return educationList.stream()
+                .map(e -> String.format("%s (%d to %d)", e.getName(), e.getStartYear(), e.getEndYear()))
+                .collect(Collectors.joining("\n"));
+    }
+
+    private String formatReceptionAddress(Set<ReceptionAddressDTO> addresses) {
+        return addresses.stream()
+                .map(a -> String.format("%s [%s]", a.getAddressName(), a.getHttpUrl()))
+                .collect(Collectors.joining("\n"));
+    }
+
+    private String formatServices(Set<ServiceDTO> services) {
+        return services.stream()
+                .map(s -> String.format("%s - %s", s.getName(), s.getPrice()))
+                .collect(Collectors.joining("\n"));
+    }
+
+    private String formatContactInfo(Set<ContactDTO> contacts) {
+        return contacts.stream()
+                .map(c -> String.format("%s: %s", c.getContactType(), c.getValue()))
+                .collect(Collectors.joining("\n"));
     }
 }
-
-
-//    //STRING CHATID NI OLIB OLISH UCHUN
-//    public static String getChatId(Update update) {
-//        if (update.hasMessage()) {
-//            return update.getMessage().getChatId().toString();
-//        } else if (update.hasCallbackQuery()) {
-//            return update.getCallbackQuery().getFrom().getId().toString();
-//        }
-//        return "";
-//    }
-//
-//    // LONG CHATID NI OLISH UCHUN
-//    public static Long longChatId(Update update) {
-//        if (update.hasMessage()) {
-//            return update.getMessage().getChatId();
-//        } else if (update.hasCallbackQuery()) {
-//            return update.getCallbackQuery().getMessage().getChatId();
-//        }
-//        return null;
-//    }
-//
-//    public void setUserState(Long chatId, UserState state)
-//    {
-//        if (!doctorRepository.existsByChatId(String.valueOf(chatId))) {
-//            Doctor doctor = Doctor.builder()
-//                    .chatId(String.valueOf(chatId))
-//                    .state(state)
-//                    .build();
-//            doctorRepository.save(doctor);
-//        } else {
-//            Doctor doctor = doctorRepository.findByChatId(String.valueOf(chatId));
-//            doctor.setState(state);
-//            doctorRepository.save(doctor);
-//        }
-//    }
-//
-//    public UserState getUserState(Long chatId) {
-//        Doctor doctor = doctorRepository.findByChatId(String.valueOf(chatId));
-//        if (doctor != null && doctor.getState() != null) {
-//            return doctor.getState();
-//        }
-//        return UserState.START;
-//    }
-
-
-//RUS TILIDA MALUMOTLARNI KIRITISH
-
-//    public void saveUserUz(Update update) {
-//        String chatId = getChatId(update);
-//        new Doctor();
-//        Doctor doctor;
-//        if (doctorRepository.existsByChatId(chatId)) {
-//            doctor = doctorRepository.findByChatId(chatId);
-//            doctor.setState(UserState.LOGIN);
-//        } else {
-//            doctor = Doctor.builder().chatId(chatId).build();
-//            doctor.setState(UserState.LOGIN);
-//        }
-//        doctorRepository.save(doctor);
-//        loginUz(update);
-//    }
-//
-//    public void loginUz(Update update) {
-//
-//        SendMessage sendMessage = new SendMessage(getChatId(update), "Sizga yuborilgan loginni kiriting ");
-//        sendMessage.setReplyMarkup(new ReplyKeyboardRemove(true));
-//        restTemplate.postForObject(RestConstants.FOR_MESSAGE, sendMessage, Object.class);
-//        setUserState(longChatId(update), UserState.FIRSTNAME);
-//
-//    }
-//
-//
-//    public void firstname(Update update) {
-//        Doctor doctor = doctorRepository.findByChatId(getChatId(update));
-//        String login = update.getMessage().getText();
-//        doctor.setLogin(login);
-//        SendMessage sendMessage = new SendMessage(getChatId(update),
-//                "Tabriklaymiz siz botimiz xizmatlaridan foydalanishingiz mumkin \n" +
-//                        "Ismingizni kiriting: ");
-//        sendMessage.setReplyMarkup(new ReplyKeyboardRemove(true));
-//        restTemplate.postForObject(RestConstants.FOR_MESSAGE, sendMessage, Object.class);
-//        doctor.setState(UserState.LASTNAME);
-//        doctorRepository.save(doctor);
-//
-//    }
-//
-//    public void lastname(Update update) {
-//        Doctor doctor = doctorRepository.findByChatId(getChatId(update));
-//        String firstname = update.getMessage().getText();
-//        doctor.setFirstname(firstname);
-//        SendMessage sendMessage = new SendMessage(getChatId(update),
-//
-//                        "Familiyangizni kiriting: ");
-//        sendMessage.setReplyMarkup(new ReplyKeyboardRemove(true));
-//        restTemplate.postForObject(RestConstants.FOR_MESSAGE, sendMessage, Object.class);
-//       doctor.setState(UserState.SURNAME);
-//       doctorRepository.save(doctor);
-//
-//
-//    }
-//    public void surname(Update update){
-//        Doctor doctor = doctorRepository.findByChatId(getChatId(update));
-//        String lastname = update.getMessage().getText();
-//        doctor.setLastname(lastname);
-//        SendMessage sendMessage = new SendMessage(getChatId(update),
-//
-//                "Surnameni kiriting: ");
-//        sendMessage.setReplyMarkup(new ReplyKeyboardRemove(true));
-//        restTemplate.postForObject(RestConstants.FOR_MESSAGE, sendMessage, Object.class);
-//        doctor.setState(UserState.OUTLINE);
-//        doctorRepository.save(doctor);
-//    }
-//
-//
-//    public void outline(Update update){
-//        Doctor doctor = doctorRepository.findByChatId(getChatId(update));
-//        String surname = update.getMessage().getText();
-//        doctor.setSurname(surname);
-//        SendMessage sendMessage = new SendMessage(getChatId(update),
-//
-//                "Outline kiriting: ");
-//        sendMessage.setReplyMarkup(new ReplyKeyboardRemove(true));
-//        restTemplate.postForObject(RestConstants.FOR_MESSAGE, sendMessage, Object.class);
-//        doctor.setState(UserState.MOTTO);
-//        doctorRepository.save(doctor);
-//    }
-//    public void motto(Update update){
-//        Doctor doctor = doctorRepository.findByChatId(getChatId(update));
-//        String outline = update.getMessage().getText();
-//        doctor.setOutline(outline);
-//        SendMessage sendMessage = new SendMessage(getChatId(update),
-//
-//                "Motto kiriting: ");
-//        sendMessage.setReplyMarkup(new ReplyKeyboardRemove(true));
-//        restTemplate.postForObject(RestConstants.FOR_MESSAGE, sendMessage, Object.class);
-//        doctor.setState(UserState.MOTTO);
-//        doctorRepository.save(doctor);
-//    }
-//
-//
-//    private void meRus(Update update) {
-//        String chatId = getChatId(update);
-//
-//        Doctor doctor = doctorRepository.findByChatId(chatId);
-//        String text = "*Sizning malumotlaringiz \n*"
-//                + "Ism : " +
-//                "\nFamiliya : " +
-//                "\nSharif : " +
-//                "\nTelefon raqam : " +
-//                "\nKasbingiz : " +
-//                "\ntajribangiz : " +
-//                "\nManzilingiz : ";
-//
-//        EditMessageText editMessageText = new EditMessageText();
-//        editMessageText.setChatId(chatId);
-//        editMessageText.setMessageId(update.getCallbackQuery().getMessage().getMessageId());
-//        editMessageText.setReplyMarkup(forMeRus());
-//        editMessageText.enableMarkdown(true);
-//        editMessageText.setText(text);
-//
-//        restTemplate.postForObject(RestConstants.EDIT_MESSAGE, editMessageText, Object.class);
-//        setUserState(longChatId(update), UserState.ALREADY_REGISTRATED);
-//    }
-//
-//    private InlineKeyboardMarkup forMeRus() {
-//        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
-//        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-//
-//        InlineKeyboardButton button1 = new InlineKeyboardButton();
-//        InlineKeyboardButton button2 = new InlineKeyboardButton();
-//
-//        button1.setText("♻\uFE0FQayta ro'yxatdan o'tish");
-//        button2.setText("To'lov qilish");
-//
-//        button1.setCallbackData("userReRegister");
-//        button2.setCallbackData("to'lov");
-//
-//        List<InlineKeyboardButton> row1 = new ArrayList<>();
-//        List<InlineKeyboardButton> row2 = new ArrayList<>();
-//
-//        row1.add(button1);
-//        row2.add(button2);
-//
-//        rowsInline.add(row1);
-//        rowsInline.add(row2);
-//
-//        markupInline.setKeyboard(rowsInline);
-//
-//        return markupInline;
-//
-//    }
-
-
-//--------------------------------------------------------------------------------------------------
-
-

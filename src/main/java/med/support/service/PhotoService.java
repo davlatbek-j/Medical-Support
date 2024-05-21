@@ -82,5 +82,8 @@ public class PhotoService {
 
     }
 
+    public Photo findByUrl(String httpUrl){
+        return photoRepository.findByHttpUrl(httpUrl).orElse(null);
+    }
 
 }
