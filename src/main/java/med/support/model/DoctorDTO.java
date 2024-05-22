@@ -3,7 +3,10 @@ package med.support.model;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import med.support.enums.UserState;
+import org.springframework.web.multipart.MultipartFile;
 
+
+import java.util.Collection;
 import java.util.Set;
 
 @Data
@@ -32,4 +35,5 @@ public class DoctorDTO {
     Set<ReceptionAddressDTO> receptionAddress;
     Set<ServiceDTO> service;
     Set<ContactDTO> contact;
+    MultipartFile photoFile;
 }

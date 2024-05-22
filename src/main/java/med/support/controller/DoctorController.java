@@ -21,9 +21,9 @@ public class DoctorController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse> addDoctor(@RequestBody DoctorDTO doctorDTO/*,
-                                                 @RequestParam(name = "photo") MultipartFile photo*/) {
-        return doctorService.save(doctorDTO);
+    public ResponseEntity<ApiResponse> addDoctor(@RequestParam(name = "json") String stringDTO,
+                                                 @RequestParam(name = "photo") MultipartFile photo) {
+        return doctorService.save(stringDTO,photo);
     }
 
     @PostMapping("/create-login")

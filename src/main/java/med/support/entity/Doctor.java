@@ -54,13 +54,13 @@ public class Doctor {
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     Photo photo;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+    @ManyToMany(fetch = FetchType.EAGER)
     Set<Speciality> speciality;
 
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     Set<Experience> experience;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+    @ManyToMany(fetch = FetchType.EAGER)
     Set<Language> language;
 
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)

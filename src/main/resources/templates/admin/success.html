@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Profile</title>
+<!--    <link rel="stylesheet" type="text/css" href="css/style.css">-->
+</head>
+<body>
+<div>
+    <span id="token" style="display: none;" th:text="${signInResponse.token}"></span>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let token = document.getElementById('token').textContent;
+        localStorage.setItem("token", token);
+        console.log(token)
+        fetch('/admin/', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        }).then(response => {
+            if (response.ok) {
+                // Redirect to the dashboard page upon successful authentication
+                window.location.href = '/admin/dashboard';
+            } else {
+                // Handle errors or unauthorized access
+                console.error('Failed to authenticate or server error occurred.');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+</body>
+</html>

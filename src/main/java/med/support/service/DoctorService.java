@@ -1,5 +1,6 @@
 package med.support.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import med.support.entity.Doctor;
 import med.support.entity.Language;
@@ -10,6 +11,7 @@ import med.support.mapper.DoctorMapper;
 import med.support.model.ApiResponse;
 import med.support.model.DoctorDTO;
 import med.support.model.LoginDTO;
+import med.support.model.CreateLoginResponse;
 import med.support.repository.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,12 +36,14 @@ public class DoctorService {
     private final PhotoService photoService;
 
     //Dto'dan entity yasab db'ga saqlash uchun
-    public ResponseEntity<ApiResponse> save(DoctorDTO doctorDTO) {
-
+    public ResponseEntity<ApiResponse> save(String stringDto , MultipartFile photo) {
         try {
-            Doctor doctor = saveToDb(doctorMapper.toEntity(doctorDTO));
-//            Photo save = photoService.save(photo, doctor.getId());
-//            doctor.setPhoto(save);
+            ObjectMapper mapper = new ObjectMapper();
+            DoctorDTO dto = mapper.readValue(stringDto, DoctorDTO.class);
+
+            Doctor doctor = saveToDb(doctorMapper.toEntity(dto));
+            Photo save = photoService.save(photo, dto.getLogin() );
+            doctor.setPhoto(save);
             Doctor saved = doctorRepository.save(doctor);
             return ResponseEntity.ok().body(new ApiResponse(201, "Doctor Saved", doctorMapper.toDTO(saved)));
         } catch (Exception e) {
@@ -118,7 +122,7 @@ public class DoctorService {
 
 
         saveToDb(entity);
-        return ResponseEntity.ok().body(new ApiResponse(200, "Doctor Updated", null));
+        return ResponseEntity.ok().body(new ApiResponse(200, "Doctor Updated", doctorMapper.toDTO(entity)));
     }
 
 
@@ -135,8 +139,9 @@ public class DoctorService {
         doctor.setLogin(loginDTO.getLogin());
         doctor.setPassword(loginDTO.getPassword());
         doctorRepository.save(doctor);
-        return ResponseEntity.ok().body(new ApiResponse(200, "Login Created", "id:" + doctor.getId()));
+        return ResponseEntity.ok().body(new ApiResponse(200, "Login Created",  new CreateLoginResponse(doctor.getId())));
     }
+
 
     public Optional<Doctor> findByChatId(Long chatId) {
         return doctorRepository.findByChatId(chatId);
