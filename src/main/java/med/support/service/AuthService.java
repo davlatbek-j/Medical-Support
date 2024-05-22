@@ -22,7 +22,7 @@ public class AuthService {
         if (byLogin != null) {
             if (passwordEncoder.matches(signIn.getPassword(), byLogin.getPassword())) {
                 return new SignInResponse(
-                        "Bearer "+tokenService.generateToken(byLogin.getLogin()),
+                        tokenService.generateToken(byLogin.getLogin()),
                         byLogin.getRole().getRole().name(),
                         byLogin.getLogin()
                 );

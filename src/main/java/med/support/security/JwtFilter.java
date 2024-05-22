@@ -24,12 +24,10 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String token = request.getHeader("Authorization");
-        if (token != null) {
-//            token= token.substring(7);
+        if (token != null ) {
             token = token.replace("Bearer ", "");
-            if (jwtTokenService.validateToken(token)) {
+            if (jwtTokenService.validateToken(token) ) {
                 User userFromToken = jwtTokenService.getUserFromToken(token);
-
                 if (userFromToken != null && userFromToken.isEnabled()) {
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
                             = new UsernamePasswordAuthenticationToken(

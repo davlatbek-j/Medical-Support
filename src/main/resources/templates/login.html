@@ -7,7 +7,7 @@
 <body>
 <div class="login-container">
     <h2>Login</h2>
-    <form id="loginForm" th:action="@{/login}"  th:object="${signIn}" method="post">
+    <form id="loginForm" th:object="${signIn}">
         <div class="form-group">
             <label for="login">Login</label>
             <input type="text" id="login" th:field="*{login}" required>
@@ -21,34 +21,36 @@
         </div>
     </form>
 </div>
-</body>
-</html>
-<!--
+
 <script>
-    document.getElementById('loginForm').addEventListener('submit', function() {
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Останавливаем стандартное поведение формы
+
         const login = document.getElementById('login').value;
         const password = document.getElementById('password').value;
 
-        fetch('/admin/login', {
+        fetch('/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                // "authorization": localStorage.getItem("token"),
             },
             body: `login=${login}&password=${password}`
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.token) {
-                    localStorage.setItem('token', data.token);
-                    window.location.href = '/admin/success'; // redirect to the success page
-                } else {
-                    alert('Login failed!');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+
+                // Перенаправляем на страницу dashboard
+                window.location.href = '/admin/dashboard';
+            } else {
+                alert('Ошибка входа!');
+            }
+        }).catch(error => {
+            console.error('Ошибка:', error);
+        });
     });
 </script>
--->
+
+</body>
+</html>

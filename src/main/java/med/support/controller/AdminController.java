@@ -3,7 +3,6 @@ package med.support.controller;
 import lombok.RequiredArgsConstructor;
 import med.support.entity.Doctor;
 import med.support.mapper.DoctorMapper;
-import med.support.model.DoctorDTO;
 import med.support.model.DoctorDtoAdmin;
 import med.support.model.LoginDTO;
 import med.support.repository.DoctorRepository;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -26,12 +24,12 @@ public class AdminController {
     private final AdminService adminService;
 
 
-    @GetMapping("/dashboard")
-    public String showDoctorList(Model model){
-        List<DoctorDTO> dtoList = doctorService.getAllDto();
-        model.addAttribute("doctors",dtoList);
-        return "admin/dashboard";
-    }
+//    @GetMapping("/dashboard")
+//    public String showDoctorList(Model model){
+//        List<DoctorDTO> dtoList = doctorService.getAllDto();
+//        model.addAttribute("doctors",dtoList);
+//        return "admin/dashboard";
+//    }
 
     @GetMapping("/create")
     public String showCreateLogin(Model model){
@@ -41,7 +39,8 @@ public class AdminController {
 
     @PostMapping("/create")
     public String saveLogin(@ModelAttribute("loginDto") LoginDTO loginDTO){
-        doctorService.createLogin(loginDTO);
+        System.out.println("loginDTO = " + loginDTO);
+//        doctorService.createLogin(loginDTO);
         return "redirect:/admin/dashboard";
     }
 
