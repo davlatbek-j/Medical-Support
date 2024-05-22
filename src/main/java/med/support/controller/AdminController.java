@@ -40,7 +40,7 @@ public class AdminController {
     @PostMapping("/create")
     public String saveLogin(@ModelAttribute("loginDto") LoginDTO loginDTO){
         System.out.println("loginDTO = " + loginDTO);
-//        doctorService.createLogin(loginDTO);
+        doctorService.createLogin(loginDTO);
         return "redirect:/admin/dashboard";
     }
 
@@ -73,7 +73,11 @@ public class AdminController {
     public String editDoctor(@PathVariable(name = "login") String login , Model model ,
                              @ModelAttribute DoctorDtoAdmin doctorDtoAdmin) {
 
+        System.err.println("----------------------------------------------");
+        System.err.println("doctorDtoAdmin.getPhotoFile() = " + doctorDtoAdmin.getPhotoFile());
+
         adminService.update(login,doctorDtoAdmin);
+
         return "redirect:/admin/dashboard";
     }
 

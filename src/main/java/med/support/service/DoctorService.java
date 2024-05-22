@@ -78,6 +78,10 @@ public class DoctorService {
     //logini berilgan doctorni photosini qaytarish
     public ResponseEntity<byte[]> getPhoto(String login) {
         try {
+            System.err.println("_____________________________");
+            Doctor byLogin = doctorRepository.findByLogin(login);
+            System.out.println("byLogin.getPhoto() = " + byLogin.getPhoto());
+
             Photo photo = doctorRepository.findByLogin(login).getPhoto();
 
             Path imagePath = Paths.get(photo.getSystemPath());
