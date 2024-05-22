@@ -1,22 +1,28 @@
 package med.support.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+import med.support.enums.UserState;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.util.Set;
 
 @Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
-@Entity
+@Entity(name = "doctor")
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    Long chatId;
 
     @Column(length = 50)
     String firstname;
@@ -30,10 +36,10 @@ public class Doctor {
     @Column(length = 20)
     String phone;
 
-    @Column(nullable = false)
+  //  @Column(nullable = false)
     String login;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     String password;
 
     @Column(length = 300)
@@ -41,6 +47,9 @@ public class Doctor {
 
     @Column(length = 500)
     String motto;
+
+    @Enumerated(EnumType.STRING)
+    UserState state;
 
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     Photo photo;
@@ -68,4 +77,6 @@ public class Doctor {
 
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     Set<Contact> contact;
+
+
 }

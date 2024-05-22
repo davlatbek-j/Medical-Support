@@ -9,9 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @Service
@@ -48,4 +53,37 @@ public class PhotoService {
             throw new RuntimeException(e);
         }
     }
+
+    public Photo savePhotoFromTelegram(String filePath, String doctorLogin)  {
+            File file = new File(filePath);
+            try {
+                // Fayl turi va original nomini aniqlash
+                String contentType = Files.probeContentType(file.toPath());
+                String originalName = file.getName();
+
+                // Content type tekshiruvi
+                if (!contentType.equals("image/jpeg") && !contentType.equals("image/png")) {
+                    System.err.println("Invalid content type: " + contentType);
+                    return null;
+                }
+
+                // Photo ob'ektini yaratish
+                Photo photo = new Photo(
+                         originalName,
+                        filePath,
+                        "http://localhost:8080/doctor/image/" + doctorLogin,
+                        contentType);
+
+                // Foto ma'lumotlarini bazaga saqlash
+                return photoRepository.save(photo);
+            } catch (IOException e) {
+                throw new RuntimeException("Error processing file", e);
+            }
+
+    }
+
+    public Photo findByUrl(String httpUrl){
+        return photoRepository.findByHttpUrl(httpUrl).orElse(null);
+    }
+
 }
