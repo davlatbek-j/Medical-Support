@@ -50,7 +50,7 @@ public class MedicalBot extends TelegramLongPollingBot {
 
     private HashMap<Long, ContactDTO> contactList = new HashMap<>();
 
-    private HashMap<Long, String> photoFileIds=new HashMap<>();
+    private HashMap<Long, String> photoFileIds = new HashMap<>();
 
     private Set<String> languages = new HashSet<>();
     public static HashMap<Long, Set<String>> userSelections = new HashMap<>();
@@ -206,15 +206,15 @@ public class MedicalBot extends TelegramLongPollingBot {
                             GetFile getFileMethod = new GetFile(fileId);
                             File file = execute(getFileMethod);
                             String fileId1 = file.getFileId();
-                            photoFileIds.put(chatId,fileId1);
+                            photoFileIds.put(chatId, fileId1);
                             String filePath = file.getFilePath();
-                            String fileName = Paths.get(filePath).getFileName().toString();
-                            String fileUrl = "https://api.telegram.org/file/bot"+getBotToken()+"/" + filePath;
+                            String fileName = UUID.randomUUID()+Paths.get(filePath).getFileName().toString();
+                            String fileUrl = "https://api.telegram.org/file/bot" + getBotToken() + "/" + filePath;
                             URL url = new URL(fileUrl);
                             InputStream input = url.openStream();
-                            Files.copy(input, Paths.get(imgLocation + fileName), StandardCopyOption.REPLACE_EXISTING);
+                            String targetPath = imgLocation +"\\"+ fileName;
+                            Files.copy(input, Paths.get(targetPath), StandardCopyOption.REPLACE_EXISTING);
                             input.close();
-                            String targetPath=imgLocation+filePath;
                             DoctorDTO doctorDTO = doctorsList.get(chatId);
                             Photo photo = photoService.savePhotoFromTelegram(targetPath, doctorDTO.getLogin());
                             String httpUrl = photo.getHttpUrl();
@@ -260,29 +260,40 @@ public class MedicalBot extends TelegramLongPollingBot {
 
                     case EXPERIENCE_BEGIN_DATE -> {
                         String beginDate = text;
-                        ExperienceDTO experienceDTO = experienceList.get(chatId);
-                        if (experienceDTO == null) {
-                            experienceList.put(chatId, ExperienceDTO.builder().beginDate(beginDate).build());
+                        String validationResponse = validationService.validateBeginDate(beginDate, "dd/MM/yyyy");  // Sana formatini bu yerda ko'rsating
+
+                        if (validationResponse != null) {
+                            execute(botService.sendBedinDateMessage(chatId.toString(), validationResponse));  // Agar validatsiya xato bo'lsa, xato xabarini jo'natish
                         } else {
-                            experienceDTO.setBeginDate(beginDate);
-                            experienceList.put(chatId, experienceDTO);
+                            ExperienceDTO experienceDTO = experienceList.get(chatId);
+                            if (experienceDTO == null) {
+                                experienceList.put(chatId, ExperienceDTO.builder().beginDate(beginDate).build());
+                            } else {
+                                experienceDTO.setBeginDate(beginDate);
+                                experienceList.put(chatId, experienceDTO);
+                            }
+                            userState = UserState.EXPERIENCE_END_DATE;
+                            execute(botService.enterExperience(chatId.toString()));  // Keyingi bosqichga o'tish
                         }
-                        userState = UserState.EXPERIENCE_END_DATE;
-                        execute(botService.enterExperience(chatId.toString()));
                     }
+
 
                     case EXPERIENCE_END_DATE -> {
                         String endDate = text;
-                        ExperienceDTO experienceDTO = experienceList.get(chatId);
-                        if (experienceDTO == null) {
-                            experienceList.put(chatId, ExperienceDTO.builder().endDate(endDate).build());
-                        } else {
-                            experienceDTO.setEndDate(endDate);
-                            experienceList.put(chatId, experienceDTO);
+                        String validationResponse = validationService.validateBeginDate(endDate, "dd/MM/yyyy");  // Sana formatini bu yerda ko'rsating
+                        if (validationResponse != null) {
+                            execute(botService.sendBedinDateMessage(chatId.toString(), validationResponse));  // Agar validatsiya xato bo'lsa, xato xabarini jo'natish
+                        }else {
+                            ExperienceDTO experienceDTO = experienceList.get(chatId);
+                            if (experienceDTO == null) {
+                                experienceList.put(chatId, ExperienceDTO.builder().endDate(endDate).build());
+                            } else {
+                                experienceDTO.setEndDate(endDate);
+                                experienceList.put(chatId, experienceDTO);
+                            }
+                            userState = UserState.EXPERIENCE_POSITION;
+                            execute(botService.enterExperience(chatId.toString()));
                         }
-                        userState = UserState.EXPERIENCE_POSITION;
-                        execute(botService.enterExperience(chatId.toString()));
-                        System.out.println(experienceDTO);
                     }
 
                     case EXPERIENCE_POSITION -> {
@@ -345,14 +356,14 @@ public class MedicalBot extends TelegramLongPollingBot {
                             }
                             userState = UserState.EDUCATION_END_YEAR;
                             execute(botService.enterEducation(chatId.toString()));
-                        }else {
+                        } else {
                             execute(botService.enterTrueYear(chatId.toString()));
                         }
                     }
 
                     case EDUCATION_END_YEAR -> {
                         String endYear = text;
-                        if (validationService.isValidYear(endYear)){
+                        if (validationService.isValidYear(endYear)) {
                             EducationDTO educationDTO = educationList.get(chatId);
                             if (educationDTO == null) {
                                 educationList.put(chatId, EducationDTO.builder().endYear(Integer.valueOf(endYear)).build());
@@ -362,8 +373,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                             }
                             userState = UserState.EDUCATION_FACULTY;
                             execute(botService.enterEducation(chatId.toString()));
-                        }
-                        else {
+                        } else {
                             execute(botService.enterTrueYear(chatId.toString()));
                         }
                     }
@@ -430,8 +440,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                             receptionList.remove(chatId);
                             execute(botService.isSaveReceptionAddress(chatId.toString()));
 
-                        }
-                        else {
+                        } else {
                             execute(botService.enterAddressUrl(chatId.toString()));
                         }
 
@@ -474,28 +483,28 @@ public class MedicalBot extends TelegramLongPollingBot {
                             doctorsList.put(chatId, doctorDTO);
                             servicesList.remove(chatId);
                             execute(botService.isSaveService(chatId.toString()));
-                        }else {
+                        } else {
                             execute(botService.enterTruePrice(chatId.toString()));
                         }
 
                     }
 
                     case CONTACT -> {
-                        String contactValue=text;
+                        String contactValue = text;
                         if (validationService.isValidContact(contactValue)) {
                             ContactDTO contactDTO = contactList.get(chatId);
                             contactDTO.setValue(contactValue);
                             DoctorDTO doctorDTO = doctorsList.get(chatId);
-                            if (doctorDTO.getContact()==null){
+                            if (doctorDTO.getContact() == null) {
                                 doctorDTO.setContact(new HashSet<>());
                             }
                             doctorDTO.getContact().add(contactDTO);
-                            doctorsList.put(chatId,doctorDTO);
+                            doctorsList.put(chatId, doctorDTO);
                             contactList.remove(chatId);
-                            userState=UserState.CONTACT_FINISHED;
-                            doctorService.updateState(chatId,UserState.CONTACT_FINISHED);
+                            userState = UserState.CONTACT_FINISHED;
+                            doctorService.updateState(chatId, UserState.CONTACT_FINISHED);
                             execute(botService.saveContact(chatId.toString()));
-                        }else {
+                        } else {
                             execute(botService.enterTrueContact(chatId.toString()));
                         }
 
@@ -504,10 +513,10 @@ public class MedicalBot extends TelegramLongPollingBot {
                 }
             }
 
-            if (text.equals("/start")) {
+            if (Objects.equals(text,"/start")) {
                 userState = UserState.START;
-            } else if (userState == null ||userState==UserState.DEFAULT) {
-                userState=UserState.DEFAULT;
+            } else if (userState == null || userState == UserState.DEFAULT) {
+                userState = UserState.DEFAULT;
                 execute(botService.sendStart(chatId.toString()));
             }
 
@@ -546,9 +555,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                 }
 
             }
-        }
-
-        else if (update.hasCallbackQuery()) {
+        } else if (update.hasCallbackQuery()) {
             Long chatId = update.getCallbackQuery().getMessage().getChatId();
             String data = update.getCallbackQuery().getData();
             System.out.println(data);
@@ -766,17 +773,16 @@ public class MedicalBot extends TelegramLongPollingBot {
                 }
 
                 case CONTACT -> {
-                    if (data.equals("telegram")||data.equals("youTube")||data.equals("mail")){
+                    if (data.equals("telegram") || data.equals("youTube") || data.equals("mail")) {
                         ContactDTO contactDTO = contactList.get(chatId);
-                        if (contactDTO==null){
-                            contactList.put(chatId,ContactDTO.builder().contactType(data).build());
-                        }else {
+                        if (contactDTO == null) {
+                            contactList.put(chatId, ContactDTO.builder().contactType(data).build());
+                        } else {
                             contactDTO.setContactType(data);
                             contactList.put(chatId, contactDTO);
                         }
                         execute(botService.enterContactValue(chatId.toString()));
-                    }
-                    else {
+                    } else {
                         execute(botService.enterContact(chatId.toString()));
                     }
                 }
@@ -789,8 +795,8 @@ public class MedicalBot extends TelegramLongPollingBot {
                             doctorService.updateState(chatId, UserState.REGISTRATION_FINISHED);
                             DoctorDTO doctorDTO = doctorsList.get(chatId);
                             doctorDTO.setUserState(UserState.REGISTRATION_FINISHED);
-                            doctorService.update(doctorDTO.getLogin(),chatId,UserState.REGISTRATION_FINISHED,doctorDTO);
-                            execute(botService.sendAllInformation(chatId.toString(),doctorDTO,photoFileIds.get(chatId)));
+                            doctorService.update(doctorDTO.getLogin(), chatId, UserState.REGISTRATION_FINISHED, doctorDTO);
+                            execute(botService.sendAllInformation(chatId.toString(), doctorDTO, photoFileIds.get(chatId)));
                             doctorsList.remove(chatId);
                         }
 

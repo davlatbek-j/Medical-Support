@@ -69,7 +69,7 @@ public class PhotoService {
 
                 // Photo ob'ektini yaratish
                 Photo photo = new Photo(
-                        UUID.randomUUID().toString() + originalName,
+                         originalName,
                         filePath,
                         "http://localhost:8080/doctor/image/" + doctorLogin,
                         contentType);
