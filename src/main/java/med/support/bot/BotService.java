@@ -442,13 +442,13 @@ public class BotService {
     // Bu metodlar DTO ob'ektlarining ma'lumotlarini chiroyli formatga o'tkazadi
     private String formatExperience(Set<ExperienceDTO> experiences) {
         return experiences.stream()
-                .map(e -> String.format("%s (%s to %s)", e.getWorkplace(), e.getBeginDate(), e.getEndDate()))
+                .map(e -> String.format("%s (%s - %s)", e.getWorkplace(), e.getBeginDate(), e.getEndDate()))
                 .collect(Collectors.joining("\n"));
     }
 
     private String formatEducation(Set<EducationDTO> educationList) {
         return educationList.stream()
-                .map(e -> String.format("%s (%d to %d)", e.getName(), e.getStartYear(), e.getEndYear()))
+                .map(e -> String.format("%s (%d - %d)", e.getName(), e.getStartYear(), e.getEndYear()))
                 .collect(Collectors.joining("\n"));
     }
 
