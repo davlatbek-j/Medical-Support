@@ -28,7 +28,6 @@ public class AuthService {
                 );
             }
         }
-        System.err.println(byLogin);
         return null;
     }
 
