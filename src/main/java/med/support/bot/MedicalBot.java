@@ -97,7 +97,6 @@ public class MedicalBot extends TelegramLongPollingBot {
                         String login = doctorService.findByChatId(chatId).get().getLogin();
                         ResponseEntity<ApiResponse> result =
                                 doctorService.signIn(LoginDTO.builder().login(login).password(userPassword).build());
-                        System.out.println(result);
                         if (result.getStatusCode().value() == 200) {
                             execute(botService.enterFirstName(chatId.toString()));
                             doctorService.updateState(chatId, UserState.FIRSTNAME);
