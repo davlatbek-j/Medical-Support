@@ -1,6 +1,5 @@
 package med.support.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import med.support.entity.Doctor;
 import med.support.entity.Language;
@@ -11,7 +10,6 @@ import med.support.mapper.DoctorMapper;
 import med.support.model.ApiResponse;
 import med.support.model.DoctorDTO;
 import med.support.model.LoginDTO;
-import med.support.model.CreateLoginResponse;
 import med.support.repository.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,16 +34,11 @@ public class DoctorService {
     private final PhotoService photoService;
 
     //Dto'dan entity yasab db'ga saqlash uchun
-    public ResponseEntity<ApiResponse> save(String stringDto , MultipartFile photo) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            DoctorDTO dto = mapper.readValue(stringDto, DoctorDTO.class);
+    public ResponseEntity<ApiResponse> save(DoctorDTO doctorDTO) {
 
-            Doctor doctor = saveToDb(doctorMapper.toEntity(dto));
-            Photo save = photoService.save(photo, dto.getLogin() );
-            doctor.setPhoto(save);
-            Doctor saved = doctorRepository.save(doctor);
-            return ResponseEntity.ok().body(new ApiResponse(201, "Doctor Saved", doctorMapper.toDTO(saved)));
+        try {
+            Doctor doctor = saveToDb(doctorMapper.toEntity(doctorDTO));
+            return ResponseEntity.ok().body(new ApiResponse(201, "Doctor Saved", doctorMapper.toDTO(doctor)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -108,23 +101,28 @@ public class DoctorService {
         }
         return ResponseEntity.notFound().build();
     }
+    public  Photo findPhotoByLogin(String login) {
+        Long photoId = doctorRepository.findPhotoIdByDoctorLogin(login);
+        Photo byId = photoService.findById(photoId);
+        return  byId;
+    }
 
     public ResponseEntity<ApiResponse> update(String login,Long chatId, UserState state, DoctorDTO doctorDTO) {
         Doctor byLogin = doctorRepository.findByLogin(login);
         if (byLogin == null)
             return ResponseEntity.notFound().build();
-        Photo photo = photoService.findByUrl(doctorDTO.getPhotoUrl());
         Doctor entity = doctorMapper.toEntity(doctorDTO);
         entity.setId(byLogin.getId());
         entity.setLogin(byLogin.getLogin());
         entity.setPassword(byLogin.getPassword());
         entity.setChatId(byLogin.getChatId());
         entity.setState(byLogin.getState());
-        entity.setPhoto(photo);
+        entity.setPhoto(byLogin.getPhoto());
+
 
 
         saveToDb(entity);
-        return ResponseEntity.ok().body(new ApiResponse(200, "Doctor Updated", doctorMapper.toDTO(entity)));
+        return ResponseEntity.ok().body(new ApiResponse(200, "Doctor Updated", null));
     }
 
     public ResponseEntity<ApiResponse> update(String login , DoctorDTO doctorDTO) {
@@ -159,9 +157,8 @@ public class DoctorService {
         doctor.setLogin(loginDTO.getLogin());
         doctor.setPassword(loginDTO.getPassword());
         doctorRepository.save(doctor);
-        return ResponseEntity.ok().body(new ApiResponse(200, "Login Created",  new CreateLoginResponse(doctor.getId())));
+        return ResponseEntity.ok().body(new ApiResponse(200, "Login Created", "id:" + doctor.getId()));
     }
-
 
     public Optional<Doctor> findByChatId(Long chatId) {
         return doctorRepository.findByChatId(chatId);

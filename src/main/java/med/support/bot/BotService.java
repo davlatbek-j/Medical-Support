@@ -475,4 +475,60 @@ public class BotService {
     public SendMessage sendBedinDateMessage(String chatId, String validationResponse) {
         return new SendMessage(chatId, validationResponse);
     }
+
+    public SendMessage alreadyExistsMessage(String chatId) {
+        SendMessage sendMessage = new SendMessage(chatId, "Siz ro'yxatdan o'tgansiz. Qayatadan ro'yxatdan o'tmoqchimisiz?");
+        sendMessage.setReplyMarkup(alreadyExistsMarkup());
+        return sendMessage;
+    }
+
+    public InlineKeyboardMarkup alreadyExistsMarkup() {
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<InlineKeyboardButton> actionRow = new ArrayList<>();
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText("Ha");
+        button.setCallbackData("yes");
+        actionRow.add(button);
+        button = new InlineKeyboardButton();
+        button.setText("Yo'q");
+        button.setCallbackData("no");
+        actionRow.add(button);
+        rowsInline.add(actionRow);
+
+        markupInline.setKeyboard(rowsInline);
+        return markupInline;
+    }
+
+    public SendMessage sendMessageForNo(String chatId) {
+        SendMessage sendMessage = new SendMessage(chatId, "Sizga keluvchi xabarlarlar shu accontga kelsinmi yoki yangi accontgami?");
+        sendMessage.setReplyMarkup(forNoMarkup());
+        return sendMessage;
+    }
+
+    public InlineKeyboardMarkup forNoMarkup() {
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<InlineKeyboardButton> actionRow = new ArrayList<>();
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText("Yangi");
+        button.setCallbackData("new");
+        actionRow.add(button);
+        button = new InlineKeyboardButton();
+        button.setText("Eski");
+        button.setCallbackData("old");
+        actionRow.add(button);
+        rowsInline.add(actionRow);
+
+        markupInline.setKeyboard(rowsInline);
+        return markupInline;
+    }
+
+    public SendMessage sendMessageForNew(String chatId) {
+        return new SendMessage(chatId, "Assosiy accountingiz o'zgardi");
+    }
+
+    public SendMessage sendMessageForOld(String chatId) {
+        return new SendMessage(chatId, "Asosiy accountingiz o'zgarishsiz qoldirildi");
+    }
 }
