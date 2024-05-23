@@ -53,22 +53,7 @@ public class AuthController {
 
     @PostMapping("/admin/dashboard")
     public String getDoctorTable(HttpServletRequest request, HttpServletResponse response , Model model) {
-//        System.err.println("POST  method call...");
-//
-//        String token = request.getHeader("Authorization");
-//        System.err.println("token from req.header in /admin/dashboard.POST :"+token);
-//
-//        response.setHeader("Authorization", "Bearer " + token);
-//
-//        if (token == null) {
-//            model.addAttribute("signIn", new SignIn());
-//            return "login";
-//        }
-//        token = token.replace("Bearer ", "");
-//        if (!tokenService.validateToken(token)) {
-//            model.addAttribute("signIn", new SignIn());
-//            return "login"; // или другая страница ошибки
-//        }
+//        w
 
         // Здесь добавьте логику для получения данных докторов и добавления их в модель
         List<DoctorDTO> allDto = doctorService.getAllDto();

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import med.support.entity.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -33,8 +34,9 @@ public class JwtFilter extends OncePerRequestFilter {
                             = new UsernamePasswordAuthenticationToken(
                             userFromToken,
                             null,
-                            userFromToken.getAuthorities()
-                    );
+                            userFromToken.getAuthorities());
+                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
 
