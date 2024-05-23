@@ -129,6 +129,24 @@ public class DoctorService {
         return ResponseEntity.ok().body(new ApiResponse(200, "Doctor Updated", doctorMapper.toDTO(entity)));
     }
 
+    public ResponseEntity<ApiResponse> update(String login , DoctorDTO doctorDTO) {
+        Doctor byLogin = doctorRepository.findByLogin(login);
+        if (byLogin == null)
+            return ResponseEntity.notFound().build();
+        Photo photo = photoService.findByUrl(doctorDTO.getPhotoUrl());
+        Doctor entity = doctorMapper.toEntity(doctorDTO);
+        entity.setId(byLogin.getId());
+        entity.setLogin(byLogin.getLogin());
+        entity.setPassword(byLogin.getPassword());
+        entity.setChatId(byLogin.getChatId());
+        entity.setState(byLogin.getState());
+        entity.setPhoto(photo);
+
+
+        saveToDb(entity);
+        return ResponseEntity.ok().body(new ApiResponse(200, "Doctor Updated", doctorMapper.toDTO(entity)));
+    }
+
 
     public ResponseEntity<ApiResponse> deleteByLogin(String login) {
         if (doctorRepository.existsByLogin(login)) {

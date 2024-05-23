@@ -10,7 +10,7 @@ public class HomeController {
     @GetMapping("/")
     public String login(Model model) {
         model.addAttribute("signIn", new SignIn());
-        return "index";
+        return "login";
     }
 
 }

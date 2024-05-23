@@ -60,36 +60,6 @@
 
 </div>
 
-<!--<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    let token = localStorage.getItem('token');
-    if (!token) {
-      window.location.href = '/login'; // Перенаправлять на страницу входа, если токен не найден
-    }
-
-    console.log(token);
-
-    fetch('/admin/dashboard', {
-      method: 'POST',
-      headers: {
-        'Authorization':`Bearer ${token}`
-      }
-    }).then(response => response.text())
-            .then(html => {
-              // Здесь мы напрямую используем текст ответа для обновления innerHTML
-              document.getElementById('doctorTableContainer').innerHTML = html;
-              console.log('Данные успешно загружены');
-            })
-            .catch(error => {
-              console.error('Ошибка:', error);
-              alert('Ошибка при загрузке данных');
-            });
-  });
-
-  function createDoc() {
-    window.location.href = '/admin/create';  // Redirect to the creation page
-  }
-</script>-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

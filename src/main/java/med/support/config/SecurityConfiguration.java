@@ -40,9 +40,7 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/","/login", "/doctor/image/**").permitAll()  // Allow all methods for login and image URLs
-//                        .requestMatchers(HttpMethod.GET,"/admin/dashboard").permitAll()  // Allow only GET requests
-//                        .requestMatchers(HttpMethod.GET,"/admin/create").permitAll()  // Allow only GET requests
-//                        .requestMatchers(HttpMethod.GET,"/admin/edit/**").permitAll()  // Allow only GET requests
+                        .requestMatchers("/*.css","/*.js").permitAll()
                         .anyRequest().authenticated())  // All other requests must be authenticated
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .userDetailsService(userService)
@@ -51,15 +49,6 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-
-//    @Bean
-//    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-//        AuthenticationManagerBuilder authenticationManagerBuilder =
-//                http.getSharedObject(AuthenticationManagerBuilder.class);
-//        authenticationManagerBuilder.userDetailsService(userService)
-//                .passwordEncoder( passwordEncoder() );
-//        return authenticationManagerBuilder.build();
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){

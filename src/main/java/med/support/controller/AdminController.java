@@ -27,21 +27,14 @@ public class AdminController {
     private final AdminService adminService;
 
 
-//    @GetMapping("/dashboard")
-//    public String showDoctorList(Model model){
-//        List<DoctorDTO> dtoList = doctorService.getAllDto();
-//        model.addAttribute("doctors",dtoList);
-//        return "admin/dashboard";
-//    }
-
     @GetMapping("/create")
-    public String showCreateLogin(Model model){
+    public String showCreateLogin(Model model) {
         model.addAttribute("loginDto", new LoginDTO());
         return "admin/createLogin";
     }
 
     @PostMapping("/create")
-    public String saveLogin(@ModelAttribute("loginDto") LoginDTO loginDTO){
+    public String saveLogin(@ModelAttribute("loginDto") LoginDTO loginDTO) {
         System.out.println("loginDTO = " + loginDTO);
         doctorService.createLogin(loginDTO);
         return "redirect:/admin/dashboard";
@@ -60,12 +53,12 @@ public class AdminController {
 //TODO EDIT
 
     @GetMapping("/edit/{login}")
-    public String editDoctorPage(@PathVariable(name = "login") String login , Model model) {
+    public String editDoctorPage(@PathVariable(name = "login") String login, Model model) {
 
         Doctor doctor = doctorRepository.findByLogin(login);
 
         DoctorDtoAdmin doctorDtoAdmin = new DoctorDtoAdmin();
-        doctorDtoAdmin=adminService.toDoctorDtoAdmin(doctor);
+        doctorDtoAdmin = adminService.toDoctorDtoAdmin(doctor);
 
         model.addAttribute("doctorDtoAdmin", doctorDtoAdmin);
 
@@ -73,19 +66,17 @@ public class AdminController {
     }
 
     @PostMapping("/edit/{login}")
-    public String editDoctor(@PathVariable(name = "login") String login , Model model ,
+    public String editDoctor(@PathVariable(name = "login") String login, Model model,
                              @ModelAttribute DoctorDtoAdmin doctorDtoAdmin) {
 
-        System.err.println("----------------------------------------------");
-        System.err.println("doctorDtoAdmin.getPhotoFile() = " + doctorDtoAdmin.getPhotoFile());
 
-        adminService.update(login,doctorDtoAdmin);
+        adminService.update(login, doctorDtoAdmin);
 
         return "redirect:/admin/dashboard";
     }
 
     @GetMapping("/about/{login}")
-    public String aboutDoctor(@PathVariable(name = "login") String login ,Model model){
+    public String aboutDoctor(@PathVariable(name = "login") String login, Model model) {
         Doctor byLogin = doctorRepository.findByLogin(login);
         model.addAttribute("doctorDto", doctorMapper.toDTO(byLogin));
         return "admin/about";

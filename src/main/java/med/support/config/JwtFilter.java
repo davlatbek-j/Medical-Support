@@ -32,8 +32,6 @@ public class JwtFilter extends OncePerRequestFilter {
             for (Cookie cookie : rc)
                 if (cookie.getName().equals("Authorization"))
                     token = cookie.getValue();
-            System.err.println("========================================");
-            System.err.println("Cookie found:"+ token );
         }
 
 

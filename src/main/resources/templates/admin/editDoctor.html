@@ -130,33 +130,35 @@
                             <input type="text" th:field="*{experience[__${stat.index}__].workplace}"
                                    placeholder="Workplace"/>
                         </div>
-                            <br>
+                        <br>
                         <div>
                             <label>Begin Date:</label>
                             <input type="text" th:field="*{experience[__${stat.index}__].beginDate}"
                                    placeholder="Begin Date"/>
                         </div>
-                            <br>
+                        <br>
                         <div>
                             <label>End Date:</label>
                             <input type="text" th:field="*{experience[__${stat.index}__].endDate}"
                                    placeholder="End Date"/>
                         </div>
-                            <br>
+                        <br>
                         <div>
                             <label>Position:</label>
                             <input type="text" th:field="*{experience[__${stat.index}__].position}"
                                    placeholder="Position"/>
                         </div>
-                            <br>
+                        <br>
                         <button class="btn btn-danger btn-sm"
-                                type="button" onclick="deleteExperience(this)">Delete Experience</button>
+                                type="button" onclick="deleteExperience(this)">Delete Experience
+                        </button>
                         <br>
                     </div>
                 </div>
                 <br>
                 <button class="btn btn-primary btn-sm"
-                        type="button" onclick="addExperience()">Add Experience</button>
+                        type="button" onclick="addExperience()">Add Experience
+                </button>
 
 
                 <!--              ---------------------Education----------------  -->
@@ -168,33 +170,35 @@
                             <label>Where:</label>
                             <input type="text" th:field="*{education[__${stat.index}__].name}" placeholder="Name"/>
                         </div>
-                            <br>
+                        <br>
                         <div>
                             <label>Start Year:</label>
                             <input type="text" th:field="*{education[__${stat.index}__].startYear}"
                                    placeholder="Start Year"/>
                         </div>
-                            <br>
+                        <br>
                         <div>
                             <label>End Year:</label>
                             <input type="text" th:field="*{education[__${stat.index}__].endYear}"
                                    placeholder="End Year"/>
                         </div>
-                            <br>
+                        <br>
                         <div>
                             <label>Faculty:</label>
                             <input type="text" th:field="*{education[__${stat.index}__].faculty}"
                                    placeholder="Faculty"/>
                         </div>
-                            <br>
+                        <br>
                         <button class="btn btn-danger btn-sm"
-                                type="button" onclick="deleteEducation(this)">Delete Education</button>
+                                type="button" onclick="deleteEducation(this)">Delete Education
+                        </button>
                         <br>
                     </div>
                 </div>
                 <br>
                 <button class="btn btn-primary btn-sm"
-                        type="button" onclick="addEducation()">Add Education</button>
+                        type="button" onclick="addEducation()">Add Education
+                </button>
 
 
                 <!--              ---------------------ReceptionAddress----------------  -->
@@ -208,21 +212,23 @@
                             <input type="text" th:field="*{receptionAddress[__${stat.index}__].addressName}"
                                    placeholder="Address Name"/>
                         </div>
-                            <br>
+                        <br>
                         <div>
                             <label>URL:</label>
                             <input type="text" th:field="*{receptionAddress[__${stat.index}__].httpUrl}"
                                    placeholder="URL"/>
                         </div>
-                            <br>
+                        <br>
                         <button class="btn btn-danger btn-sm"
-                                type="button" onclick="deleteReceptionAddress(this)">Delete Reception Address</button>
+                                type="button" onclick="deleteReceptionAddress(this)">Delete Reception Address
+                        </button>
                         <br>
                     </div>
                 </div>
                 <br>
                 <button class="btn btn-primary btn-sm"
-                        type="button" onclick="addReceptionAddress()">Add Reception Address</button>
+                        type="button" onclick="addReceptionAddress()">Add Reception Address
+                </button>
 
 
                 <!--              ---------------------Service----------------  -->
@@ -235,20 +241,22 @@
                             <input type="text" th:field="*{service[__${stat.index}__].name}"
                                    placeholder="Service Name"/>
                         </div>
-                            <br>
+                        <br>
                         <div>
                             <label>Price:</label>
                             <input type="number" th:field="*{service[__${stat.index}__].price}"
                                    placeholder="Price(justNumbers)"/>
                         </div>
-                            <br>
+                        <br>
                         <button class="btn btn-danger btn-sm"
-                                type="button" onclick="deleteService(this)">Delete Service</button>
+                                type="button" onclick="deleteService(this)">Delete Service
+                        </button>
                     </div>
                 </div>
                 <br>
                 <button class="btn btn-primary btn-sm"
-                        type="button" onclick="addService()">Add Service</button>
+                        type="button" onclick="addService()">Add Service
+                </button>
 
 
                 <!--              ---------------------Contact----------------  -->
@@ -261,20 +269,22 @@
                             <input type="text" th:field="*{contact[__${stat.index}__].contactType}"
                                    placeholder="Contact Type"/>
                         </div>
-                            <br>
+                        <br>
                         <div>
                             <label>Value:</label>
                             <input type="text" th:field="*{contact[__${stat.index}__].value}" placeholder="Value"/>
                         </div>
-                            <br>
+                        <br>
                         <button class="btn btn-danger btn-sm"
-                                type="button" onclick="deleteContact(this)">Delete Contact</button>
+                                type="button" onclick="deleteContact(this)">Delete Contact
+                        </button>
                         <br>
                     </div>
                 </div>
                 <br>
                 <button class="btn btn-primary btn-sm"
-                        type="button" onclick="addContact()">Add Contact</button>
+                        type="button" onclick="addContact()">Add Contact
+                </button>
 
 
                 <!--              ---------------------SUBMIT----------------  -->
