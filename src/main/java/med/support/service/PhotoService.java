@@ -86,4 +86,7 @@ public class PhotoService {
         return photoRepository.findByHttpUrl(httpUrl).orElse(null);
     }
 
+    public Photo findById(Long photoId) {
+        return photoRepository.findById(photoId).orElse(null);
+    }
 }
