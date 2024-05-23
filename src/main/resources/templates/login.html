@@ -7,7 +7,7 @@
 <body>
 <div class="login-container">
     <h2>Login</h2>
-    <form id="loginForm" th:object="${signIn}">
+    <form id="loginForm" th:action="@{/login}" th:object="${signIn}" method="POST">
         <div class="form-group">
             <label for="login">Login</label>
             <input type="text" id="login" th:field="*{login}" required>
@@ -22,6 +22,7 @@
     </form>
 </div>
 
+<!--
 <script>
     document.getElementById('loginForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Останавливаем стандартное поведение формы
@@ -51,6 +52,7 @@
         });
     });
 </script>
+-->
 
 </body>
 </html>

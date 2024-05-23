@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -35,30 +36,38 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    @ResponseBody
-    public ResponseEntity<SignInResponse> login(HttpServletRequest request ,HttpServletResponse response ,
+    public String login(HttpServletRequest request ,HttpServletResponse response ,
                                                 @ModelAttribute SignIn signIn) throws UnsupportedEncodingException {
+
         SignInResponse signInResponse = authService.login(signIn);
         if (signInResponse == null) {
-            return ResponseEntity.notFound().build();
+            return "login";
         }
-        return ResponseEntity.ok(signInResponse);
+        String token = "Bearer " + signInResponse.getToken();
+
+        Cookie tokenCookie = new Cookie("Authorization",URLEncoder.encode( token, "UTF-8" ));
+
+        tokenCookie.setMaxAge(Integer.MAX_VALUE);
+        System.err.println("tokenCookie.getValue() = " + tokenCookie.getValue());
+
+        response.addCookie(tokenCookie);
+        return "redirect:/admin/dashboard";
     }
 
     @GetMapping("/admin/dashboard")
-    public String dashboard() {
-        System.err.println("GET");
+    public String dashboard(Model model) {
+        List<DoctorDTO> allDto = doctorService.getAllDto();
+        model.addAttribute("doctors", allDto);
+
         return "admin/dashboard";
     }
 
     @PostMapping("/admin/dashboard")
     public String getDoctorTable(HttpServletRequest request, HttpServletResponse response , Model model) {
-//        w
 
-        // Здесь добавьте логику для получения данных докторов и добавления их в модель
         List<DoctorDTO> allDto = doctorService.getAllDto();
         model.addAttribute("doctors", allDto);
 
-        return "admin/dashboard"; // возвращаем только фрагмент с таблицей
+        return "admin/dashboard";
     }
 }

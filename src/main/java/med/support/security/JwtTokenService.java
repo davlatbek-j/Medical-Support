@@ -36,7 +36,7 @@ public class JwtTokenService {
     }
 
     public boolean validateToken(String token) {
-        System.err.println("validation token :"+token);
+        System.err.println("validation uchun kelgan  token :"+token);
         try {
             Jwts
                     .parser()
