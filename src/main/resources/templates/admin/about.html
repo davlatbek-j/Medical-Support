@@ -141,15 +141,24 @@
                         </div>
                     </div>
                 </div>
+                <div class="row mb-3">
+                    <label class="col-sm-4  col-form-label">Reception Address</label>
+                    <div class="col-sm-8">
+                        <div th:each="address : ${doctorDto.receptionAddress}">
+                            <p th:text="'Address: ' + ${address.addressName}"></p>
+                            <p th:text="'Url: ' + ${address.httpUrl}"></p>
+                            <hr size="5" color="black">
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="row mb-3">
-                    <label class="col-sm-4  col-form-label">Education</label>
+                    <label class="col-sm-4  col-form-label">Service</label>
                     <div class="col-sm-8">
-                        <div th:each="edu : ${doctorDto.education}">
-                            <p th:text="'Institution: ' + ${edu.name}"></p>
-                            <p th:text="'Start Date: ' + ${edu.startYear}"></p>
-                            <p th:text="'End Date: ' + ${edu.endYear}"></p>
-                            <p th:text="'Faculty: ' + ${edu.faculty}"></p>
+                        <div th:each="ser : ${doctorDto.service}">
+                            <p th:text="'Name: ' + ${ser.name}"></p>
+                            <p th:text="'Price: ' + ${ser.price}"></p>
                             <hr size="5" color="black">
                         </div>
                     </div>
@@ -158,11 +167,13 @@
                 <div class="row mb-3">
                     <label class="col-sm-4  col-form-label">Contact</label>
                     <div class="col-sm-8">
-                        <input class="form-control" th:value="${doctorDto.contact}">
+                        <div th:each="cont : ${doctorDto.contact}">
+                            <p th:text="'Type: ' + ${cont.contactType}"></p>
+                            <p th:text="'Value: ' + ${cont.value}"></p>
+                            <hr size="5" color="black">
+                        </div>
                     </div>
                 </div>
-
-                <br>
 
 
                 <div class="row">
