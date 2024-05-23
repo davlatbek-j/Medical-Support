@@ -35,7 +35,6 @@ public class AdminController {
 
     @PostMapping("/create")
     public String saveLogin(@ModelAttribute("loginDto") LoginDTO loginDTO) {
-        System.out.println("loginDTO = " + loginDTO);
         doctorService.createLogin(loginDTO);
         return "redirect:/admin/dashboard";
     }

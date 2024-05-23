@@ -48,8 +48,6 @@ public class AuthController {
         Cookie tokenCookie = new Cookie("Authorization",URLEncoder.encode( token, "UTF-8" ));
 
         tokenCookie.setMaxAge(Integer.MAX_VALUE);
-        System.err.println("tokenCookie.getValue() = " + tokenCookie.getValue());
-
         response.addCookie(tokenCookie);
         return "redirect:/admin/dashboard";
     }

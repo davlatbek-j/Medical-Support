@@ -36,7 +36,6 @@ public class JwtTokenService {
     }
 
     public boolean validateToken(String token) {
-        System.err.println("validation uchun kelgan  token :"+token);
         try {
             Jwts
                     .parser()
@@ -54,7 +53,6 @@ public class JwtTokenService {
         } catch (IllegalArgumentException ex) {
             System.err.println("Bo'sh token");
         }
-        System.out.println("\nvalidateToken return false !!! ");
         return false;
     }
 
