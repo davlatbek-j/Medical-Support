@@ -1,5 +1,8 @@
 package med.support.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import med.support.entity.Doctor;
 import med.support.mapper.DoctorMapper;
@@ -86,6 +89,18 @@ public class AdminController {
         Doctor byLogin = doctorRepository.findByLogin(login);
         model.addAttribute("doctorDto", doctorMapper.toDTO(byLogin));
         return "admin/about";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("Authorization")) {
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
+        }
+        return "redirect:/login";
     }
 
 }
