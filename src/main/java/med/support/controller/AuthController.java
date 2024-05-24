@@ -10,14 +10,12 @@ import med.support.model.SignInResponse;
 import med.support.security.JwtTokenService;
 import med.support.service.AuthService;
 import med.support.service.DoctorService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -53,19 +51,28 @@ public class AuthController {
     }
 
     @GetMapping("/admin/dashboard")
-    public String dashboard(Model model) {
-        List<DoctorDTO> allDto = doctorService.getAllDto();
-        model.addAttribute("doctors", allDto);
+    public String dashboard(Model model , HttpServletRequest request ,HttpServletResponse response ) {
 
+        if (request.getCookies() != null) {
+            Cookie[] rc = request.getCookies();
+            for (Cookie cookie : rc)
+                if (cookie.getName().equals("Authorization"))
+                    response.addCookie(cookie);
+        }
+
+
+        List<DoctorDTO> allDto = doctorService.getAllDto();
+        allDto.sort((o1, o2) -> o1.getId()>o2.getId() ? -1 : 1);
+        model.addAttribute("doctors", allDto);
         return "admin/dashboard";
     }
 
-    @PostMapping("/admin/dashboard")
+/*    @PostMapping("/admin/dashboard")
     public String getDoctorTable(HttpServletRequest request, HttpServletResponse response , Model model) {
 
         List<DoctorDTO> allDto = doctorService.getAllDto();
         model.addAttribute("doctors", allDto);
 
         return "admin/dashboard";
-    }
+    }*/
 }

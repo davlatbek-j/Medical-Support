@@ -28,13 +28,28 @@ public class AdminController {
 
 
     @GetMapping("/create")
-    public String showCreateLogin(Model model) {
+    public String showCreateLogin(Model model , HttpServletRequest request ,HttpServletResponse response ) {
+        if (request.getCookies() != null) {
+            Cookie[] rc = request.getCookies();
+            for (Cookie cookie : rc)
+                if (cookie.getName().equals("Authorization"))
+                    response.addCookie(cookie);
+        }
+
         model.addAttribute("loginDto", new LoginDTO());
         return "admin/createLogin";
     }
 
     @PostMapping("/create")
-    public String saveLogin(@ModelAttribute("loginDto") LoginDTO loginDTO) {
+    public String saveLogin(@ModelAttribute("loginDto") LoginDTO loginDTO,HttpServletRequest request ,HttpServletResponse response ) {
+
+        if (request.getCookies() != null) {
+            Cookie[] rc = request.getCookies();
+            for (Cookie cookie : rc)
+                if (cookie.getName().equals("Authorization"))
+                    response.addCookie(cookie);
+        }
+
         doctorService.createLogin(loginDTO);
         return "redirect:/admin/dashboard";
     }
@@ -44,7 +59,15 @@ public class AdminController {
 
 
     @GetMapping("/delete/{login}")
-    public String deleteDoctorGetMethod(@PathVariable(name = "login") String login) {
+    public String deleteDoctorGetMethod(@PathVariable(name = "login") String login , HttpServletRequest request ,HttpServletResponse response ) {
+
+        if (request.getCookies() != null) {
+            Cookie[] rc = request.getCookies();
+            for (Cookie cookie : rc)
+                if (cookie.getName().equals("Authorization"))
+                    response.addCookie(cookie);
+        }
+
         doctorService.deleteByLogin(login);
         return "redirect:/admin/dashboard";
     }
@@ -52,7 +75,15 @@ public class AdminController {
 //TODO EDIT
 
     @GetMapping("/edit/{login}")
-    public String editDoctorPage(@PathVariable(name = "login") String login, Model model) {
+    public String editDoctorPage(@PathVariable(name = "login") String login, Model model , HttpServletRequest request ,HttpServletResponse response ) {
+
+        if (request.getCookies() != null) {
+            Cookie[] rc = request.getCookies();
+            for (Cookie cookie : rc)
+                if (cookie.getName().equals("Authorization"))
+                    response.addCookie(cookie);
+        }
+
 
         Doctor doctor = doctorRepository.findByLogin(login);
 
@@ -66,8 +97,13 @@ public class AdminController {
 
     @PostMapping("/edit/{login}")
     public String editDoctor(@PathVariable(name = "login") String login, Model model,
-                             @ModelAttribute DoctorDtoAdmin doctorDtoAdmin) {
-
+                             @ModelAttribute DoctorDtoAdmin doctorDtoAdmin,HttpServletRequest request ,HttpServletResponse response ) {
+        if (request.getCookies() != null) {
+            Cookie[] rc = request.getCookies();
+            for (Cookie cookie : rc)
+                if (cookie.getName().equals("Authorization"))
+                    response.addCookie(cookie);
+        }
 
         adminService.update(login, doctorDtoAdmin);
 
@@ -75,7 +111,16 @@ public class AdminController {
     }
 
     @GetMapping("/about/{login}")
-    public String aboutDoctor(@PathVariable(name = "login") String login, Model model) {
+    public String aboutDoctor(@PathVariable(name = "login") String login, Model model , HttpServletRequest request ,HttpServletResponse response ) {
+
+        if (request.getCookies() != null) {
+            Cookie[] rc = request.getCookies();
+            for (Cookie cookie : rc)
+                if (cookie.getName().equals("Authorization"))
+                    response.addCookie(cookie);
+        }
+
+
         Doctor byLogin = doctorRepository.findByLogin(login);
         model.addAttribute("doctorDto", doctorMapper.toDTO(byLogin));
         return "admin/about";
