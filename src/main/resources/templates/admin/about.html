@@ -130,7 +130,7 @@
 
 
                 <div class="row mb-3">
-                    <label class="col-sm-4  col-form-label">Education</label>
+                    <label class="col-sm-4  col-form-label"> <b> Education</b></label>
                     <div class="col-sm-8">
                         <div th:each="edu : ${doctorDto.education}">
                             <p th:text="'Institution: ' + ${edu.name}"></p>
@@ -142,7 +142,7 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label class="col-sm-4  col-form-label">Reception Address</label>
+                    <label class="col-sm-4  col-form-label"> <b>Reception Address</b></label>
                     <div class="col-sm-8">
                         <div th:each="address : ${doctorDto.receptionAddress}">
                             <p th:text="'Address: ' + ${address.addressName}"></p>
@@ -154,7 +154,7 @@
 
 
                 <div class="row mb-3">
-                    <label class="col-sm-4  col-form-label">Service</label>
+                    <label class="col-sm-4  col-form-label"> <b>Service</b></label>
                     <div class="col-sm-8">
                         <div th:each="ser : ${doctorDto.service}">
                             <p th:text="'Name: ' + ${ser.name}"></p>
@@ -165,7 +165,7 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-sm-4  col-form-label">Contact</label>
+                    <label class="col-sm-4  col-form-label"><b>Contact</b></label>
                     <div class="col-sm-8">
                         <div th:each="cont : ${doctorDto.contact}">
                             <p th:text="'Type: ' + ${cont.contactType}"></p>
