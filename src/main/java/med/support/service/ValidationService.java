@@ -32,6 +32,15 @@ public class ValidationService {
         return yearStr.matches("^(19|20)\\d{2}$");
     }
 
+//    public boolean isValidEndYear(String startYear, String endYear) {
+//        if (!isValidYear(startYear) || !isValidYear(endYear)) {
+//            return false;
+//        }
+//        int start = Integer.parseInt(startYear);
+//        int end = Integer.parseInt(endYear);
+//        return end >= start;
+//    }
+
     public boolean isValidInteger(String numberStr) {
         return numberStr.matches("\\d+");
     }
@@ -52,6 +61,38 @@ public class ValidationService {
                     "\n"+"To'g'ri format: (masalan, 31/12/2024)";
         }
     }
+    public boolean validateWorkplace(String workplace) {
+        if (workplace == null || workplace.isEmpty()) {
+            return false;
+        }
+        // Validate that the workplace contains only letters and spaces and has a minimum length of 3 characters.
+        return workplace.matches("[a-zA-Z\\s]{3,}");
+    }
 
+    public boolean isValidSpeciality(String speciality) {
+        if (speciality == null || speciality.isEmpty()) {
+            return false;
+        }
+        // Validate that each speciality contains only letters and possibly spaces (but not leading or trailing spaces)
+        String[] parts = speciality.split(",");
+        for (String part : parts) {
+            if (!part.trim().matches("[a-zA-Z\\s]+")) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isValidAchievement(String achievement) {
+        if (achievement == null || achievement.trim().isEmpty()) {
+            return false;
+        }
+        // Validate that the achievement text is between 10 and 500 characters and does not start or end with whitespace
+        if (achievement.length() < 10 || achievement.length() > 500) {
+            return false;
+        }
+        // Optionally, add more specific checks, for example, forbidding certain special characters
+        return !achievement.matches(".*[{}<>].*"); // Example to forbid <, >, {, }
+    }
 
 }

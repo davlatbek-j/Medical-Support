@@ -3,14 +3,12 @@ package med.support.bot;
 import lombok.RequiredArgsConstructor;
 import med.support.model.*;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,11 +45,11 @@ public class BotService {
     }
 
     public SendMessage enterOutLine(String chatId) {
-        return new SendMessage(chatId, "Outline kiriting");
+        return new SendMessage(chatId, "O'zingiz haqingizda qisqacha ma'lumot kiriting");
     }
 
     public SendMessage enterMotto(String chatId) {
-        return new SendMessage(chatId, "Motto kiriting");
+        return new SendMessage(chatId, "Shioringizni kiriting");
     }
 
     public SendMessage validationMessage(String chatId, String validationMessage) {
@@ -150,16 +148,16 @@ public class BotService {
         Set<String> selections = MedicalBot.userSelections.getOrDefault(chatId, Collections.emptySet());
 
         if (!selections.contains("workplace")) {
-            rowsInline.add(Collections.singletonList(createButton("Workplace", "workplace")));
+            rowsInline.add(Collections.singletonList(createButton("Ishlagan joyingiz nomi", "workplace")));
         }
         if (!selections.contains("beginDate")) {
-            rowsInline.add(Collections.singletonList(createButton("Begin Date", "beginDate")));
+            rowsInline.add(Collections.singletonList(createButton("Ish boshlagan sanangiz", "beginDate")));
         }
         if (!selections.contains("endDate")) {
-            rowsInline.add(Collections.singletonList(createButton("End Date", "endDate")));
+            rowsInline.add(Collections.singletonList(createButton("Qachongacha ishlagansiz(sana)", "endDate")));
         }
         if (!selections.contains("position")) {
-            rowsInline.add(Collections.singletonList(createButton("Position", "position")));
+            rowsInline.add(Collections.singletonList(createButton("Lavozimingiz", "position")));
         }
 
         inlineKeyboardMarkup.setKeyboard(rowsInline);
@@ -175,19 +173,19 @@ public class BotService {
 
 
     public SendMessage enterWorkPlace(String chatId) {
-        return new SendMessage(chatId, "Workplace kiriting");
+        return new SendMessage(chatId, "Ishlagan joyingiz nomini kiriting");
     }
 
     public SendMessage enterBeginDate(String chatId) {
-        return new SendMessage(chatId, "Begin date ni kiriting");
+        return new SendMessage(chatId, "U yerda ish boshlagan sanangizni kiriting");
     }
 
     public SendMessage enterEndDate(String chatId) {
-        return new SendMessage(chatId, "End Dateni kiriting");
+        return new SendMessage(chatId, "U yerda faoliyatingizni to'xtatgan sanangizni kiriting");
     }
 
     public SendMessage enterPosition(String chatId) {
-        return new SendMessage(chatId, "Positionni kiriting");
+        return new SendMessage(chatId, "Qanday lavozimda ishlaganingizni kiriting");
     }
 
     public SendMessage isSaveExperience(String chatId) {
@@ -215,11 +213,11 @@ public class BotService {
     }
 
     public SendMessage enterAchievement(String chatId) {
-        return new SendMessage(chatId, "Achievement kiriting");
+        return new SendMessage(chatId, "Erishgan yutuqlaringizni kiriting");
     }
 
     public SendMessage enterEducation(String chatId) {
-        SendMessage sendMessage = new SendMessage(chatId, "Education kiriting");
+        SendMessage sendMessage = new SendMessage(chatId, "O'qigan joyingiz ma'lumotlarini kiriting");
         sendMessage.setReplyMarkup(enterEducationMarkup(Long.valueOf(chatId)));
         return sendMessage;
     }
@@ -231,16 +229,16 @@ public class BotService {
         Set<String> selections = MedicalBot.userSelections.getOrDefault(chatId, Collections.emptySet());
 
         if (!selections.contains("name")) {
-            rowsInline.add(Collections.singletonList(createButton("Name", "name")));
+            rowsInline.add(Collections.singletonList(createButton("Oliygoh nomi", "name")));
         }
         if (!selections.contains("startYear")) {
-            rowsInline.add(Collections.singletonList(createButton("Start Year", "startYear")));
+            rowsInline.add(Collections.singletonList(createButton("O'qishni boshlagan yilingiz", "startYear")));
         }
         if (!selections.contains("endYear")) {
-            rowsInline.add(Collections.singletonList(createButton("End Year", "endYear")));
+            rowsInline.add(Collections.singletonList(createButton("O'qishni tugatgan yilingiz", "endYear")));
         }
         if (!selections.contains("faculty")) {
-            rowsInline.add(Collections.singletonList(createButton("Faculty", "faculty")));
+            rowsInline.add(Collections.singletonList(createButton("Fakultet nomi", "faculty")));
         }
 
         inlineKeyboardMarkup.setKeyboard(rowsInline);
@@ -531,4 +529,24 @@ public class BotService {
     public SendMessage sendMessageForOld(String chatId) {
         return new SendMessage(chatId, "Asosiy accountingiz o'zgarishsiz qoldirildi");
     }
+
+    public SendMessage sendInvalidWorkplaceMessage(String chatId) {
+        return new SendMessage(chatId,"Siz kiritgan nom faqat harflar va bo'sh joylardan iborat bo'lish kerak. Hamda Eng kamida 3 ta belgidan iborat bo'lsin!");
+    }
+
+    public SendMessage enterInvalidSpecialityMessage(String chatId) {
+        return new SendMessage(chatId,"Har bir so'z bosh va oxirida bo'sh joylarsiz bo'lishi " +
+                "va harflardan iborat bo'lishi kerak. Agar mutaxassislik nomida bo'sh joylar bo'lsa, " +
+                "faqat so'zlar orasida bo'lishi kerak.");
+    }
+
+    public SendMessage enterInvalidAchievementMessage(String chatId) {
+        String message = "Kechirasiz, kiritgan yutuqlaringiz formati noto'g'ri. " +
+                "Iltimos, yutuqlaringizni aniq va to'liq ko'rinishda qayta yozing. " +
+                "Yutuq matni kamida 10 ta belgidan iborat bo'lishi kerak va maxsus belgilarni " +
+                "(masalan, <, >, {, }) o'z ichiga olmasligi kerak. " +
+                "Shuningdek, matn boshida yoki oxirida bo'sh joylar bo'lmasligi kerak.";
+        return new SendMessage(chatId, message);
+    }
+
 }

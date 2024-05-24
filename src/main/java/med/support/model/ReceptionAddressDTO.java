@@ -13,4 +13,9 @@ public class ReceptionAddressDTO {
     String addressName;
 
     String httpUrl;
+
+    public boolean isComplete() {
+        return (addressName != null && !addressName.isEmpty()) &&
+                (httpUrl != null && !httpUrl.isEmpty());
+    }
 }
