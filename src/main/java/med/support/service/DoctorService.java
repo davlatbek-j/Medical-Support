@@ -154,6 +154,9 @@ public class DoctorService {
 
     public ResponseEntity<ApiResponse> createLogin(LoginDTO loginDTO) {
         Doctor doctor = new Doctor();
+        if (doctorRepository.existsByLogin(loginDTO.getLogin())) {
+            return ResponseEntity.badRequest().body(new ApiResponse(400, "Doctor already exists", null));
+        }
         doctor.setLogin(loginDTO.getLogin());
         doctor.setPassword(loginDTO.getPassword());
         doctorRepository.save(doctor);

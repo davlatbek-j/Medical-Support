@@ -6,14 +6,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import med.support.entity.Doctor;
 import med.support.mapper.DoctorMapper;
+import med.support.model.ApiResponse;
 import med.support.model.DoctorDtoAdmin;
 import med.support.model.LoginDTO;
 import med.support.repository.DoctorRepository;
 import med.support.service.AdminService;
 import med.support.service.DoctorService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 
 @Controller
@@ -41,7 +45,7 @@ public class AdminController {
     }
 
     @PostMapping("/create")
-    public String saveLogin(@ModelAttribute("loginDto") LoginDTO loginDTO,HttpServletRequest request ,HttpServletResponse response ) {
+    public String saveLogin(@ModelAttribute("loginDto") LoginDTO loginDTO,HttpServletRequest request ,HttpServletResponse response , Model model ) {
 
         if (request.getCookies() != null) {
             Cookie[] rc = request.getCookies();
@@ -50,7 +54,11 @@ public class AdminController {
                     response.addCookie(cookie);
         }
 
-        doctorService.createLogin(loginDTO);
+        ResponseEntity<ApiResponse> login = doctorService.createLogin(loginDTO);
+        if (Objects.requireNonNull(login.getBody()).getCode()==400) {
+            model.addAttribute("msg", "Login already exist!!!");
+            return "/admin/error";
+        }
         return "redirect:/admin/dashboard";
     }
 

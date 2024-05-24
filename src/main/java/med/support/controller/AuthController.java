@@ -62,7 +62,7 @@ public class AuthController {
 
 
         List<DoctorDTO> allDto = doctorService.getAllDto();
-        allDto.sort((o1, o2) -> o1.getId()>o2.getId() ? -1 : 1);
+        allDto.sort((o1, o2) -> o1.getId()>o2.getId() ? 1 : -1);
         model.addAttribute("doctors", allDto);
         return "admin/dashboard";
     }
