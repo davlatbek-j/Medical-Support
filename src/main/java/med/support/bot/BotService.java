@@ -499,7 +499,7 @@ public class BotService {
     }
 
     public SendMessage sendMessageForNo(String chatId) {
-        SendMessage sendMessage = new SendMessage(chatId, "Sizga keluvchi xabarlarlar shu accontga kelsinmi yoki yangi accontgami?");
+        SendMessage sendMessage = new SendMessage(chatId, "Sizga keluvchi xabarlarlar shu accontga kelsinmi yoki eski accontgami?");
         sendMessage.setReplyMarkup(forNoMarkup());
         return sendMessage;
     }
