@@ -54,11 +54,7 @@ public class AdminController {
                     response.addCookie(cookie);
         }
 
-        ResponseEntity<ApiResponse> login = doctorService.createLogin(loginDTO);
-        if (Objects.requireNonNull(login.getBody()).getCode()==400) {
-            model.addAttribute("msg", "Login already exist!!!");
-            return "/admin/error";
-        }
+        doctorService.createLogin(loginDTO);
         return "redirect:/admin/dashboard";
     }
 

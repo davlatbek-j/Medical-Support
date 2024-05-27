@@ -39,8 +39,9 @@ public class SecurityConfiguration {
                 }))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/","/login", "/doctor/image/**","/admin/css/**").permitAll()  // Allow all methods for login and image URLs
-                        .anyRequest().authenticated())  // All other requests must be authenticated
+                        .requestMatchers("/","/login", "/doctor/image/**").permitAll()
+                        .requestMatchers("/admin/css/style.css").permitAll()
+                        .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .userDetailsService(userService)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

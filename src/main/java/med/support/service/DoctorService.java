@@ -149,13 +149,14 @@ public class DoctorService {
             doctorRepository.deleteByLogin(login);
             return ResponseEntity.ok().body(new ApiResponse(200, "Doctor Deleted", null));
         }
-        return ResponseEntity.notFound().build();
+        throw new RuntimeException("Doctor not found login: " + login);
     }
 
     public ResponseEntity<ApiResponse> createLogin(LoginDTO loginDTO) {
         Doctor doctor = new Doctor();
         if (doctorRepository.existsByLogin(loginDTO.getLogin())) {
-            return ResponseEntity.badRequest().body(new ApiResponse(400, "Doctor already exists", null));
+//            return ResponseEntity.badRequest().body(new ApiResponse(400, "Doctor already exists", null));
+            throw new RuntimeException("Doctor login already exists : " + loginDTO.getLogin());
         }
         doctor.setLogin(loginDTO.getLogin());
         doctor.setPassword(loginDTO.getPassword());

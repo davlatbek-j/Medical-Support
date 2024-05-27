@@ -31,7 +31,7 @@ public class JwtTokenService {
                 .setExpiration(new Date(now.getTime() + expireDate))
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
-        System.err.println("\nToken generated : " + token);
+//        System.err.println("\nToken generated : " + token);
         return token;
     }
 

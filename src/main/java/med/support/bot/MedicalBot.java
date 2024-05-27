@@ -228,7 +228,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                             String httpUrl = photo.getHttpUrl();
                             doctorDTO.setPhotoUrl(httpUrl);
                             doctorsList.put(chatId, doctorDTO);
-                            System.out.println(doctorDTO);
+//                            System.out.println(doctorDTO);
                             execute(botService.enterSpeciality(chatId.toString()));
                             doctorService.updateState(chatId, UserState.SPECIALITY);
                             userState = UserState.SPECIALITY;
@@ -245,7 +245,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                         userState = UserState.LANGUAGE;
                         DoctorDTO doctorDTO = doctorsList.get(chatId);
                         doctorDTO.setSpecialty(doctorService.parseSpecialities(speciality));
-                        System.out.println(doctorDTO);
+//                        System.out.println(doctorDTO);
                         doctorsList.put(chatId, doctorDTO);
                     }
 
@@ -554,7 +554,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                     String login = logins.get(chatId);
                     ResponseEntity<ApiResponse> result =
                             doctorService.signIn(LoginDTO.builder().login(login).password(userPassword).build());
-                    System.out.println(result);
+//                    System.out.println(result);
                     if (result.getStatusCode().value() == 200) {
                         execute(botService.alreadyExistsMessage(chatId.toString()));
                         return;
@@ -583,7 +583,7 @@ public class MedicalBot extends TelegramLongPollingBot {
         } else if (update.hasCallbackQuery()) {
             Long chatId = update.getCallbackQuery().getMessage().getChatId();
             String data = update.getCallbackQuery().getData();
-            System.out.println(data);
+//            System.out.println(data);
 
             if (doctorService.findByChatId(chatId).orElse(null) == null) {
                 switch (userState) {
@@ -635,7 +635,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                             execute(botService.sendSelectLanguageMessage(chatId.toString(), lan));
                             DoctorDTO doctorDTO = doctorsList.get(chatId);
                             doctorDTO.setLanguage(doctorService.parseSpecialities(lan));
-                            System.out.println(doctorDTO);
+//                            System.out.println(doctorDTO);
                             languages.clear();
                         }
                         case "cansel" -> {
@@ -674,7 +674,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                         case "position" -> {
                             execute(botService.enterPosition(chatId.toString()));
                             doctorService.updateState(chatId, UserState.EXPERIENCE_POSITION);
-                            System.out.println("keldi");
+//                            System.out.println("keldi");
                         }
 
                     }
@@ -725,7 +725,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                         case "faculty" -> {
                             execute(botService.enterEducationFaculty(chatId.toString()));
                             doctorService.updateState(chatId, UserState.EDUCATION_FACULTY);
-                            System.out.println("keldi");
+//                            System.out.println("keldi");
                         }
                     }
 

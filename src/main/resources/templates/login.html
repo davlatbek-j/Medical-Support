@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{admin/css/style.css}">
 </head>
 <body>
 <div class="login-container">
-    <h2>Login</h2>
+    <h2>Admin SignIn</h2>
     <form id="loginForm" th:action="@{/login}" th:object="${signIn}" method="POST">
         <div class="form-group">
             <label for="login">Login</label>
