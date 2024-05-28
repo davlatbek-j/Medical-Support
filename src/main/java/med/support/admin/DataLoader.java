@@ -19,8 +19,10 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        User user1 = new User("admin-bot",passwordEncoder.encode("2+2=2-2"), new Role(RoleName.ROLE_ADMIN));
-//        userRepository.save(user1);
+        User user1 = new User("admin-bot", passwordEncoder.encode("2+2=5"), new Role(RoleName.ROLE_ADMIN));
+        if (userRepository.existsById(user1.getId())) {
+            userRepository.save(user1);
+        }
     }
 
 }
