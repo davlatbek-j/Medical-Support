@@ -410,16 +410,16 @@ public class BotService {
                         "Last Name: %s\n" +
                         "Surname: %s\n" +
                         "Phone: %s\n" +
-                        "Outline: %s\n" +
-                        "Motto: %s\n" +
-                        "Specialty: %s\n" +
-                        "Languages: %s\n" +
-                        "Achievements: %s\n" +
-                        "Experience: %s\n" +
-                        "Education: %s\n" +
+                        "Qisqacha ma'lumot: %s\n" +
+                        "Shior: %s\n" +
+                        "Mutaxassislik: %s\n" +
+                        "Til: %s\n" +
+                        "Erishgan yutuqlari: %s\n" +
+                        "Ish tajribasi: %s\n" +
+                        "Qayerda o'qigan: %s\n" +
                         "Reception Address: %s\n" +
                         "Services Offered: %s\n" +
-                        "Contact Info: %s",
+                        "Contact ma'lumoti: %s",
                 doctorDTO.getFirstname(),
                 doctorDTO.getLastname(),
                 doctorDTO.getSurname(),
