@@ -41,7 +41,7 @@ public class PhotoService {
                     UUID.randomUUID()+originalName,
                     // TODO ---- file system path depends Photo's name
                     null,
-                    "http://localhost:8080/doctor/image/" + doctorLogin,
+                    "http://213.230.91.55:8080/doctor/image/" + doctorLogin,
                     contentType);
 
             photo.setSystemPath(photoSystemPath + photo.getName());
