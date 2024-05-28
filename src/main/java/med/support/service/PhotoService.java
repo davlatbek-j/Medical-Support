@@ -71,7 +71,7 @@ public class PhotoService {
                 Photo photo = new Photo(
                          originalName,
                         filePath,
-                        "http://localhost:8080/doctor/image/" + doctorLogin,
+                        "http://213.230.91.55:8080/doctor/image/" + doctorLogin,
                         contentType);
 
                 // Foto ma'lumotlarini bazaga saqlash
