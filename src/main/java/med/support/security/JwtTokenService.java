@@ -67,7 +67,7 @@ public class JwtTokenService {
                     .getSubject();
             return userRepository.findByLogin(subject);
         }catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Authorization failed. Please log in again");
         }
     }
 

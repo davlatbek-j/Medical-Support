@@ -40,6 +40,8 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/","/login", "/doctor/image/**").permitAll()
+                        .requestMatchers("/admin/api/doctor/about/**").permitAll()
+                        .requestMatchers("/admin/api/doctor/get-all").permitAll()
                         .requestMatchers("/admin/css/style.css").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

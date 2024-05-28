@@ -40,7 +40,7 @@ public class DoctorService {
             Doctor doctor = saveToDb(doctorMapper.toEntity(doctorDTO));
             return ResponseEntity.ok().body(new ApiResponse(201, "Doctor Saved", doctorMapper.toDTO(doctor)));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Doctor not saved");
         }
     }
 
@@ -72,6 +72,9 @@ public class DoctorService {
     public ResponseEntity<byte[]> getPhoto(String login) {
         try {
             Doctor byLogin = doctorRepository.findByLogin(login);
+            if (byLogin==null) {
+                throw new RuntimeException("Doctor not found, login: " + login);
+            }
 
             Photo photo = doctorRepository.findByLogin(login).getPhoto();
 

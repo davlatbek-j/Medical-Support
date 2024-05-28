@@ -31,14 +31,14 @@
                 <div class="row mb-3">
                     <label class="col-sm-4  col-form-label">Login</label>
                     <div class="col-sm-8">
-                        <input readonly class="form-control" th:field="${doctorDtoAdmin.login}">
+                        <input readonly class="form-control-plaintext" th:field="${doctorDtoAdmin.login}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label class="col-sm-4  col-form-label">First Name</label>
                     <div class="col-sm-8">
-                        <input class="form-control" th:field="${doctorDtoAdmin.firstname}">
+                        <input required class="form-control" th:field="${doctorDtoAdmin.firstname}">
                     </div>
                 </div>
 
@@ -126,6 +126,7 @@
                     <h3>Experience</h3>
                     <div th:each="exp, stat : ${doctorDtoAdmin.experience}" th:id="|'experience-' + ${stat.index}|">
                         <div>
+                            <br>
                             <label>Workplace:</label>
                             <input type="text" th:field="*{experience[__${stat.index}__].workplace}"
                                    placeholder="Workplace"/>
@@ -311,22 +312,22 @@
             <br>
                 <div>
                     <label>Workplace:</label>
-                    <input type="text" name="experience[${index}].workplace" placeholder="Workplace"/>
+                    <input type="text" required name="experience[${index}].workplace" placeholder="Workplace"/>
                 </div>
                 <br>
                 <div>
                     <label>Begin Date:</label>
-                    <input type="text" name="experience[${index}].beginDate" placeholder="Begin Date"/>
+                    <input type="text" required name="experience[${index}].beginDate" placeholder="Begin Date"/>
                 </div>
                 <br>
                 <div>
                     <label>End Date:</label>
-                    <input type="text" name="experience[${index}].endDate" placeholder="End Date"/>
+                    <input type="text" required name="experience[${index}].endDate" placeholder="End Date"/>
                 </div>
                 <br>
                 <div>
                     <label>Position:</label>
-                    <input type="text" name="experience[${index}].position" placeholder="Position"/>
+                    <input type="text" required name="experience[${index}].position" placeholder="Position"/>
                 </div>
                 <br>
                 <button class="btn btn-danger btn-sm" type="button" onclick="deleteExperience(this)">Delete Experience</button>
@@ -349,22 +350,22 @@
                 <br>
                     <div>
                         <label>Name:</label>
-                        <input type="text" name="education[${index}].name" placeholder="Name"/>
+                        <input type="text" required name="education[${index}].name" placeholder="Name"/>
                     </div>
                     <br>
                     <div>
                         <label>Start Year:</label>
-                        <input type="text" name="education[${index}].startYear" placeholder="Start Year"/>
+                        <input type="text" required name="education[${index}].startYear" placeholder="Start Year ex:2020"/>
                     </div>
                     <br>
                     <div>
                         <label>End Year:</label>
-                        <input type="text" name="education[${index}].endYear" placeholder="End Year"/>
+                        <input type="text" required name="education[${index}].endYear" placeholder="End Year ex:2020"/>
                     </div>
                     <br>
                     <div>
                         <label>Faculty:</label>
-                        <input type="text" name="education[${index}].faculty" placeholder="Faculty"/>
+                        <input type="text" required name="education[${index}].faculty" placeholder="Faculty"/>
                     </div>
                     <br>
                     <button class="btn btn-danger btn-sm" type="button" onclick="deleteEducation(this)">Delete Education</button>
@@ -388,12 +389,12 @@
                 <br>
                     <div>
                         <label>Address Name:</label>
-                        <input type="text" name="receptionAddress[${index}].addressName" placeholder="Address Name"/>
+                        <input type="text" required name="receptionAddress[${index}].addressName" placeholder="Address Name"/>
                     </div>
                     <br>
                     <div>
                         <label>URL:</label>
-                        <input type="text" name="receptionAddress[${index}].httpUrl" placeholder="URL"/>
+                        <input type="text" required name="receptionAddress[${index}].httpUrl" placeholder="URL"/>
                     </div>
                     <br>
                     <button class="btn btn-danger btn-sm" type="button" onclick="deleteReceptionAddress(this)">Delete Reception Address</button>
@@ -416,12 +417,12 @@
                 <br>
                     <div>
                         <label>Service Name:</label>
-                        <input type="text" name="service[${index}].name" placeholder="Service Name"/>
+                        <input type="text" required name="service[${index}].name" placeholder="Service Name"/>
                     </div>
                     <br>
                     <div>
                         <label>Price:</label>
-                        <input type="number" name="service[${index}].price" placeholder="Price"/>
+                        <input type="number" required name="service[${index}].price" placeholder="Price"/>
                     </div>
                     <br>
                     <button class="btn btn-danger btn-sm" type="button" onclick="deleteService(this)">Delete Service</button>
@@ -445,12 +446,12 @@
                 <br>
                     <div>
                         <label>Contact Type:</label>
-                        <input type="text" name="contact[${index}].contactType" placeholder="Contact Type"/>
+                        <input type="text" required name="contact[${index}].contactType" placeholder="Contact Type"/>
                     </div>
                     <br>
                     <div>
                         <label>Value:</label>
-                        <input type="text" name="contact[${index}].value" placeholder="Value"/>
+                        <input type="text" required name="contact[${index}].value" placeholder="Value"/>
                     </div>
                     <br>
                     <button class="btn btn-danger btn-sm" type="button" onclick="deleteContact(this)">Delete Contact</button>

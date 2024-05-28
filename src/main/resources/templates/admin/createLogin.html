@@ -20,21 +20,21 @@
                         <div class="row mb-3">
                             <label class="col-sm-4  col-form-label">Login</label>
                             <div class="col-sm-8">
-                                <input class="form-control" th:field="${loginDto.login}">
+                                <input class="form-control" required th:field="${loginDto.login}">
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-4  col-form-label">Password</label>
                             <div class="col-sm-8">
-                                <input class="form-control" th:field="${loginDto.password}">
+                                <input class="form-control" required th:field="${loginDto.password} ">
                             </div>
                         </div>
 
 
                         <div class="row">
                             <div class="offset-sm-4 col-sm-4  d-grid">
-                                <button type="submit">Submit Profile</button>
+                                <button class="btn btn-primary" type="submit">Submit Profile</button>
                             </div>
                             <div class="col-sm-4 d-grid">
                                 <a class="btn btn-outline-primary" href="/admin/dashboard" role="button">Cancel</a>

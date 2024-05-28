@@ -39,7 +39,7 @@ public class DoctorController {
     }
 
 
-    @GetMapping("/{login}")
+    @GetMapping("about/{login}")
     public ResponseEntity<ApiResponse> getDoctor(@PathVariable(name = "login") String login) {
         return doctorService.findByLogin(login);
     }
