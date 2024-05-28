@@ -216,7 +216,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                             String fileUrl = "https://api.telegram.org/file/bot" + getBotToken() + "/" + filePath;
                             URL url = new URL(fileUrl);
                             InputStream input = url.openStream();
-                            String targetPath = imgLocation + "\\" + fileName;
+                            String targetPath = imgLocation  + fileName;
                             Files.copy(input, Paths.get(targetPath), StandardCopyOption.REPLACE_EXISTING);
                             input.close();
                             DoctorDTO doctorDTO = doctorsList.get(chatId);
