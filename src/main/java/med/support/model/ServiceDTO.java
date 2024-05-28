@@ -11,4 +11,10 @@ import lombok.experimental.FieldDefaults;
 public class ServiceDTO {
     String name;
     Integer price;
+
+    public boolean isComplete() {
+        return (name != null && !name.isEmpty
+                ()) &&
+                (price != null);
+    }
 }

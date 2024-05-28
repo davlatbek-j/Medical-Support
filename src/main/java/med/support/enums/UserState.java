@@ -70,6 +70,7 @@ public enum UserState {
     SERVICE_PRICE,
 
     SERVICE_FINISHED,
+
     ALREADY_REGISTRATED,
 
     CONTACT,

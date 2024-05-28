@@ -20,19 +20,10 @@ public class ExperienceDTO {
 
     String position;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ExperienceDTO that = (ExperienceDTO) o;
-        return Objects.equals(workplace, that.workplace) &&
-                Objects.equals(beginDate, that.beginDate) &&
-                Objects.equals(endDate, that.endDate) &&
-                Objects.equals(position, that.position);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(workplace, beginDate, endDate, position);
+    public boolean isComplete() {
+        return (workplace != null && !workplace.isEmpty()) &&
+                (beginDate != null && !beginDate.isEmpty()) &&
+                (endDate != null && !endDate.isEmpty()) &&
+                (position != null && !position.isEmpty());
     }
 }

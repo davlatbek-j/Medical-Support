@@ -19,19 +19,10 @@ public class EducationDTO {
 
     String faculty;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EducationDTO that = (EducationDTO) o;
-        return Objects.equals(name, that.name) &&
-                Objects.equals(startYear, that.startYear) &&
-                Objects.equals(endYear, that.endYear) &&
-                Objects.equals(faculty, that.faculty);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, startYear, endYear, faculty);
+    public boolean isComplete() {
+        return (name != null && !name.isEmpty()) &&
+                (startYear != null) &&
+                (endYear != null) &&
+                (faculty != null && !faculty.isEmpty());
     }
 }
