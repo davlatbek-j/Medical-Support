@@ -32,7 +32,7 @@ public class PhotoService {
     public Photo save(MultipartFile photoFile, String doctorLogin) {
         String contentType = photoFile.getContentType();
         if ( contentType!=null && !contentType.equals("image/jpeg") && !contentType.equals("image/png")) {
-            System.err.println("Invalid content type: " + contentType);
+//            System.err.println("Invalid content type: " + contentType);
         }
 
         try {
@@ -63,7 +63,7 @@ public class PhotoService {
 
                 // Content type tekshiruvi
                 if (!contentType.equals("image/jpeg") && !contentType.equals("image/png")) {
-                    System.err.println("Invalid content type: " + contentType);
+//                    System.err.println("Invalid content type: " + contentType);
                     return null;
                 }
 

@@ -63,10 +63,9 @@ public class User implements UserDetails {
         return enabled;
     }
 
-    public User(String login, String password, boolean enabled, Role role) {
+    public User(String login, String password , Role role) {
         this.login = login;
         this.password = password;
-        this.enabled = enabled;
         this.role = role;
     }
 }

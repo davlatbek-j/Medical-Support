@@ -10,7 +10,6 @@ import med.support.model.SignInResponse;
 import med.support.security.JwtTokenService;
 import med.support.service.AuthService;
 import med.support.service.DoctorService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,45 +34,45 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    @ResponseBody
-    public ResponseEntity<SignInResponse> login(HttpServletRequest request ,HttpServletResponse response ,
+    public String login(HttpServletRequest request ,HttpServletResponse response ,
                                                 @ModelAttribute SignIn signIn) throws UnsupportedEncodingException {
+
         SignInResponse signInResponse = authService.login(signIn);
         if (signInResponse == null) {
-            return ResponseEntity.notFound().build();
+            return "login";
         }
-        return ResponseEntity.ok(signInResponse);
+        String token = "Bearer " + signInResponse.getToken();
+
+        Cookie tokenCookie = new Cookie("Authorization",URLEncoder.encode( token, "UTF-8" ));
+
+        tokenCookie.setMaxAge(Integer.MAX_VALUE);
+        response.addCookie(tokenCookie);
+        return "redirect:/admin/dashboard";
     }
 
     @GetMapping("/admin/dashboard")
-    public String dashboard() {
-        System.err.println("GET");
+    public String dashboard(Model model , HttpServletRequest request ,HttpServletResponse response ) {
+
+        if (request.getCookies() != null) {
+            Cookie[] rc = request.getCookies();
+            for (Cookie cookie : rc)
+                if (cookie.getName().equals("Authorization"))
+                    response.addCookie(cookie);
+        }
+
+
+        List<DoctorDTO> allDto = doctorService.getAllDto();
+        allDto.sort((o1, o2) -> o1.getId()>o2.getId() ? 1 : -1);
+        model.addAttribute("doctors", allDto);
         return "admin/dashboard";
     }
 
-    @PostMapping("/admin/dashboard")
+/*    @PostMapping("/admin/dashboard")
     public String getDoctorTable(HttpServletRequest request, HttpServletResponse response , Model model) {
-        System.err.println("POST  method call...");
 
-        String token = request.getHeader("Authorization");
-        System.err.println("token from req.header in /admin/dashboard.POST :"+token);
-
-        response.setHeader("Authorization", "Bearer " + token);
-
-        if (token == null) {
-            model.addAttribute("signIn", new SignIn());
-            return "login";
-        }
-        token = token.replace("Bearer ", "");
-        if (!tokenService.validateToken(token)) {
-            model.addAttribute("signIn", new SignIn());
-            return "login"; // или другая страница ошибки
-        }
-
-        // Здесь добавьте логику для получения данных докторов и добавления их в модель
         List<DoctorDTO> allDto = doctorService.getAllDto();
         model.addAttribute("doctors", allDto);
 
-        return "admin/dashboard"; // возвращаем только фрагмент с таблицей
-    }
+        return "admin/dashboard";
+    }*/
 }

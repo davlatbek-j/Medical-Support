@@ -36,7 +36,7 @@ public class Doctor {
     @Column(length = 20)
     String phone;
 
-  //  @Column(nullable = false)
+    @Column(unique = true)
     String login;
 
     //@Column(nullable = false)

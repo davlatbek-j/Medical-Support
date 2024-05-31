@@ -171,9 +171,14 @@ public class AdminService {
         Doctor entity = toEntity(doctorDtoAdmin);
         entity.setId(byLogin.getId());
         entity.setLogin(login);
-        Photo save = photoService.save(doctorDtoAdmin.getPhotoFile(), login);
-        entity.setPhoto(save);
 
+        if ( doctorDtoAdmin.getPhotoFile()!=null &&
+            !doctorDtoAdmin.getPhotoFile().getContentType().equals("application/octet-stream")) {
+            Photo save = photoService.save(doctorDtoAdmin.getPhotoFile(), login);
+            entity.setPhoto(save);
+        }else {
+            entity.setPhoto(byLogin.getPhoto());
+        }
         doctorService.saveToDb(entity);
     }
 

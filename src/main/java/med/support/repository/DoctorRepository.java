@@ -42,4 +42,5 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
 //    boolean existsByChatId(String chatId);
 
+
 }

@@ -2,16 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="admin/css/style.css">
+    <link rel="stylesheet" type="text/css" th:href="@{admin/css/style.css}">
 </head>
 <body>
 <div class="login-container">
-    <h2>Login</h2>
-    <form id="loginForm" th:object="${signIn}">
+    <h2>Admin SignIn</h2>
+    <form id="loginForm" th:action="@{/login}" th:object="${signIn}" method="POST">
         <div class="form-group">
             <label for="login">Login</label>
             <input type="text" id="login" th:field="*{login}" required>
         </div>
+        <br>
         <div class="form-group">
             <label for="password">Password</label>
             <input type="password" id="password" th:field="*{password}" required>
@@ -22,6 +23,7 @@
     </form>
 </div>
 
+<!--
 <script>
     document.getElementById('loginForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Останавливаем стандартное поведение формы
@@ -51,6 +53,7 @@
         });
     });
 </script>
+-->
 
 </body>
 </html>

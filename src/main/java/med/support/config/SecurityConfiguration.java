@@ -1,14 +1,9 @@
 package med.support.config;
 
 import lombok.RequiredArgsConstructor;
-import med.support.security.JwtFilter;
 import med.support.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -44,10 +39,11 @@ public class SecurityConfiguration {
                 }))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/login", "/doctor/image/**").permitAll()  // Allow all methods for login and image URLs
-                        .requestMatchers(HttpMethod.GET,"/admin/dashboard").permitAll()  // Allow only GET requests
-                        .requestMatchers(HttpMethod.GET,"/admin/create").permitAll()  // Allow only GET requests
-                        .anyRequest().authenticated())  // All other requests must be authenticated
+                        .requestMatchers("/","/login", "/doctor/image/**").permitAll()
+                        .requestMatchers("/admin/api/doctor/about/**").permitAll()
+                        .requestMatchers("/admin/api/doctor/get-all").permitAll()
+                        .requestMatchers("/admin/css/style.css").permitAll()
+                        .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .userDetailsService(userService)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -55,15 +51,6 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-
-    @Bean
-    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userService)
-                .passwordEncoder( passwordEncoder() );
-        return authenticationManagerBuilder.build();
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){

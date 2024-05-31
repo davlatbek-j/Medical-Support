@@ -40,7 +40,7 @@ public class DoctorService {
             Doctor doctor = saveToDb(doctorMapper.toEntity(doctorDTO));
             return ResponseEntity.ok().body(new ApiResponse(201, "Doctor Saved", doctorMapper.toDTO(doctor)));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Doctor not saved");
         }
     }
 
@@ -71,6 +71,11 @@ public class DoctorService {
     //logini berilgan doctorni photosini qaytarish
     public ResponseEntity<byte[]> getPhoto(String login) {
         try {
+            Doctor byLogin = doctorRepository.findByLogin(login);
+            if (byLogin==null) {
+                throw new RuntimeException("Doctor not found, login: " + login);
+            }
+
             Photo photo = doctorRepository.findByLogin(login).getPhoto();
 
             Path imagePath = Paths.get(photo.getSystemPath());
@@ -123,17 +128,39 @@ public class DoctorService {
         return ResponseEntity.ok().body(new ApiResponse(200, "Doctor Updated", null));
     }
 
+    public ResponseEntity<ApiResponse> update(String login , DoctorDTO doctorDTO) {
+        Doctor byLogin = doctorRepository.findByLogin(login);
+        if (byLogin == null)
+            return ResponseEntity.notFound().build();
+        Photo photo = photoService.findByUrl(doctorDTO.getPhotoUrl());
+        Doctor entity = doctorMapper.toEntity(doctorDTO);
+        entity.setId(byLogin.getId());
+        entity.setLogin(byLogin.getLogin());
+        entity.setPassword(byLogin.getPassword());
+        entity.setChatId(byLogin.getChatId());
+        entity.setState(byLogin.getState());
+        entity.setPhoto(photo);
+
+
+        saveToDb(entity);
+        return ResponseEntity.ok().body(new ApiResponse(200, "Doctor Updated", doctorMapper.toDTO(entity)));
+    }
+
 
     public ResponseEntity<ApiResponse> deleteByLogin(String login) {
         if (doctorRepository.existsByLogin(login)) {
             doctorRepository.deleteByLogin(login);
             return ResponseEntity.ok().body(new ApiResponse(200, "Doctor Deleted", null));
         }
-        return ResponseEntity.notFound().build();
+        throw new RuntimeException("Doctor not found login: " + login);
     }
 
     public ResponseEntity<ApiResponse> createLogin(LoginDTO loginDTO) {
         Doctor doctor = new Doctor();
+        if (doctorRepository.existsByLogin(loginDTO.getLogin())) {
+//            return ResponseEntity.badRequest().body(new ApiResponse(400, "Doctor already exists", null));
+            throw new RuntimeException("Doctor login already exists : " + loginDTO.getLogin());
+        }
         doctor.setLogin(loginDTO.getLogin());
         doctor.setPassword(loginDTO.getPassword());
         doctorRepository.save(doctor);

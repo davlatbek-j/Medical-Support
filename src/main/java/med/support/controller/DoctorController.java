@@ -39,7 +39,7 @@ public class DoctorController {
     }
 
 
-    @GetMapping("/{login}")
+    @GetMapping("about/{login}")
     public ResponseEntity<ApiResponse> getDoctor(@PathVariable(name = "login") String login) {
         return doctorService.findByLogin(login);
     }
@@ -47,10 +47,8 @@ public class DoctorController {
     @PutMapping("/update/{login}")
     public ResponseEntity<ApiResponse> updateDoctor(
             @PathVariable(name = "login") String login,
-            @RequestBody DoctorDTO doctorDTO,
-            @RequestParam UserState state,
-            @RequestParam Long chatId){
-        return doctorService.update(login,chatId,state,doctorDTO);
+            @RequestBody DoctorDTO doctorDTO){
+        return doctorService.update(login,doctorDTO);
     }
 
     @DeleteMapping("/delete/{login}")

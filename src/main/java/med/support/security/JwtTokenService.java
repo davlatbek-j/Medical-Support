@@ -31,12 +31,11 @@ public class JwtTokenService {
                 .setExpiration(new Date(now.getTime() + expireDate))
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
-        System.err.println("\nToken generated : " + token);
+//        System.err.println("\nToken generated : " + token);
         return token;
     }
 
     public boolean validateToken(String token) {
-        System.err.println("validation token :"+token);
         try {
             Jwts
                     .parser()
@@ -54,7 +53,6 @@ public class JwtTokenService {
         } catch (IllegalArgumentException ex) {
             System.err.println("Bo'sh token");
         }
-        System.out.println("\nvalidateToken return false !!! ");
         return false;
     }
 
@@ -69,7 +67,7 @@ public class JwtTokenService {
                     .getSubject();
             return userRepository.findByLogin(subject);
         }catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Authorization failed. Please log in again");
         }
     }
 
