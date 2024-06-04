@@ -216,7 +216,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                             String fileUrl = "https://api.telegram.org/file/bot" + getBotToken() + "/" + filePath;
                             URL url = new URL(fileUrl);
                             InputStream input = url.openStream();
-                            String targetPath = imgLocation  + fileName;
+                            String targetPath = imgLocation+"\\" + fileName;
                             Files.copy(input, Paths.get(targetPath), StandardCopyOption.REPLACE_EXISTING);
                             input.close();
                             DoctorDTO doctorDTO = doctorsList.get(chatId);
@@ -628,33 +628,38 @@ public class MedicalBot extends TelegramLongPollingBot {
                     case SERVICE_PRICE -> {
                         String servicePrice = text;
                         if (validationService.isValidInteger(servicePrice)) {
-                            ServiceDTO serviceDTO = servicesList.get(chatId);
-                            if (serviceDTO == null) {
-                                servicesList.put(chatId, ServiceDTO.builder().price(Integer.valueOf(servicePrice)).build());
-                                serviceDTO=servicesList.get(chatId);
-                            } else {
-                                serviceDTO.setPrice(Integer.valueOf(servicePrice));
-                                servicesList.put(chatId, serviceDTO);
-                            }
-                            if (serviceDTO.isComplete()){
-                                userStateHashMap.put(chatId,UserState.SERVICE_FINISHED);
-                                doctorService.updateState(chatId, UserState.SERVICE_FINISHED);
-                                DoctorDTO doctorDTO = doctorsList.get(chatId);
-                                if (doctorDTO.getService() == null) {
-                                    doctorDTO.setService(new HashSet<>());
+                            try {
+                                int price = Integer.parseInt(servicePrice);
+                                ServiceDTO serviceDTO = servicesList.get(chatId);
+                                if (serviceDTO == null) {
+                                    servicesList.put(chatId, ServiceDTO.builder().price(price).build());
+                                    serviceDTO = servicesList.get(chatId);
+                                } else {
+                                    serviceDTO.setPrice(price);
+                                    servicesList.put(chatId, serviceDTO);
                                 }
-                                doctorDTO.getService().add(serviceDTO);
-                                doctorsList.put(chatId, doctorDTO);
-                                servicesList.remove(chatId);
-                                execute(botService.isSaveService(chatId.toString()));
-                                return;
+                                if (serviceDTO.isComplete()) {
+                                    userStateHashMap.put(chatId, UserState.SERVICE_FINISHED);
+                                    doctorService.updateState(chatId, UserState.SERVICE_FINISHED);
+                                    DoctorDTO doctorDTO = doctorsList.get(chatId);
+                                    if (doctorDTO.getService() == null) {
+                                        doctorDTO.setService(new HashSet<>());
+                                    }
+                                    doctorDTO.getService().add(serviceDTO);
+                                    doctorsList.put(chatId, doctorDTO);
+                                    servicesList.remove(chatId);
+                                    execute(botService.isSaveService(chatId.toString()));
+                                    return;
+                                }
+                                execute(botService.enterServices(chatId.toString()));
+                            } catch (NumberFormatException e) {
+                                execute(botService.enterTruePrice(chatId.toString()));
                             }
-                            execute(botService.enterServices(chatId.toString()));
                         } else {
                             execute(botService.enterTruePrice(chatId.toString()));
                         }
-
                     }
+
 
                     case CONTACT -> {
                         String contactValue = text;
@@ -677,11 +682,21 @@ public class MedicalBot extends TelegramLongPollingBot {
 
                     }
 
+                    case REGISTRATION_FINISHED -> {
+                            execute(botService.sendRegistrationFinishedMessage(chatId.toString()));
+                            return;
+                    }
+
                 }
             }
 
             if (Objects.equals(text, "/start")) {
-                userStateHashMap.put(chatId, UserState.START);
+                Optional<Doctor> currentUser1 = doctorService.findByChatId(chatId);
+                if (currentUser1.isPresent()){
+                    userStateHashMap.put(chatId,UserState.REGISTRATION_FINISHED);
+                }else {
+                    userStateHashMap.put(chatId, UserState.START);
+                }
             } else if (userStateHashMap.get(chatId) == null || userStateHashMap.get(chatId) == UserState.DEFAULT) {
                 userStateHashMap.put(chatId,UserState.DEFAULT);
                 execute(botService.sendStart(chatId.toString()));
@@ -736,6 +751,10 @@ public class MedicalBot extends TelegramLongPollingBot {
 
                 case SERVICE_PRICE -> {
                     doctorService.updateState(chatId, UserState.SERVICE_PRICE);
+                }
+
+                case REGISTRATION_FINISHED -> {
+                    execute(botService.sendRegistrationFinishedMessage(chatId.toString()));
                 }
 
             }
@@ -850,6 +869,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                             doctorService.updateState(chatId, UserState.ACHIEVEMENT);
                             userStateHashMap.put(chatId,UserState.ACHIEVEMENT);
                             experienceList.remove(chatId);
+                            userSelections.remove(chatId);
                         }
 
                         case "add" -> {
@@ -900,6 +920,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                             doctorService.updateState(chatId, UserState.RECEPTION_ADDRESS);
                             userStateHashMap.put(chatId,UserState.RECEPTION_ADDRESS);
                             educationList.remove(chatId);
+                            userSelections.remove(chatId);
                         }
 
                         case "add" -> {
@@ -940,6 +961,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                             doctorService.updateState(chatId, UserState.SERVICE);
                             userStateHashMap.put(chatId,UserState.SERVICE);
                             receptionList.remove(chatId);
+                            userSelections.remove(chatId);
                         }
 
                         case "add" -> {
@@ -979,6 +1001,7 @@ public class MedicalBot extends TelegramLongPollingBot {
                             doctorService.updateState(chatId, UserState.CONTACT);
                             userStateHashMap.put(chatId,UserState.CONTACT);
                             servicesList.remove(chatId);
+                            userSelections.remove(chatId);
                         }
 
                         case "add" -> {

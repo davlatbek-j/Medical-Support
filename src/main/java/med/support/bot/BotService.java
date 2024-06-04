@@ -3,12 +3,14 @@ package med.support.bot;
 import lombok.RequiredArgsConstructor;
 import med.support.model.*;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -549,4 +551,7 @@ public class BotService {
         return new SendMessage(chatId, message);
     }
 
+    public SendMessage sendRegistrationFinishedMessage(String chatId) {
+        return new SendMessage(chatId,"Siz allaqachon botdan ro'yxatdan o'tgansiz. Savollaringiz bo'lsa admin bilan bog'laning");
+    }
 }
