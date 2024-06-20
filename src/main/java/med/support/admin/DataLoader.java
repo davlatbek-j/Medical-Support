@@ -19,9 +19,22 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        User user1 = new User("admin-bot", passwordEncoder.encode("2+2=5"), new Role(RoleName.ROLE_ADMIN));
-        if (userRepository.existsById(user1.getId())) {
+        User user1 = new User("admin-med-1", passwordEncoder.encode("2+2=5"), new Role(RoleName.ROLE_ADMIN));
+        User user2 = new User("admin-med-2", passwordEncoder.encode("2+2=5"), new Role(RoleName.ROLE_ADMIN));
+        User user3 = new User("admin-med-3", passwordEncoder.encode("2+2=5"), new Role(RoleName.ROLE_ADMIN));
+        User user4 = new User("admin-med-4", passwordEncoder.encode("2+2=5"), new Role(RoleName.ROLE_ADMIN));
+
+        if (!userRepository.existsByLogin("admin-med-1")) {
             userRepository.save(user1);
+        }
+        if (!userRepository.existsByLogin("admin-med-2")) {
+            userRepository.save(user2);
+        }
+        if (!userRepository.existsByLogin("admin-med-3")) {
+            userRepository.save(user3);
+        }
+        if (!userRepository.existsByLogin("admin-med-4")) {
+            userRepository.save(user4);
         }
     }
 
